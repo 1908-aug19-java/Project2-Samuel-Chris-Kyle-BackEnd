@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "b37cc61c-9955-4a1f-b89d-8b985490fcec",
+		"name": "Games Galore Colleciton",
+		"description": "This is a collection of API calls to test the back end for the Games Galore collection.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Get roles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles"
+							]
+						},
+						"description": "GET all roles with optional query for name for endpoint /roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Get role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles",
+								"1"
+							]
+						},
+						"description": "GET a specific role, test endpoint /roles/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Post role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\n    \"roleName\": \"USER\"\n}]"
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles"
+							]
+						},
+						"description": "Send POST to endpoint /roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Update role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleName\": \"ADMIN\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles",
+								"1"
+							]
+						},
+						"description": "PUT new data into a role, testing endpoint /roles/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles",
+								"1"
+							]
+						},
+						"description": "Deletes a role, tetsing endpoint /roles/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles?name=USER",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "USER"
+								}
+							]
+						},
+						"description": "GET roles by name query, tests endpoint /roles"
+					},
+					"response": []
+				}
+			],
+			"description": "REST calls for the roles table"
+		}
+	]
+}
