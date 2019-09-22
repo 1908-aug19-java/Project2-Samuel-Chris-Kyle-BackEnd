@@ -30,13 +30,13 @@ public class RoleController {
 	/**
 	 * 
 	 * @param response The HTTP response from the GET operation.
-	 * @param name An optional query parameter for filtering results by role name.
+	 * @param roleName An optional query parameter for filtering results by role name.
 	 * @return A collection of Role objects.
 	 */
 	@GetMapping(value = "/roles")
-	public Collection<Role> getRoles(HttpServletResponse response, @RequestParam(required = false) String name) {
+	public Collection<Role> getRoles(HttpServletResponse response, @RequestParam(required = false) String roleName) {
 		response.setStatus(200);
-		return roleService.getRolesByQuery(name);
+		return roleService.getRolesByQuery(roleName);
 	}
 
 	/**
@@ -53,35 +53,35 @@ public class RoleController {
 	/**
 	 * 
 	 * @param response The HTTP response from the GET operation.
-	 * @param id The numeric id pertaining to a specific Role object. It must be passed in the url path.
+	 * @param roleId The numeric id pertaining to a specific Role object. It must be passed in the url path.
 	 * @return A specific Role object
 	 */
 	@GetMapping(value = "/roles/{id}")
-	public Role getRole(HttpServletResponse response, @PathVariable Long id) {
+	public Role getRole(HttpServletResponse response, @PathVariable("id") Long roleId) {
 		response.setStatus(200);
-		return roleService.getRole(id);
+		return roleService.getRole(roleId);
 	}
 
 	/**
 	 * 
 	 * @param response The HTTP response from the PUT operation.
 	 * @param role An object representing a Role object.
-	 * @param id The numeric id pertaining to a specific Role object. It must be passed in the url path.
+	 * @param roleId The numeric id pertaining to a specific Role object. It must be passed in the url path.
 	 */
 	@PutMapping(value = "/roles/{id}")
-	public void putRole(HttpServletResponse response, @RequestBody Role role, @PathVariable Long id) {
+	public void putRole(HttpServletResponse response, @RequestBody Role role, @PathVariable("id") Long roleId) {
 		response.setStatus(200);
-		roleService.updateRole(role, id);
+		roleService.updateRole(role, roleId);
 	}
 
 	/**
 	 * 
 	 * @param response The HTTP response from the DELETE operation.
-	 * @param id The numeric id pertaining to a specific Role object. It must be passed in the url path.
+	 * @param roleId The numeric id pertaining to a specific Role object. It must be passed in the url path.
 	 */
 	@DeleteMapping(value = "/roles/{id}")
-	public void deleteRole(HttpServletResponse response, @PathVariable Long id) {
+	public void deleteRole(HttpServletResponse response, @PathVariable("id") Long roleId) {
 		response.setStatus(204);
-		roleService.deleteRole(id);
+		roleService.deleteRole(roleId);
 	}
 }

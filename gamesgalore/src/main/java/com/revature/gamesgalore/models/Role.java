@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name="roles")
+import com.revature.gamesgalore.models.entitydetails.RoleEntityDetails;
+
+@Entity(name=RoleEntityDetails.ENTITY_NAME)
+@Table(name=RoleEntityDetails.TABLE_NAME)
 public class Role implements Serializable {
 	
 	/**
@@ -21,18 +23,22 @@ public class Role implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="role_id")
-	Long roleId;
+	@Column(name=RoleEntityDetails.ROLE_ID)
+	private Long roleId;
 	
-	@Column(name="role_name", nullable=false)
+	@Column(name=RoleEntityDetails.ROLE_NAME, nullable=false)
 	@NotBlank(message = "Name is mandatory")
-	String roleName;
+	private String roleName;
 
 	
 	public Role() {
 		super();
 	}
 
+	public Role(Long roleId) {
+		super();
+		this.roleId = roleId;
+	}
 
 	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String name) {
 		super();
@@ -94,8 +100,7 @@ public class Role implements Serializable {
 		if (roleId == null) {
 			if (other.roleId != null)
 				return false;
-		} else if (!roleId.equals(other.roleId))
-			return false;
+		} else if (!roleId.equals(other.roleId)){return false;}
 		return true;
 	}
 

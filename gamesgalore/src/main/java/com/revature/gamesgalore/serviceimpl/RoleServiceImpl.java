@@ -7,26 +7,28 @@ import java.util.Collection;
 
 import com.revature.gamesgalore.exceptions.ExceptionManager;
 import com.revature.gamesgalore.models.Role;
+import com.revature.gamesgalore.models.entitydetails.RoleEntityDetails;
 import com.revature.gamesgalore.repositories.RoleRepository;
 import com.revature.gamesgalore.repositoriesimpl.RoleRepositoryImpl;
 import com.revature.gamesgalore.service.RoleService;
+import com.revature.gamesgalore.util.QueryBuilder;
 
 public class RoleServiceImpl implements RoleService {
 
 	private static Logger logger = LogManager.getLogger();
 	
-	
 	RoleRepository roleRepository = new RoleRepositoryImpl();
 
 	@Override
-	public Collection<Role> getRolesByQuery(String name) {
+	public Collection<Role> getRolesByQuery(String roleName) {
 		try {
-			Collection<Role> roles = roleRepository.findAll();
-			logger.info("INFO");
-			if (name != null) {
-				roles.removeIf((r) -> !r.getRoleName().equalsIgnoreCase(name));
+			QueryBuilder queryBuilder = new QueryBuilder();
+			queryBuilder.getSelectAll(RoleEntityDetails.TABLE_NAME);
+			if (roleName != null) {
+				queryBuilder.addWhereClause(RoleEntityDetails.ROLE_NAME, roleName, true);
 			}
-			return roles;
+			logger.info(queryBuilder.getQuery().toString());
+			return roleRepository.findByQuery( queryBuilder.getQuery().toString());
 		} catch (Exception e) {
 			logger.error(e);
 			throw ExceptionManager.supplierThrows500Exception().get();
@@ -56,9 +58,9 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Role getRole(Long id) {
+	public Role getRole(Long roleId) {
 		try {
-			return roleRepository.findById(id).orElseThrow(ExceptionManager.supplierThrows404Exception());
+			return roleRepository.findById(roleId).orElseThrow(ExceptionManager.supplierThrows404Exception());
 		} catch (ResponseStatusException rse) {
 			throw ExceptionManager.supplierThrows404Exception().get();
 		} catch (Exception e) {
@@ -68,9 +70,9 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public void updateRole(Role role, Long id) {
+	public void updateRole(Role role, Long roleId) {
 		try {
-			Role roleRetreived = roleRepository.findById(id).orElseThrow(ExceptionManager.supplierThrows404Exception());
+			Role roleRetreived = roleRepository.findById(roleId).orElseThrow(ExceptionManager.supplierThrows404Exception());
 			setOverrides(roleRetreived,role);
 			roleRepository.update(roleRetreived);
 		} catch (ResponseStatusException rse) {
@@ -86,10 +88,10 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	@Override
-	public void deleteRole(Long id) {
+	public void deleteRole(Long roleId) {
 		try {
-			roleRepository.findById(id).orElseThrow(ExceptionManager.supplierThrows404Exception());
-			roleRepository.deleteById(id);
+			roleRepository.findById(roleId).orElseThrow(ExceptionManager.supplierThrows404Exception());
+			roleRepository.deleteById(roleId);
 		} catch (ResponseStatusException rse) {
 			throw ExceptionManager.supplierThrows404Exception().get();
 		} catch (Exception e) {

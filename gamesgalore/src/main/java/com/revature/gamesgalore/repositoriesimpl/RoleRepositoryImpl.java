@@ -1,6 +1,7 @@
 package com.revature.gamesgalore.repositoriesimpl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-//import org.springframework.stereotype.Repository;
 
 import com.revature.gamesgalore.models.Role;
 import com.revature.gamesgalore.repositories.RoleRepository;
@@ -20,35 +20,50 @@ public class RoleRepositoryImpl implements RoleRepository {
 	private static Logger logger = LogManager.getLogger();
 
 	@Override
-	public Optional<Role> findById(Long id) {
+	public Optional<Role> findById(Long roleId) {
 		logger.info("In find by id");
 		Role role = null;
 		try (Session session = HibernateUtil.getSession()) {
-			role = (Role) session.get(Role.class, id);
+			role = (Role) session.get(Role.class, roleId);
 			logger.info(role);
 		} catch (Exception e) {
 			logger.error(e);
 		}
-		return Optional.of(role);
+		return Optional.ofNullable(role);
 	}
 
 	@Override
-	public Optional<Role> findByName(String name) {
+	public Optional<Role> findByName(String roleName) {
 		logger.info("In find find by name");
 		Role role = null;
 		try (Session session = HibernateUtil.getSession()) {
 			String sql = "select * from roles where role_name = ?";
 			Query<Role> q = session.createNativeQuery(sql, Role.class);
-			q.setParameter(1, name);
-			role = q.list().get(0);
+			q.setParameter(1, roleName);
+			List<Role> roles = q.list();
+			if(!roles.isEmpty()) {
+				role = q.list().get(0);
+			}
 		}
-		return Optional.of(role);
+		return Optional.ofNullable(role);
 	}
 
 	@Override
-	public List<Role> findAll() {
+	public Collection<Role> findByQuery(String query) {
+		logger.info("In find by query");
+		Collection<Role> roles = new ArrayList<Role>();
+		try (Session session = HibernateUtil.getSession()) {
+			Query<Role> q = session.createNativeQuery(query, Role.class);
+			roles = q.list();
+		}
+		logger.info(roles);
+		return roles;
+	}
+	
+	@Override
+	public Collection<Role> findAll() {
 		logger.info("In find all");
-		List<Role> roles = new ArrayList<Role>();
+		Collection<Role> roles = new ArrayList<Role>();
 		try (Session session = HibernateUtil.getSession()) {
 			String sql = "select * from roles";
 			Query<Role> q = session.createNativeQuery(sql, Role.class);
@@ -80,15 +95,13 @@ public class RoleRepositoryImpl implements RoleRepository {
 	}
 	
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(Long roleId) {
 		logger.info("In delete");
 		try(Session s = HibernateUtil.getSession()){
 			Transaction tx = s.beginTransaction();
-			s.delete(new Role(id, null));
+			s.delete(new Role(roleId));
 			tx.commit();
 		}
 	}
-
-	
 
 }
