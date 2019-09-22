@@ -3,7 +3,7 @@ package com.revature.gamesgalore.repositories;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.revature.gamesgalore.models.Role;
+import com.revature.gamesgalore.dao.Role;
 
 public interface RoleRepository {
 	Optional<Role> findById(Long id);

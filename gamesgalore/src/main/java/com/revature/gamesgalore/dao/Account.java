@@ -1,4 +1,4 @@
-package com.revature.gamesgalore.models;
+package com.revature.gamesgalore.dao;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,8 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.revature.gamesgalore.models.entitydetails.AccountEntityDetails;
-import com.revature.gamesgalore.models.entitydetails.UserEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.AccountEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.UserEntityDetails;
 
 @Entity(name = AccountEntityDetails.ENTITY_NAME)
 @Table(name = AccountEntityDetails.TABLE_NAME)

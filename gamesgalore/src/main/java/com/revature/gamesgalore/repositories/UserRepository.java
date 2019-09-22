@@ -3,7 +3,7 @@ package com.revature.gamesgalore.repositories;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.revature.gamesgalore.models.User;
+import com.revature.gamesgalore.dao.User;
 
 
 public interface UserRepository {

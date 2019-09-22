@@ -1,10 +1,12 @@
 package com.revature.gamesgalore.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.gamesgalore.models.Role;
+import com.revature.gamesgalore.dao.Role;
+import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.service.RoleService;
 import com.revature.gamesgalore.serviceimpl.RoleServiceImpl;
 
@@ -31,21 +34,34 @@ public class RoleController {
 	 * 
 	 * @param response The HTTP response from the GET operation.
 	 * @param roleName An optional query parameter for filtering results by role name.
-	 * @return A collection of Role objects.
+	 * @return A collection of Role POJO's.
 	 */
 	@GetMapping(value = "/roles")
-	public Collection<Role> getRoles(HttpServletResponse response, @RequestParam(required = false) String roleName) {
+	public Collection<RoleDTO> getRoles(HttpServletResponse response, @RequestParam(required = false) String roleName) {
 		response.setStatus(200);
-		return roleService.getRolesByQuery(roleName);
+		Collection<Role> roles = roleService.getRolesByQuery(roleName);
+		Collection<RoleDTO> rolesDTO = new ArrayList<>();
+		for(Role role: roles) {
+			RoleDTO roleDTO = new RoleDTO();
+			BeanUtils.copyProperties(role, roleDTO);
+			rolesDTO.add(roleDTO);
+		}
+		return rolesDTO;
 	}
 
 	/**
 	 * 
 	 * @param response The HTTP response from the POST operation.
-	 * @param roles An array of objects containing a representation of Role objects.
+	 * @param rolesDTO An array of objects containing POJO's of Role objects.
 	 */
 	@PostMapping(value = "/roles")
-	public void createRoles(HttpServletResponse response, @RequestBody List<Role> roles) {
+	public void createRoles(HttpServletResponse response, @RequestBody List<RoleDTO> rolesDTO) {
+		List<Role> roles = new ArrayList<>();
+		for(RoleDTO roleDTO:rolesDTO) {
+			Role role = new Role();
+			BeanUtils.copyProperties(roleDTO, role);
+			roles.add(role);
+		}
 		response.setStatus(201);
 		roleService.addRoles(roles);
 	}
@@ -54,22 +70,27 @@ public class RoleController {
 	 * 
 	 * @param response The HTTP response from the GET operation.
 	 * @param roleId The numeric id pertaining to a specific Role object. It must be passed in the url path.
-	 * @return A specific Role object
+	 * @return A specific Role POJO
 	 */
 	@GetMapping(value = "/roles/{id}")
-	public Role getRole(HttpServletResponse response, @PathVariable("id") Long roleId) {
+	public RoleDTO getRole(HttpServletResponse response, @PathVariable("id") Long roleId) {
 		response.setStatus(200);
-		return roleService.getRole(roleId);
+		Role role = roleService.getRole(roleId);
+		RoleDTO roleDTO = new RoleDTO();
+		BeanUtils.copyProperties(role, roleDTO);
+		return roleDTO;
 	}
 
 	/**
 	 * 
 	 * @param response The HTTP response from the PUT operation.
-	 * @param role An object representing a Role object.
+	 * @param roleDTO A POJO object representing a Role object.
 	 * @param roleId The numeric id pertaining to a specific Role object. It must be passed in the url path.
 	 */
 	@PutMapping(value = "/roles/{id}")
-	public void putRole(HttpServletResponse response, @RequestBody Role role, @PathVariable("id") Long roleId) {
+	public void putRole(HttpServletResponse response, @RequestBody RoleDTO roleDTO, @PathVariable("id") Long roleId) {
+		Role role = new Role();
+		BeanUtils.copyProperties(roleDTO, role);
 		response.setStatus(200);
 		roleService.updateRole(role, roleId);
 	}

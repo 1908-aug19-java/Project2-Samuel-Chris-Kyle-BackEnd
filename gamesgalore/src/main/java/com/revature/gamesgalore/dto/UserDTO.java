@@ -1,48 +1,24 @@
-package com.revature.gamesgalore.models;
+package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.revature.gamesgalore.models.entitydetails.UserEntityDetails;
-
-@Entity(name = UserEntityDetails.ENTITY_NAME)
-@Table(name = UserEntityDetails.TABLE_NAME)
-public class User implements Serializable{
+public class UserDTO implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= UserEntityDetails.USER_ID)
 	private Long userId;
-	@Column(name= UserEntityDetails.USER_FIRST_NAME)
 	private String userFirstName;
-	@Column(name= UserEntityDetails.USER_LAST_NAME)
 	private String userLastName;
-	@Column( name= UserEntityDetails.USER_EMAIL)
 	private String userEmail;
-	
-	@OneToOne(mappedBy = "user")
-	private Account userAccount;
+	private AccountDTO userAccount;
 
-	public User() {
-	}
-	
-	public User(Long userId) {
-		this.userId = userId;
+	public UserDTO() {
+		super();
 	}
 
-	public User(Long userId, String userFirstName, String userLastName, String userEmail, Account userAccount) {
+	public UserDTO(Long userId, String userFirstName, String userLastName, String userEmail, AccountDTO userAccount) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
@@ -53,7 +29,7 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
+		return "UserDTO [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
 				+ ", userEmail=" + userEmail + ", userAccount=" + userAccount + "]";
 	}
 
@@ -89,11 +65,11 @@ public class User implements Serializable{
 		this.userEmail = userEmail;
 	}
 
-	public Account getUserAccount() {
+	public AccountDTO getUserAccount() {
 		return userAccount;
 	}
 
-	public void setUserAccount(Account userAccount) {
+	public void setUserAccount(AccountDTO userAccount) {
 		this.userAccount = userAccount;
 	}
 
@@ -113,12 +89,14 @@ public class User implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserDTO other = (UserDTO) obj;
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
-		} else if (!userId.equals(other.userId)){return false;}
+		} else if (!userId.equals(other.userId)) {
+			return false;
+		}
 		return true;
 	}
-	
+
 }

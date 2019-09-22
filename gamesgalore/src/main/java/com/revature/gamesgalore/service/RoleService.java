@@ -2,7 +2,7 @@ package com.revature.gamesgalore.service;
 
 import java.util.Collection;
 
-import com.revature.gamesgalore.models.Role;
+import com.revature.gamesgalore.dao.Role;
 
 /**
  * 

@@ -5,9 +5,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 
+import com.revature.gamesgalore.dao.Role;
+import com.revature.gamesgalore.dao.entitydetails.RoleEntityDetails;
 import com.revature.gamesgalore.exceptions.ExceptionManager;
-import com.revature.gamesgalore.models.Role;
-import com.revature.gamesgalore.models.entitydetails.RoleEntityDetails;
 import com.revature.gamesgalore.repositories.RoleRepository;
 import com.revature.gamesgalore.repositoriesimpl.RoleRepositoryImpl;
 import com.revature.gamesgalore.service.RoleService;

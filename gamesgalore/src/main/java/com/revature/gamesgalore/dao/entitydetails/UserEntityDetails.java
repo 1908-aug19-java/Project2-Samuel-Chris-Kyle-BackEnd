@@ -1,4 +1,4 @@
-package com.revature.gamesgalore.models.entitydetails;
+package com.revature.gamesgalore.dao.entitydetails;
 
 /**
  * This class holds the mappings for the User class, to its representation in the database

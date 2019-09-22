@@ -1,4 +1,4 @@
-package com.revature.gamesgalore.models;
+package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.revature.gamesgalore.models.entitydetails.RoleEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.RoleEntityDetails;
 
 @Entity(name=RoleEntityDetails.ENTITY_NAME)
 @Table(name=RoleEntityDetails.TABLE_NAME)

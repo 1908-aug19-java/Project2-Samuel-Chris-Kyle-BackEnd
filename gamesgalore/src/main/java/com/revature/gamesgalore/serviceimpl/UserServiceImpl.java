@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.revature.gamesgalore.dao.User;
+import com.revature.gamesgalore.dao.entitydetails.UserEntityDetails;
 import com.revature.gamesgalore.exceptions.ExceptionManager;
-import com.revature.gamesgalore.models.User;
-import com.revature.gamesgalore.models.entitydetails.UserEntityDetails;
 import com.revature.gamesgalore.repositories.UserRepository;
 import com.revature.gamesgalore.repositoriesimpl.UserRepositoryImpl;
 import com.revature.gamesgalore.service.UserService;

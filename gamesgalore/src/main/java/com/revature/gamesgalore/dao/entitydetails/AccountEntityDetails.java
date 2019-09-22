@@ -1,4 +1,4 @@
-package com.revature.gamesgalore.models.entitydetails;
+package com.revature.gamesgalore.dao.entitydetails;
 
 
 /**
