@@ -10,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.revature.gamesgalore.dao.entitydetails.RoleEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
 
-@Entity(name=RoleEntityDetails.ENTITY_NAME)
-@Table(name=RoleEntityDetails.TABLE_NAME)
+@Entity(name=RoleDetails.ENTITY_NAME)
+@Table(name=RoleDetails.TABLE_NAME)
 public class Role implements Serializable {
 	
 	/**
@@ -23,10 +23,10 @@ public class Role implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name=RoleEntityDetails.ROLE_ID)
+	@Column(name=RoleDetails.ROLE_ID)
 	private Long roleId;
 	
-	@Column(name=RoleEntityDetails.ROLE_NAME, nullable=false)
+	@Column(name=RoleDetails.ROLE_NAME, nullable=false)
 	@NotBlank(message = "Name is mandatory")
 	private String roleName;
 

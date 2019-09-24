@@ -18,7 +18,7 @@ public interface RoleService {
 	 * @return A collection of Role objects that may have been filtered by the
 	 *         parameters passed.
 	 */
-	Collection<Role> getRolesByQuery(String name);
+	Collection<Role> getRolesByParams(String name);
 
 	/**
 	 * 

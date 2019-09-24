@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.gamesgalore.dao.Role;
 import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.service.RoleService;
-import com.revature.gamesgalore.serviceimpl.RoleServiceImpl;
 
 
 @RestController
@@ -28,7 +28,8 @@ public class RoleController {
 	/**
 	 * An object used to handle the business logic for all Role objects. It's creation is handled by Spring's container.
 	 */
-	RoleService roleService = new RoleServiceImpl();
+	@Autowired
+	RoleService roleService;
 
 	/**
 	 * 
@@ -39,7 +40,7 @@ public class RoleController {
 	@GetMapping(value = "/roles")
 	public Collection<RoleDTO> getRoles(HttpServletResponse response, @RequestParam(required = false) String roleName) {
 		response.setStatus(200);
-		Collection<Role> roles = roleService.getRolesByQuery(roleName);
+		Collection<Role> roles = roleService.getRolesByParams(roleName);
 		Collection<RoleDTO> rolesDTO = new ArrayList<>();
 		for(Role role: roles) {
 			RoleDTO roleDTO = new RoleDTO();

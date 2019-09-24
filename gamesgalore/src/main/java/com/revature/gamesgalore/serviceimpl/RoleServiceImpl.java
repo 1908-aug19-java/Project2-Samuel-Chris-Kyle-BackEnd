@@ -1,34 +1,36 @@
 package com.revature.gamesgalore.serviceimpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 
 import com.revature.gamesgalore.dao.Role;
-import com.revature.gamesgalore.dao.entitydetails.RoleEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
 import com.revature.gamesgalore.exceptions.ExceptionManager;
 import com.revature.gamesgalore.repositories.RoleRepository;
-import com.revature.gamesgalore.repositoriesimpl.RoleRepositoryImpl;
 import com.revature.gamesgalore.service.RoleService;
 import com.revature.gamesgalore.util.QueryBuilder;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
 	private static Logger logger = LogManager.getLogger();
 	
-	RoleRepository roleRepository = new RoleRepositoryImpl();
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Override
-	public Collection<Role> getRolesByQuery(String roleName) {
+	public Collection<Role> getRolesByParams(String roleName) {
 		try {
 			QueryBuilder queryBuilder = new QueryBuilder();
-			queryBuilder.getSelectAll(RoleEntityDetails.TABLE_NAME);
+			queryBuilder.getSelectAll(RoleDetails.TABLE_NAME);
 			if (roleName != null) {
-				queryBuilder.addWhereClause(RoleEntityDetails.ROLE_NAME, roleName, true);
+				return roleRepository.findByRoleName(roleName);
 			}
-			logger.info(queryBuilder.getQuery().toString());
-			return roleRepository.findByQuery( queryBuilder.getQuery().toString());
+			return roleRepository.findAll();
 		} catch (Exception e) {
 			logger.error(e);
 			throw ExceptionManager.supplierThrows500Exception().get();
@@ -74,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
 		try {
 			Role roleRetreived = roleRepository.findById(roleId).orElseThrow(ExceptionManager.supplierThrows404Exception());
 			setOverrides(roleRetreived,role);
-			roleRepository.update(roleRetreived);
+			roleRepository.save(roleRetreived);
 		} catch (ResponseStatusException rse) {
 			throw ExceptionManager.supplierThrows404Exception().get();
 		} catch (Exception e) {

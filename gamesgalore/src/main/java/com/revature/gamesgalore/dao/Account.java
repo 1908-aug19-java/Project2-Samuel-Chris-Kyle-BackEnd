@@ -10,23 +10,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.revature.gamesgalore.dao.entitydetails.AccountEntityDetails;
-import com.revature.gamesgalore.dao.entitydetails.UserEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
+import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 
-@Entity(name = AccountEntityDetails.ENTITY_NAME)
-@Table(name = AccountEntityDetails.TABLE_NAME)
+@Entity(name = AccountDetails.ENTITY_NAME)
+@Table(name = AccountDetails.TABLE_NAME)
 public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = AccountEntityDetails.ACCOUNT_ID)
+	@Column(name = AccountDetails.ACCOUNT_ID)
 	private Long accountId;
-	@Column(name = AccountEntityDetails.USERNAME)
+	@Column(name = AccountDetails.USERNAME)
 	private String username;
-	@Column(name = AccountEntityDetails.PASSWORD)
+	@Column(name = AccountDetails.PASSWORD)
 	private String password;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = AccountEntityDetails.ACCOUNT_USER_ID, referencedColumnName = UserEntityDetails.USER_ID, nullable = false)
+	@JoinColumn(name = AccountDetails.ACCOUNT_USER_ID, referencedColumnName = UserDetails.USER_ID, nullable = false)
 	private User user;
 
 	public Account() {

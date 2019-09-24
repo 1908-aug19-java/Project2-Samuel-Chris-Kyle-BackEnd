@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.gamesgalore.dao.User;
 import com.revature.gamesgalore.dto.UserDTO;
 import com.revature.gamesgalore.service.UserService;
-import com.revature.gamesgalore.serviceimpl.UserServiceImpl;
 
 @RestController
 public class UserController {
@@ -28,7 +28,8 @@ public class UserController {
 	 * An object used to handle the business logic for all User objects. It's
 	 * creation is handled by Spring's container.
 	 */
-	UserService userService = new UserServiceImpl();
+	@Autowired
+	UserService userService;
 
 	/**
 	 * 
@@ -45,7 +46,7 @@ public class UserController {
 	public Collection<UserDTO> getUsers(HttpServletResponse response, @RequestParam(required = false) String userFirstName,
 			@RequestParam(required = false) String userLastName, @RequestParam(required = false) String userEmail) {
 		response.setStatus(200);
-		Collection<User> users = userService.getUsersByQuery(userFirstName, userLastName, userEmail);
+		Collection<User> users = userService.getUsersByParams(userFirstName, userLastName, userEmail);
 		Collection<UserDTO> usersDTO =  new ArrayList<>();
 		for(User user: users) {
 			UserDTO userDTO = new UserDTO();

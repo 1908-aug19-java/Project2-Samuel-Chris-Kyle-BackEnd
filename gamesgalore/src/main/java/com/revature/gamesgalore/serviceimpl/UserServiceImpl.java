@@ -1,56 +1,57 @@
 package com.revature.gamesgalore.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.revature.gamesgalore.dao.User;
-import com.revature.gamesgalore.dao.entitydetails.UserEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 import com.revature.gamesgalore.exceptions.ExceptionManager;
 import com.revature.gamesgalore.repositories.UserRepository;
-import com.revature.gamesgalore.repositoriesimpl.UserRepositoryImpl;
 import com.revature.gamesgalore.service.UserService;
-import com.revature.gamesgalore.util.QueryBuilder;
-
+import com.revature.gamesgalore.util.DetailsUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	private static Logger logger = LogManager.getLogger();
-	UserRepository userRepository = new UserRepositoryImpl();
-
+	@Autowired
+	UserRepository userRepository;
+	
 	@Override
-	public Collection<User> getUsersByQuery(String userFirstName, String userLastName, String userEmail) {
-		try {
-			String [] columnparams = {userFirstName, userLastName, userEmail};
-			String [] columns = UserEntityDetails.getUserColumns();
-			QueryBuilder queryBuilder = new QueryBuilder();
-			queryBuilder.getSelectAll(UserEntityDetails.TABLE_NAME);
-			for (int i = 0; i < columnparams.length; i++) {
-				if(i == 0) {
-					if(columnparams[i] == null) {
-						queryBuilder.addWhereClause(columns[i + 1], columns[i + 1], false);
-					}else {
-						queryBuilder.addWhereClause(columns[i + 1], columnparams[i], true);
-					}
-				}else {
-					if(columnparams[i] == null) {
-						queryBuilder.addAndClause(columns[i + 1], columns[i + 1], false);
-					}else {
-						queryBuilder.addAndClause(columns[i + 1], columnparams[i], true);
-					}
-				}
-			}
-			return userRepository.findByQuery(queryBuilder.getQuery().toString());
-		} catch (Exception e) {
-			logger.info(e);
-			throw ExceptionManager.supplierThrows500Exception().get();
-		}
-	}
+	public Collection<User> getUsersByParams(String userFirstName, String userLastName, String userEmail){
+        return userRepository.findAll(new Specification<User>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if(userFirstName!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_FIRST_NAME)), userFirstName)));
+                }
+                if(userLastName!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_LAST_NAME)), userLastName)));
+                }
+                if(userEmail!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_EMAIL)), userEmail)));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+    }
 
 	@Override
 	public void addUsers(Collection<User> users) {
@@ -73,9 +74,13 @@ public class UserServiceImpl implements UserService {
 	public boolean isValidUser(User user) {
 		boolean valid = true;
 		valid = valid && (user.getUserFirstName() != null && isValidName(user.getUserFirstName()));
+		logger.info(valid);
 		valid = valid && (user.getUserLastName() != null && isValidName(user.getUserLastName()));
+		logger.info(valid);
 		valid = valid && (user.getUserEmail() != null && isValidEmail(user.getUserEmail()));
+		logger.info(valid);
 		valid = valid && (user.getUserEmail() != null && emailDoesNotExist(user.getUserEmail()));
+		logger.info(valid);
 		return valid;
 	}
 
@@ -89,10 +94,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private boolean emailDoesNotExist(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
+		Optional<User> user = userRepository.findByUserEmail(email);
 		return !user.isPresent();
 	}
-	
+
 	@Override
 	public User getUser(Long userId) {
 		try {
@@ -108,9 +113,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User user, Long userId) {
 		try {
-			User userRetreived = userRepository.findById(userId).orElseThrow(ExceptionManager.supplierThrows404Exception());
-			setOverrides(userRetreived,user);
-			userRepository.update(userRetreived);
+			User userRetreived = userRepository.findById(userId)
+					.orElseThrow(ExceptionManager.supplierThrows404Exception());
+			setOverrides(userRetreived, user);
+			userRepository.save(userRetreived);
 		} catch (ResponseStatusException rse) {
 			throw ExceptionManager.supplierThrows404Exception().get();
 		} catch (Exception e) {
@@ -120,12 +126,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private void setOverrides(User userRetreived, User user) {
-		if(user.getUserFirstName() != null) {userRetreived.setUserFirstName(user.getUserFirstName());}
-		if(user.getUserLastName() != null) {userRetreived.setUserLastName(user.getUserLastName());}
-		if(user.getUserEmail() != null) {userRetreived.setUserEmail(user.getUserEmail());}
-		if(user.getUserAccount() != null) {userRetreived.setUserAccount(user.getUserAccount());}
+		if (user.getUserFirstName() != null) {
+			userRetreived.setUserFirstName(user.getUserFirstName());
+		}
+		if (user.getUserLastName() != null) {
+			userRetreived.setUserLastName(user.getUserLastName());
+		}
+		if (user.getUserEmail() != null) {
+			userRetreived.setUserEmail(user.getUserEmail());
+		}
+		if (user.getUserAccount() != null) {
+			userRetreived.setUserAccount(user.getUserAccount());
+		}
 	}
-	
+
 	@Override
 	public void deleteUser(Long id) {
 		try {

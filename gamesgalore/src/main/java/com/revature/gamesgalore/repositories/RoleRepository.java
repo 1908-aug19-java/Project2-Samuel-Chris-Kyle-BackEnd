@@ -1,16 +1,12 @@
 package com.revature.gamesgalore.repositories;
 
 import java.util.Collection;
-import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.revature.gamesgalore.dao.Role;
-
-public interface RoleRepository {
-	Optional<Role> findById(Long id);
-	Optional<Role> findByName(String name);
-	Collection<Role> findAll();
-	Collection<Role> findByQuery(String query);
-	void save(Role role);
-	void update(Role role);
-	void deleteById(Long id);
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+	Collection<Role> findByRoleName(String roleName);
 }

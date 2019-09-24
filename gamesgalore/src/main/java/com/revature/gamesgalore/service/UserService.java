@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import com.revature.gamesgalore.dao.User;
 
-
 public interface UserService {
 
 	/**
@@ -18,7 +17,7 @@ public interface UserService {
 	 * @return A collection of User objects that may have been filtered by the
 	 *         parameters passed.
 	 */
-	Collection<User> getUsersByQuery(String userFirstName, String userLastName, String email);
+	Collection<User> getUsersByParams(String userFirstName, String userLastName, String email);
 
 	/**
 	 * 
@@ -53,5 +52,6 @@ public interface UserService {
 	 * @param id A number used to get and delete a User object.
 	 */
 	void deleteUser(Long id);
+
 }
 

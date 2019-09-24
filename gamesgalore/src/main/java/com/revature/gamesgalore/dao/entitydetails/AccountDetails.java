@@ -3,9 +3,9 @@ package com.revature.gamesgalore.dao.entitydetails;
 
 /**
  * This class holds the mappings for the account class, to its representation in the database
- *
+ * and Account class information.
  */
-public class AccountEntityDetails {
+public class AccountDetails {
 
 	public static final String TABLE_NAME = "accounts";
 	public static final String ENTITY_NAME = "account";
@@ -18,5 +18,5 @@ public class AccountEntityDetails {
 		return new String[]{ACCOUNT_ID, USERNAME, PASSWORD, ACCOUNT_USER_ID};
 	}
 	
-	private AccountEntityDetails() {}
+	private AccountDetails() {}
 }

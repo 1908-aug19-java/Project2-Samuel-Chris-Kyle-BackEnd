@@ -10,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.revature.gamesgalore.dao.entitydetails.UserEntityDetails;
+import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 
-@Entity(name = UserEntityDetails.ENTITY_NAME)
-@Table(name = UserEntityDetails.TABLE_NAME)
+@Entity(name = UserDetails.ENTITY_NAME)
+@Table(name = UserDetails.TABLE_NAME)
 public class User implements Serializable{
 
 	/**
@@ -23,13 +23,13 @@ public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= UserEntityDetails.USER_ID)
+	@Column(name= UserDetails.USER_ID)
 	private Long userId;
-	@Column(name= UserEntityDetails.USER_FIRST_NAME)
+	@Column(name= UserDetails.USER_FIRST_NAME)
 	private String userFirstName;
-	@Column(name= UserEntityDetails.USER_LAST_NAME)
+	@Column(name= UserDetails.USER_LAST_NAME)
 	private String userLastName;
-	@Column( name= UserEntityDetails.USER_EMAIL)
+	@Column( name= UserDetails.USER_EMAIL)
 	private String userEmail;
 	
 	@OneToOne(mappedBy = "user")
