@@ -1,5 +1,7 @@
 package com.revature.gamesgalore.dao;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,40 +13,49 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
+import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
 import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 
 @Entity(name = AccountDetails.ENTITY_NAME)
 @Table(name = AccountDetails.TABLE_NAME)
-public class Account {
+public class Account implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = AccountDetails.ACCOUNT_ID)
 	private Long accountId;
-	@Column(name = AccountDetails.USERNAME)
-	private String username;
-	@Column(name = AccountDetails.PASSWORD)
-	private String password;
+	@Column(name = AccountDetails.ACCOUNT_USERNAME)
+	private String accountUsername;
+	@Column(name = AccountDetails.ACCOUNT_PASSWORD)
+	private String accountPassword;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = AccountDetails.ACCOUNT_USER_ID, referencedColumnName = UserDetails.USER_ID, nullable = false)
-	private User user;
+	private User accountUser;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = AccountDetails.ACCOUNT_ROLE_ID, referencedColumnName = RoleDetails.ROLE_ID, nullable = false)
+	private Role accountRole;
 
 	public Account() {
 		super();
 	}
 
-	public Account(Long accountId, String username, String password, User user) {
+	public Account(Long accountId, String accountUsername, String accountPassword, User accountUser, Role accountRole) {
 		super();
 		this.accountId = accountId;
-		this.username = username;
-		this.password = password;
-		this.user = user;
+		this.accountUsername = accountUsername;
+		this.accountPassword = accountPassword;
+		this.accountUser = accountUser;
+		this.accountRole = accountRole;
 	}
 
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", username=" + username + ", password=" + password + ", user="
-				+ user + "]";
+		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
+				+ accountPassword + ", accountUser=" + accountUser + ", accountRole=" + accountRole + "]";
 	}
 
 	public Long getAccountId() {
@@ -55,28 +66,36 @@ public class Account {
 		this.accountId = accountId;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getAccountUsername() {
+		return accountUsername;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setAccountUsername(String accountUsername) {
+		this.accountUsername = accountUsername;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getAccountPassword() {
+		return accountPassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAccountPassword(String accountPassword) {
+		this.accountPassword = accountPassword;
 	}
 
-	public User getUser() {
-		return user;
+	public User getAccountUser() {
+		return accountUser;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccountUser(User accountUser) {
+		this.accountUser = accountUser;
+	}
+
+	public Role getAccountRole() {
+		return accountRole;
+	}
+
+	public void setAccountRole(Role accountRole) {
+		this.accountRole = accountRole;
 	}
 
 	@Override
@@ -99,7 +118,9 @@ public class Account {
 		if (accountId == null) {
 			if (other.accountId != null)
 				return false;
-		} else if (!accountId.equals(other.accountId)) {return false;}
+		} else if (!accountId.equals(other.accountId)) {
+			return false;
+		}
 		return true;
 	}
 

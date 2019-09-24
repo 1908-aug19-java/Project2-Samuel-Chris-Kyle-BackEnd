@@ -10,12 +10,13 @@ public class AccountDetails {
 	public static final String TABLE_NAME = "accounts";
 	public static final String ENTITY_NAME = "account";
 	public static final String ACCOUNT_ID = "account_id";
-	public static final String USERNAME = "username";
-	public static final String PASSWORD = "password";
+	public static final String ACCOUNT_USERNAME = "account_username";
+	public static final String ACCOUNT_PASSWORD = "account_password";
 	public static final String ACCOUNT_USER_ID = "account_user_id";
+	public static final String ACCOUNT_ROLE_ID = "account_role_id";
 	
 	public static String[] getAccountColumns() {
-		return new String[]{ACCOUNT_ID, USERNAME, PASSWORD, ACCOUNT_USER_ID};
+		return new String[]{ACCOUNT_ID, ACCOUNT_USERNAME, ACCOUNT_PASSWORD, ACCOUNT_USER_ID, ACCOUNT_ROLE_ID};
 	}
 	
 	private AccountDetails() {}

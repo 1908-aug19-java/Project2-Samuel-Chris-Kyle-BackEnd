@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 
@@ -32,8 +33,9 @@ public class User implements Serializable{
 	@Column( name= UserDetails.USER_EMAIL)
 	private String userEmail;
 	
-	@OneToOne(mappedBy = "user")
-	private Account userAccount;
+	@Transient
+	@OneToOne(mappedBy = UserDetails.ENTITY_NAME)
+	private transient Account userAccount;
 
 	public User() {
 	}

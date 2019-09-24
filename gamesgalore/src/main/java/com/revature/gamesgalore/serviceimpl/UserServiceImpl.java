@@ -141,10 +141,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long id) {
+	public void deleteUser(Long userId) {
 		try {
-			userRepository.findById(id).orElseThrow(ExceptionManager.supplierThrows404Exception());
-			userRepository.deleteById(id);
+			userRepository.findById(userId).orElseThrow(ExceptionManager.supplierThrows404Exception());
+			userRepository.deleteById(userId);
 		} catch (ResponseStatusException rse) {
 			throw ExceptionManager.supplierThrows404Exception().get();
 		} catch (Exception e) {

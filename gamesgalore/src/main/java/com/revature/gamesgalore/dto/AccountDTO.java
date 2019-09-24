@@ -9,28 +9,32 @@ public class AccountDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long accountId;
-	private String username;
-	private String password;
+	private String accountUsername;
+	private String accountPassword;
 	private String confirmPassword;
-	private UserDTO user;
+	private UserDTO accountUser;
+	private RoleDTO accountRole;
 
 	public AccountDTO() {
 		super();
 	}
 
-	public AccountDTO(Long accountId, String username, String password, String confirmPassword, UserDTO user) {
+	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
+			UserDTO accountUser, RoleDTO accountRole) {
 		super();
 		this.accountId = accountId;
-		this.username = username;
-		this.password = password;
+		this.accountUsername = accountUsername;
+		this.accountPassword = accountPassword;
 		this.confirmPassword = confirmPassword;
-		this.user = user;
+		this.accountUser = accountUser;
+		this.accountRole = accountRole;
 	}
 
 	@Override
 	public String toString() {
-		return "AccountDTO [accountId=" + accountId + ", username=" + username + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + ", user=" + user + "]";
+		return "AccountDTO [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
+				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
+				+ ", accountRole=" + accountRole + "]";
 	}
 
 	public Long getAccountId() {
@@ -41,20 +45,20 @@ public class AccountDTO implements Serializable {
 		this.accountId = accountId;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getAccountUsername() {
+		return accountUsername;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setAccountUsername(String accountUsername) {
+		this.accountUsername = accountUsername;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getAccountPassword() {
+		return accountPassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAccountPassword(String accountPassword) {
+		this.accountPassword = accountPassword;
 	}
 
 	public String getConfirmPassword() {
@@ -65,12 +69,20 @@ public class AccountDTO implements Serializable {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public UserDTO getUser() {
-		return user;
+	public UserDTO getAccountUser() {
+		return accountUser;
 	}
 
-	public void setUser(UserDTO user) {
-		this.user = user;
+	public void setAccountUser(UserDTO accountUser) {
+		this.accountUser = accountUser;
+	}
+
+	public RoleDTO getAccountRole() {
+		return accountRole;
+	}
+
+	public void setAccountRole(RoleDTO accountRole) {
+		this.accountRole = accountRole;
 	}
 
 	@Override

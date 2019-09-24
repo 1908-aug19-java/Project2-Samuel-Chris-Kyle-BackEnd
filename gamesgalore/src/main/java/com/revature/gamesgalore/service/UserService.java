@@ -12,12 +12,12 @@ public interface UserService {
 	 *              of Users.
 	 * @param userLastName  The last name of a User object that is used to filter a collection
 	 *              of Users.
-	 * @param email The email of a User object that is used to filter a collection
+	 * @param userEmail The email of a User object that is used to filter a collection
 	 *              of Users.
 	 * @return A collection of User objects that may have been filtered by the
 	 *         parameters passed.
 	 */
-	Collection<User> getUsersByParams(String userFirstName, String userLastName, String email);
+	Collection<User> getUsersByParams(String userFirstName, String userLastName, String userEmail);
 
 	/**
 	 * 
@@ -28,16 +28,16 @@ public interface UserService {
 	/**
 	 * 
 	 * @param user A User object.
-	 * @param id A number used to get and modify a User object.
+	 * @param userId A number used to get and modify a User object.
 	 */
-	void updateUser(User user, Long id);
+	void updateUser(User user, Long userId);
 
 	/**
 	 * 
-	 * @param id A number used to get and modify a User object.
+	 * @param userId A number used to get and modify a User object.
 	 * @return A User object
 	 */
-	User getUser(Long id);
+	User getUser(Long userId);
 
 	/**
 	 * 
@@ -49,9 +49,9 @@ public interface UserService {
 
 	/**
 	 * 
-	 * @param id A number used to get and delete a User object.
+	 * @param userId A number used to get and delete a User object.
 	 */
-	void deleteUser(Long id);
+	void deleteUser(Long userId);
 
 }
 

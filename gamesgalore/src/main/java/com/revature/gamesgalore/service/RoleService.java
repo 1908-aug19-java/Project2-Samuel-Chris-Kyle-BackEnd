@@ -13,12 +13,12 @@ public interface RoleService {
 
 	/**
 	 * 
-	 * @param name The name of an Role object that is used to filter a collection of
+	 * @param roleName The name of an Role object that is used to filter a collection of
 	 *             Roles.
 	 * @return A collection of Role objects that may have been filtered by the
 	 *         parameters passed.
 	 */
-	Collection<Role> getRolesByParams(String name);
+	Collection<Role> getRolesByParams(String roleName);
 
 	/**
 	 * 
@@ -28,17 +28,17 @@ public interface RoleService {
 
 	/**
 	 * 
-	 * @param role A Role object.
+	 * @param roleId A Role object.
 	 * @param id A number used to get and modify a Role object.
 	 */
-	void updateRole(Role role, Long id);
+	void updateRole(Role role, Long roleId);
 
 	/**
 	 * 
-	 * @param id A number used to get and modify a Role object.
+	 * @param roleId A number used to get and modify a Role object.
 	 * @return A Role object
 	 */
-	Role getRole(Long id);
+	Role getRole(Long roleId);
 
 	/**
 	 * 
@@ -50,8 +50,8 @@ public interface RoleService {
 
 	/**
 	 * 
-	 * @param id A number used to get and delete a Role object.
+	 * @param roleId A number used to get and delete a Role object.
 	 */
-	void deleteRole(Long id);
+	void deleteRole(Long roleId);
 }
 
