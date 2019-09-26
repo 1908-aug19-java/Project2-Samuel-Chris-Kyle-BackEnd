@@ -1,0 +1,626 @@
+{
+	"info": {
+		"_postman_id": "b37cc61c-9955-4a1f-b89d-8b985490fcec",
+		"name": "Games Galore Colleciton",
+		"description": "This is a collection of API calls to test the back end for the Games Galore collection.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Get roles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles"
+							]
+						},
+						"description": "GET all roles with optional query for name for endpoint /roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Get role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles",
+								"1"
+							]
+						},
+						"description": "GET a specific role, test endpoint /roles/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Post role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\n    \"roleName\": \"USER\"\n}]"
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles"
+							]
+						},
+						"description": "Send POST to endpoint /roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Update role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleName\": \"USERS\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles",
+								"3"
+							]
+						},
+						"description": "PUT new data into a role, testing endpoint /roles/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles",
+								"3"
+							]
+						},
+						"description": "Deletes a role, tetsing endpoint /roles/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by roleName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/roles?roleName=ADMIN",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"roles"
+							],
+							"query": [
+								{
+									"key": "roleName",
+									"value": "ADMIN"
+								}
+							]
+						},
+						"description": "GET roles by name query, tests endpoint /roles"
+					},
+					"response": []
+				}
+			],
+			"description": "REST calls for the roles table"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users"
+							]
+						},
+						"description": "GET all users with optional query for name, title, and email for endpoint /users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users",
+								"1"
+							]
+						},
+						"description": "GET a specific user, test endpoint /users/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"userId\": 1,\n        \"userFirstName\": \"SamuelEdited\",\n        \"userLastName\": \"DorilasEdited\",\n        \"userEmail\": \"s@catalyte.io\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users",
+								"1"
+							]
+						},
+						"description": "PUT new data into a user, testing endpoint /users/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users",
+								"2"
+							]
+						},
+						"description": "Deletes a user, tetsing endpoint /users/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by userFirstName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users?userFirstName=Christopher",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users"
+							],
+							"query": [
+								{
+									"key": "userFirstName",
+									"value": "Christopher"
+								}
+							]
+						},
+						"description": "GET users by first name query, tests endpoint /users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by userLastName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users?userLastName=Reimer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users"
+							],
+							"query": [
+								{
+									"key": "userLastName",
+									"value": "Reimer"
+								}
+							]
+						},
+						"description": "GET users by last name query, testing endpoint users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users?userEmail=christophercoleman@outlook.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "christophercoleman@outlook.com"
+								}
+							]
+						},
+						"description": "GET users by query email, tests endpoint users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/users?userFirstName=Samuel&userLastName=Dorilas&userEmail=samueldorilas@outlook.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"users"
+							],
+							"query": [
+								{
+									"key": "userFirstName",
+									"value": "Samuel"
+								},
+								{
+									"key": "userLastName",
+									"value": "Dorilas"
+								},
+								{
+									"key": "userEmail",
+									"value": "samueldorilas@outlook.com"
+								}
+							]
+						},
+						"description": "Tests /users enpoint for filtering by multiple params"
+					},
+					"response": []
+				}
+			],
+			"description": "User requests"
+		},
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "GET accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\r\n        \"accountUsername\": \"newuser\",\r\n        \"accountPassword\": \"Pass123\",\r\n        \"confirmPassword\": null,\r\n        \"accountUser\": {\r\n            \"userFirstName\": \"new\",\r\n            \"userLastName\": \"user\",\r\n            \"userEmail\": \"newuser@outlook.com\"\r\n        },\r\n        \"accountRole\": {\r\n            \"roleName\": \"ADMIN\"\r\n        }\r\n}]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"accountUsername\": \"samueldorilas\",\r\n        \"accountPassword\": \"Pass123123\",\r\n        \"confirmPassword\": null,\r\n        \"accountRole\": {\r\n            \"roleId\": 2\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get account by username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts?accountUsername=kylereimer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "accountUsername",
+									"value": "kylereimer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by rolename",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts?accountRoleName=ANONYMOUS",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "accountRoleName",
+									"value": "ANONYMOUS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/accounts?accountUsername=kylereimer&accountRoleName=ADMIN",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "accountUsername",
+									"value": "kylereimer"
+								},
+								{
+									"key": "accountRoleName",
+									"value": "ADMIN"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Test the /accounts endpoints",
+			"protocolProfileBehavior": {}
+		}
+	]
+}
