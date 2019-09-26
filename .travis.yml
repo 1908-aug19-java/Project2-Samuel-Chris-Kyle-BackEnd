@@ -1,0 +1,4 @@
+language: java
+
+script:
+  - mvn -e sonar:sonar -Dsonar.projectKey=1908-aug19-java_Project2-Samuel-Chris-Kyle-BackEnd -Dsonar.organization=1908-aug19-java -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
