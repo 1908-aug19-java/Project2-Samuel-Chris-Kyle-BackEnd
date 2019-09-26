@@ -14,6 +14,8 @@ public class AccountDetails {
 	public static final String ACCOUNT_PASSWORD = "account_password";
 	public static final String ACCOUNT_USER_ID = "account_user_id";
 	public static final String ACCOUNT_ROLE_ID = "account_role_id";
+	public static final String ACCOUNT_ROLE_FIELD = "accountRole";
+	public static final String ACCOUNT_USER_FIELD = "accountUser";
 	
 	public static String[] getAccountColumns() {
 		return new String[]{ACCOUNT_ID, ACCOUNT_USERNAME, ACCOUNT_PASSWORD, ACCOUNT_USER_ID, ACCOUNT_ROLE_ID};

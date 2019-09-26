@@ -1,17 +1,18 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
+import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
 import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
 
 @Entity(name = RoleDetails.ENTITY_NAME)
@@ -29,12 +30,10 @@ public class Role implements Serializable {
 	private Long roleId;
 
 	@Column(name = RoleDetails.ROLE_NAME, nullable = false)
-	@NotBlank(message = "Name is mandatory")
 	private String roleName;
 
-	@Transient
-	@OneToOne(mappedBy = RoleDetails.ENTITY_NAME)
-	private transient Account roleAccount;
+	@OneToMany(mappedBy = AccountDetails.ACCOUNT_ROLE_FIELD)
+	private Collection<Account> roleAccounts;
 
 	public Role() {
 		super();
@@ -51,11 +50,11 @@ public class Role implements Serializable {
 		this.roleName = name;
 	}
 
-	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String roleName, Account roleAccount) {
+	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String roleName, Collection<Account> roleAccounts) {
 		super();
 		this.roleId = roleId;
 		this.roleName = roleName;
-		this.roleAccount = roleAccount;
+		this.roleAccounts = roleAccounts;
 	}
 
 	public Role(@NotBlank(message = "Name is mandatory") String name) {
@@ -84,12 +83,12 @@ public class Role implements Serializable {
 		this.roleName = name;
 	}
 
-	public Account getRoleAccount() {
-		return roleAccount;
+	public Collection<Account> getRoleAccounts() {
+		return roleAccounts;
 	}
 
-	public void setRoleAccount(Account roleAccount) {
-		this.roleAccount = roleAccount;
+	public void setRoleAccounts(Collection<Account> roleAccounts) {
+		this.roleAccounts = roleAccounts;
 	}
 
 	@Override

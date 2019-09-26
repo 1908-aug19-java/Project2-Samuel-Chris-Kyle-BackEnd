@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class RoleController {
 			RoleDTO roleDTO = new RoleDTO();
 			BeanUtils.copyProperties(role, roleDTO);
 			rolesDTO.add(roleDTO);
+			
 		}
 		return rolesDTO;
 	}
@@ -56,7 +58,7 @@ public class RoleController {
 	 * @param rolesDTO An array of objects containing POJO's of Role objects.
 	 */
 	@PostMapping(value = "/roles")
-	public void createRoles(HttpServletResponse response, @RequestBody List<RoleDTO> rolesDTO) {
+	public void createRoles(HttpServletResponse response, @NotNull @RequestBody List<RoleDTO> rolesDTO) {
 		List<Role> roles = new ArrayList<>();
 		for(RoleDTO roleDTO:rolesDTO) {
 			Role role = new Role();
@@ -89,7 +91,7 @@ public class RoleController {
 	 * @param roleId The numeric id pertaining to a specific Role object. It must be passed in the url path.
 	 */
 	@PutMapping(value = "/roles/{id}")
-	public void putRole(HttpServletResponse response, @RequestBody RoleDTO roleDTO, @PathVariable("id") Long roleId) {
+	public void putRole(HttpServletResponse response, @NotNull @RequestBody RoleDTO roleDTO, @PathVariable("id") Long roleId) {
 		Role role = new Role();
 		BeanUtils.copyProperties(roleDTO, role);
 		response.setStatus(200);

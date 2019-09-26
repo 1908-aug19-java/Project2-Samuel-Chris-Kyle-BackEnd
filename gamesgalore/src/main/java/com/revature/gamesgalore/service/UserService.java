@@ -1,9 +1,12 @@
 package com.revature.gamesgalore.service;
 
-import java.util.Collection;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.revature.gamesgalore.dao.User;
 
+@Service
 public interface UserService {
 
 	/**
@@ -17,13 +20,13 @@ public interface UserService {
 	 * @return A collection of User objects that may have been filtered by the
 	 *         parameters passed.
 	 */
-	Collection<User> getUsersByParams(String userFirstName, String userLastName, String userEmail);
+	List<User> getUsersByParams(String userFirstName, String userLastName, String userEmail);
 
 	/**
 	 * 
 	 * @param users A collection of User objects
 	 */
-	void addUsers(Collection<User> users);
+	void addUsers(List<User> users);
 
 	/**
 	 * 
@@ -41,17 +44,32 @@ public interface UserService {
 
 	/**
 	 * 
+	 * @param userId A number used to get and delete a User object.
+	 */
+	void deleteUser(Long userId);
+	
+	/**
+	 * 
 	 * @param user A User object to be validated.
 	 * @return boolean stating whether all the fields of the passed User object
 	 *         are valid.
 	 */
-	boolean isValidUser(User user);
+	boolean isValidUserCreate(User user);
+	
+	
+	/**
+	 * @param user A User object to be validated.
+	 * @param userRetreived A User object used to validate another User object.
+	 * @return denotes boolean stating whether all the fields of the passed User object
+	 *         are valid.
+	 */
+	boolean isValidUserUpdate(User user, User userRetreived);
 
 	/**
-	 * 
-	 * @param userId A number used to get and delete a User object.
+	 * @param userRetreived User retrieved from the database
+	 * @param user User used to transfer fields to retrieved User
 	 */
-	void deleteUser(Long userId);
+	void setOverrides(User userRetreived, User user);
 
 }
 

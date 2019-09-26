@@ -11,22 +11,20 @@ public class RoleDTO implements Serializable {
 
 	private Long roleId;
 	private String roleName;
-	private AccountDTO roleAccount;
 
 	public RoleDTO() {
 		super();
 	}
 
-	public RoleDTO(Long roleId, String roleName, AccountDTO roleAccount) {
+	public RoleDTO(Long roleId, String roleName) {
 		super();
 		this.roleId = roleId;
 		this.roleName = roleName;
-		this.roleAccount = roleAccount;
 	}
 
 	@Override
 	public String toString() {
-		return "RoleDTO [roleId=" + roleId + ", roleName=" + roleName + ", roleAccount=" + roleAccount + "]";
+		return "RoleDTO [roleId=" + roleId + ", roleName=" + roleName + "]";
 	}
 
 	public Long getRoleId() {
@@ -43,14 +41,6 @@ public class RoleDTO implements Serializable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}
-
-	public AccountDTO getRoleAccount() {
-		return roleAccount;
-	}
-
-	public void setRoleAccount(AccountDTO roleAccount) {
-		this.roleAccount = roleAccount;
 	}
 
 	@Override

@@ -5,16 +5,23 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.beans.BeanUtils;
 
 import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
 import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
 import com.revature.gamesgalore.dao.entitydetails.UserDetails;
+import com.revature.gamesgalore.dto.AccountDTO;
+import com.revature.gamesgalore.dto.RoleDTO;
+import com.revature.gamesgalore.dto.UserDTO;
 
 @Entity(name = AccountDetails.ENTITY_NAME)
 @Table(name = AccountDetails.TABLE_NAME)
@@ -35,7 +42,7 @@ public class Account implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = AccountDetails.ACCOUNT_USER_ID, referencedColumnName = UserDetails.USER_ID, nullable = false)
 	private User accountUser;
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = AccountDetails.ACCOUNT_ROLE_ID, referencedColumnName = RoleDetails.ROLE_ID, nullable = false)
 	private Role accountRole;
 
@@ -96,6 +103,26 @@ public class Account implements Serializable {
 
 	public void setAccountRole(Role accountRole) {
 		this.accountRole = accountRole;
+	}
+
+	public void copyPropertiesFrom(AccountDTO accountDTO) {
+		this.setAccountId(accountDTO.getAccountId());
+		this.setAccountUsername(accountDTO.getAccountUsername());
+		this.setAccountPassword(accountDTO.getAccountPassword());
+
+		UserDTO accountUserDTO = accountDTO.getAccountUser();
+		if (accountUserDTO != null) {
+			User accountUserCopied = new User();
+			BeanUtils.copyProperties(accountUserDTO, accountUserCopied);
+			this.setAccountUser(accountUserCopied);
+		}
+
+		RoleDTO accountRoleDTO = accountDTO.getAccountRole();
+		if (accountRoleDTO != null) {
+			Role accountRoleCopied = new Role();
+			BeanUtils.copyProperties(accountRoleDTO, accountRoleCopied);
+			this.setAccountRole(accountRoleCopied);
+		}
 	}
 
 	@Override

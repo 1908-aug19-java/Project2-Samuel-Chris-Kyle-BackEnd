@@ -1,7 +1,6 @@
 package com.revature.gamesgalore.serviceimpl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,64 +23,128 @@ import com.revature.gamesgalore.exceptions.ExceptionManager;
 import com.revature.gamesgalore.repositories.UserRepository;
 import com.revature.gamesgalore.service.UserService;
 import com.revature.gamesgalore.util.DetailsUtil;
+import org.springframework.http.HttpStatus;
 
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
 	private static Logger logger = LogManager.getLogger();
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Override
-	public Collection<User> getUsersByParams(String userFirstName, String userLastName, String userEmail){
-        return userRepository.findAll(new Specification<User>() {
+	public List<User> getUsersByParams(String userFirstName, String userLastName, String userEmail) {
+		return userRepository.findAll(new Specification<User>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if(userFirstName!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_FIRST_NAME)), userFirstName)));
-                }
-                if(userLastName!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_LAST_NAME)), userLastName)));
-                }
-                if(userEmail!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_EMAIL)), userEmail)));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
-    }
+			public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (userFirstName != null) {
+					predicates.add(criteriaBuilder.and(criteriaBuilder
+							.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_FIRST_NAME)), userFirstName)));
+				}
+				if (userLastName != null) {
+					predicates.add(criteriaBuilder.and(criteriaBuilder
+							.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_LAST_NAME)), userLastName)));
+				}
+				if (userEmail != null) {
+					predicates.add(criteriaBuilder.and(criteriaBuilder
+							.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_EMAIL)), userEmail)));
+				}
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
+	}
 
 	@Override
-	public void addUsers(Collection<User> users) {
+	public void addUsers(List<User> users) {
 		try {
-			for (User u : users) {
-				if (!isValidUser(u)) {
-					throw ExceptionManager.supplierThrows400Exception().get();
+			for (User user : users) {
+				if (!isValidUserCreate(user) || !(user.getUserEmail() != null && emailDoesNotExist(user.getUserEmail()))) {
+					throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
 				}
-				userRepository.save(u);
+				userRepository.save(user);
 			}
 		} catch (ResponseStatusException rse) {
-			throw ExceptionManager.supplierThrows400Exception().get();
+			throw rse;
 		} catch (Exception e) {
-			logger.info(e);
-			throw ExceptionManager.supplierThrows500Exception().get();
+			logger.error(e);
+			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
 	@Override
-	public boolean isValidUser(User user) {
+	public User getUser(Long userId) {
+		try {
+			return userRepository.findById(userId).orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+		} catch (ResponseStatusException rse) {
+			throw rse;
+		} catch (Exception e) {
+			logger.error(e);
+			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+		}
+	}
+
+	@Override
+	public void updateUser(User user, Long userId) {
+		try {
+			User userRetreived = userRepository.findById(userId)
+					.orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+			logger.info("in2");
+			if (!isValidUserUpdate(user, userRetreived)) {
+				 throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+			}
+			logger.info("in3");
+			setOverrides(userRetreived, user);
+			userRepository.save(userRetreived);
+		} catch (ResponseStatusException rse) {
+			throw rse;
+		} catch (Exception e) {
+			logger.error(e);
+			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+		}
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		try {
+			if (!userRepository.findById(userId).isPresent()) {
+			 throw ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND).get();
+			}
+			logger.info(userId);
+			userRepository.deleteById(userId);
+		} catch (ResponseStatusException rse) {
+			throw rse;
+		} catch (Exception e) {
+			logger.error(e);
+			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+		}
+	}
+
+	@Override
+	public boolean isValidUserCreate(User user) {
+		boolean valid = (user.getUserFirstName() != null && isValidName(user.getUserFirstName()));
+		valid &= (user.getUserLastName() != null && isValidName(user.getUserLastName()));
+		valid &= (user.getUserEmail() != null && isValidEmail(user.getUserEmail()));
+		valid &= emailDoesNotExist(user.getUserEmail());
+		return valid;
+	}
+
+	@Override
+	public boolean isValidUserUpdate(User user, User userRetreived) {
 		boolean valid = true;
-		valid = valid && (user.getUserFirstName() != null && isValidName(user.getUserFirstName()));
-		logger.info(valid);
-		valid = valid && (user.getUserLastName() != null && isValidName(user.getUserLastName()));
-		logger.info(valid);
-		valid = valid && (user.getUserEmail() != null && isValidEmail(user.getUserEmail()));
-		logger.info(valid);
-		valid = valid && (user.getUserEmail() != null && emailDoesNotExist(user.getUserEmail()));
-		logger.info(valid);
+		if(user.getUserFirstName() != null) {
+			valid &= isValidName(user.getUserFirstName());
+		}
+		if(user.getUserLastName() != null) {
+			valid &= isValidName(user.getUserLastName());
+		}
+		if(user.getUserEmail() != null) {
+			valid &= !user.getUserEmail().equals(userRetreived.getUserEmail()) ? emailDoesNotExist(user.getUserEmail()):Boolean.TRUE;
+			valid &=  isValidEmail(user.getUserEmail());
+		}
 		return valid;
 	}
 
@@ -99,33 +163,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUser(Long userId) {
-		try {
-			return userRepository.findById(userId).orElseThrow(ExceptionManager.supplierThrows404Exception());
-		} catch (ResponseStatusException rse) {
-			throw ExceptionManager.supplierThrows404Exception().get();
-		} catch (Exception e) {
-			logger.info(e);
-			throw ExceptionManager.supplierThrows500Exception().get();
-		}
-	}
-
-	@Override
-	public void updateUser(User user, Long userId) {
-		try {
-			User userRetreived = userRepository.findById(userId)
-					.orElseThrow(ExceptionManager.supplierThrows404Exception());
-			setOverrides(userRetreived, user);
-			userRepository.save(userRetreived);
-		} catch (ResponseStatusException rse) {
-			throw ExceptionManager.supplierThrows404Exception().get();
-		} catch (Exception e) {
-			logger.info(e);
-			throw ExceptionManager.supplierThrows500Exception().get();
-		}
-	}
-
-	private void setOverrides(User userRetreived, User user) {
+	public void setOverrides(User userRetreived, User user) {
 		if (user.getUserFirstName() != null) {
 			userRetreived.setUserFirstName(user.getUserFirstName());
 		}
@@ -139,18 +177,4 @@ public class UserServiceImpl implements UserService {
 			userRetreived.setUserAccount(user.getUserAccount());
 		}
 	}
-
-	@Override
-	public void deleteUser(Long userId) {
-		try {
-			userRepository.findById(userId).orElseThrow(ExceptionManager.supplierThrows404Exception());
-			userRepository.deleteById(userId);
-		} catch (ResponseStatusException rse) {
-			throw ExceptionManager.supplierThrows404Exception().get();
-		} catch (Exception e) {
-			logger.info(e);
-			throw ExceptionManager.supplierThrows500Exception().get();
-		}
-	}
-
 }

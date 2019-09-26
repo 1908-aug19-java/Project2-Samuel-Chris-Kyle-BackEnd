@@ -2,6 +2,7 @@ package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
 import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 
 @Entity(name = UserDetails.ENTITY_NAME)
@@ -33,9 +34,8 @@ public class User implements Serializable{
 	@Column( name= UserDetails.USER_EMAIL)
 	private String userEmail;
 	
-	@Transient
-	@OneToOne(mappedBy = UserDetails.ENTITY_NAME)
-	private transient Account userAccount;
+	@OneToOne(mappedBy = AccountDetails.ACCOUNT_USER_FIELD, cascade = CascadeType.ALL)
+	private Account userAccount;
 
 	public User() {
 	}
@@ -56,7 +56,7 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
-				+ ", userEmail=" + userEmail + ", userAccount=" + userAccount + "]";
+				+ ", userEmail=" + userEmail + ", userAccount=" + (userAccount != null ? userAccount.getAccountId():null) + "]";
 	}
 
 	public Long getUserId() {

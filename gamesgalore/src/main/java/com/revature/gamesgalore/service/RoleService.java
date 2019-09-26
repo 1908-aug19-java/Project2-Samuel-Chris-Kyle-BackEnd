@@ -1,14 +1,12 @@
 package com.revature.gamesgalore.service;
 
-import java.util.Collection;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.revature.gamesgalore.dao.Role;
 
-/**
- * 
- * @author sdorilas
- *
- */
+@Service
 public interface RoleService {
 
 	/**
@@ -18,13 +16,13 @@ public interface RoleService {
 	 * @return A collection of Role objects that may have been filtered by the
 	 *         parameters passed.
 	 */
-	Collection<Role> getRolesByParams(String roleName);
+	List<Role> getRolesByParams(String roleName);
 
 	/**
 	 * 
 	 * @param roles A collection of Role objects
 	 */
-	void addRoles(Collection<Role> roles);
+	void addRoles(List<Role> roles);
 
 	/**
 	 * 
@@ -48,6 +46,12 @@ public interface RoleService {
 	 */
 	boolean validateRole(Role role);
 
+	/**
+	 * @param roleRetreived Role retrieved from the database
+	 * @param role Role used to transfer fields to role account
+	 */
+	public void setOverrides(Role roleRetreived, Role role);
+	
 	/**
 	 * 
 	 * @param roleId A number used to get and delete a Role object.

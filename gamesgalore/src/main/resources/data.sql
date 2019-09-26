@@ -1,9 +1,14 @@
-INSERT INTO users (user_first_name, user_last_name, user_email) VALUES
-  ('Leumas', 'Salirod', 's@hotmail.com');
+INSERT INTO users (user_email, user_first_name, user_last_name) VALUES
+  ('samueldorilas@outlook.com', 'Samuel', 'Dorilas'),
+  ('christophercoleman@outlook.com', 'Christopher', 'Coleman'),
+  ('kylereimer@outlook.com', 'Kyle', 'Reimer');
   
 INSERT INTO roles (role_name) VALUES
-  ('ANONYMOUS');
+  ('ADMIN'), 
+  ('USER');
   
-INSERT INTO accounts (account_username, account_password, account_user_id, account_role_id) VALUES
-('leumassalirod', 'Pass123', 1, 1)
+INSERT INTO accounts (account_password, account_username, account_role_id, account_user_id) VALUES
+('Pass123', 'samueldorilas', 1, 1),
+('Pass123', 'christophercoleman', 1, 2),
+('Pass123', 'kylereimer', 1, 3);
   

@@ -12,25 +12,23 @@ public class UserDTO implements Serializable {
 	private String userFirstName;
 	private String userLastName;
 	private String userEmail;
-	private AccountDTO userAccount;
 
 	public UserDTO() {
 		super();
 	}
 
-	public UserDTO(Long userId, String userFirstName, String userLastName, String userEmail, AccountDTO userAccount) {
+	public UserDTO(Long userId, String userFirstName, String userLastName, String userEmail) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
 		this.userLastName = userLastName;
 		this.userEmail = userEmail;
-		this.userAccount = userAccount;
 	}
 
 	@Override
 	public String toString() {
 		return "UserDTO [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
-				+ ", userEmail=" + userEmail + ", userAccount=" + userAccount + "]";
+				+ ", userEmail=" + userEmail + "]";
 	}
 
 	public Long getUserId() {
@@ -63,14 +61,6 @@ public class UserDTO implements Serializable {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
-	}
-
-	public AccountDTO getUserAccount() {
-		return userAccount;
-	}
-
-	public void setUserAccount(AccountDTO userAccount) {
-		this.userAccount = userAccount;
 	}
 
 	@Override

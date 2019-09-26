@@ -2,6 +2,11 @@ package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
 
+import org.springframework.beans.BeanUtils;
+
+import com.revature.gamesgalore.dao.Role;
+import com.revature.gamesgalore.dao.User;
+
 public class AccountDTO implements Serializable {
 
 	/**
@@ -73,16 +78,20 @@ public class AccountDTO implements Serializable {
 		return accountUser;
 	}
 
-	public void setAccountUser(UserDTO accountUser) {
-		this.accountUser = accountUser;
+	public void setAccountUser(User accountUser) {
+		UserDTO accountUserDTO = new UserDTO();
+		BeanUtils.copyProperties(accountUser, accountUserDTO);
+		this.accountUser = accountUserDTO;
 	}
 
 	public RoleDTO getAccountRole() {
 		return accountRole;
 	}
 
-	public void setAccountRole(RoleDTO accountRole) {
-		this.accountRole = accountRole;
+	public void setAccountRole(Role accountRole) {
+		RoleDTO accountRoleDTO = new RoleDTO();
+		BeanUtils.copyProperties(accountRole, accountRoleDTO);
+		this.accountRole = accountRoleDTO;
 	}
 
 	@Override
