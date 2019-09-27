@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @ServletComponentScan
-@PropertySource("file:../../usr/tmp/application.properties")
+@PropertySource("file:/usr/tmp/application.properties")
 public class GamesgaloreApplication extends SpringBootServletInitializer{
 
 	@Override
