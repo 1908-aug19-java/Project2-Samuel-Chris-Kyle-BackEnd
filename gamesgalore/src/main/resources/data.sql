@@ -7,8 +7,8 @@ INSERT INTO roles (role_name) VALUES
   ('ADMIN'), 
   ('USER');
   
-INSERT INTO accounts (account_password, account_username, account_role_id, account_user_id) VALUES
-('Pass123', 'samueldorilas', 1, 1),
-('Pass123', 'christophercoleman', 1, 2),
-('Pass123', 'kylereimer', 1, 3);
+INSERT INTO accounts VALUES
+(default, true, true, '$2a$10$3gSlF.jlu4skLXQ/2SCKX.Jr6GJht/7RHA.DDLJHnILZzDM4ZOUyq', 'samueldorilas', true, true, 1, 1),
+(default, true, true, '$2a$10$3gSlF.jlu4skLXQ/2SCKX.Jr6GJht/7RHA.DDLJHnILZzDM4ZOUyq', 'christophercoleman', true, true, 1, 2),
+(default, true, true,'$2a$10$3gSlF.jlu4skLXQ/2SCKX.Jr6GJht/7RHA.DDLJHnILZzDM4ZOUyq', 'kylereimer', true, true, 1, 3);
   

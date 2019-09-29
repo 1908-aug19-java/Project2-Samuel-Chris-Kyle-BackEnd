@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.revature.gamesgalore.dao.User;
-import com.revature.gamesgalore.dao.entitydetails.UserDetails;
-import com.revature.gamesgalore.exceptions.ExceptionManager;
+import com.revature.gamesgalore.entitymappings.UserMappings;
+import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
 import com.revature.gamesgalore.repositories.UserRepository;
 import com.revature.gamesgalore.service.UserService;
 import com.revature.gamesgalore.util.DetailsUtil;
@@ -43,15 +43,15 @@ public class UserServiceImpl implements UserService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (userFirstName != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder
-							.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_FIRST_NAME)), userFirstName)));
+							.equal(root.get(DetailsUtil.toFieldName(UserMappings.USER_FIRST_NAME)), userFirstName)));
 				}
 				if (userLastName != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder
-							.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_LAST_NAME)), userLastName)));
+							.equal(root.get(DetailsUtil.toFieldName(UserMappings.USER_LAST_NAME)), userLastName)));
 				}
 				if (userEmail != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder
-							.equal(root.get(DetailsUtil.toFieldName(UserDetails.USER_EMAIL)), userEmail)));
+							.equal(root.get(DetailsUtil.toFieldName(UserMappings.USER_EMAIL)), userEmail)));
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			for (User user : users) {
 				if (!isValidUserCreate(user) || !(user.getUserEmail() != null && emailDoesNotExist(user.getUserEmail()))) {
-					throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+					throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
 				}
 				userRepository.save(user);
 			}
@@ -71,19 +71,19 @@ public class UserServiceImpl implements UserService {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
 	@Override
 	public User getUser(Long userId) {
 		try {
-			return userRepository.findById(userId).orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+			return userRepository.findById(userId).orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
@@ -91,10 +91,10 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(User user, Long userId) {
 		try {
 			User userRetreived = userRepository.findById(userId)
-					.orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+					.orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
 			logger.info("in2");
 			if (!isValidUserUpdate(user, userRetreived)) {
-				 throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+				 throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
 			}
 			logger.info("in3");
 			setOverrides(userRetreived, user);
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(Long userId) {
 		try {
 			if (!userRepository.findById(userId).isPresent()) {
-			 throw ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND).get();
+			 throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND).get();
 			}
 			logger.info(userId);
 			userRepository.deleteById(userId);
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 

@@ -12,11 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
-import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
+import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.RoleMappings;
 
-@Entity(name = RoleDetails.ENTITY_NAME)
-@Table(name = RoleDetails.TABLE_NAME)
+@Entity(name = RoleMappings.ENTITY_NAME)
+@Table(name = RoleMappings.TABLE_NAME)
 public class Role implements Serializable {
 
 	/**
@@ -26,13 +26,13 @@ public class Role implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = RoleDetails.ROLE_ID)
+	@Column(name = RoleMappings.ROLE_ID)
 	private Long roleId;
 
-	@Column(name = RoleDetails.ROLE_NAME, nullable = false)
+	@Column(name = RoleMappings.ROLE_NAME, nullable = false)
 	private String roleName;
 
-	@OneToMany(mappedBy = AccountDetails.ACCOUNT_ROLE_FIELD)
+	@OneToMany(mappedBy = AccountMappings.ACCOUNT_ROLE_FIELD)
 	private Collection<Account> roleAccounts;
 
 	public Role() {

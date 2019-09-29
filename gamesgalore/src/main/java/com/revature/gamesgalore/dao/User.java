@@ -11,11 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
-import com.revature.gamesgalore.dao.entitydetails.UserDetails;
+import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.UserMappings;
 
-@Entity(name = UserDetails.ENTITY_NAME)
-@Table(name = UserDetails.TABLE_NAME)
+@Entity(name = UserMappings.ENTITY_NAME)
+@Table(name = UserMappings.TABLE_NAME)
 public class User implements Serializable{
 
 	/**
@@ -25,16 +25,16 @@ public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= UserDetails.USER_ID)
+	@Column(name= UserMappings.USER_ID)
 	private Long userId;
-	@Column(name= UserDetails.USER_FIRST_NAME)
+	@Column(name= UserMappings.USER_FIRST_NAME)
 	private String userFirstName;
-	@Column(name= UserDetails.USER_LAST_NAME)
+	@Column(name= UserMappings.USER_LAST_NAME)
 	private String userLastName;
-	@Column( name= UserDetails.USER_EMAIL)
+	@Column( name= UserMappings.USER_EMAIL)
 	private String userEmail;
 	
-	@OneToOne(mappedBy = AccountDetails.ACCOUNT_USER_FIELD, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = AccountMappings.ACCOUNT_USER_FIELD, cascade = CascadeType.ALL)
 	private Account userAccount;
 
 	public User() {

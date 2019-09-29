@@ -16,15 +16,15 @@ import javax.persistence.Table;
 
 import org.springframework.beans.BeanUtils;
 
-import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
-import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
-import com.revature.gamesgalore.dao.entitydetails.UserDetails;
 import com.revature.gamesgalore.dto.AccountDTO;
 import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.dto.UserDTO;
+import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.RoleMappings;
+import com.revature.gamesgalore.entitymappings.UserMappings;
 
-@Entity(name = AccountDetails.ENTITY_NAME)
-@Table(name = AccountDetails.TABLE_NAME)
+@Entity(name = AccountMappings.ENTITY_NAME)
+@Table(name = AccountMappings.TABLE_NAME)
 public class Account implements Serializable {
 
 	/**
@@ -33,17 +33,26 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = AccountDetails.ACCOUNT_ID)
+	@Column(name = AccountMappings.ACCOUNT_ID)
 	private Long accountId;
-	@Column(name = AccountDetails.ACCOUNT_USERNAME)
+	@Column(name = AccountMappings.ACCOUNT_USERNAME)
 	private String accountUsername;
-	@Column(name = AccountDetails.ACCOUNT_PASSWORD)
+	@Column(name = AccountMappings.ACCOUNT_PASSWORD)
 	private String accountPassword;
+	@Column(name = AccountMappings.ENABLED)
+	private boolean enabled = true;
+	@Column(name = AccountMappings.ACCOUNT_NON_EXPIRED)
+	private boolean accountNonExpired = true;
+	@Column(name = AccountMappings.ACCOUNT_NON_LOCKED)
+	private boolean accountNonLocked = true;
+	@Column(name = AccountMappings.CREDENTIALS_NON_EXPIRED)
+	private boolean credentialsNonExpired = true;
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = AccountDetails.ACCOUNT_USER_ID, referencedColumnName = UserDetails.USER_ID, nullable = false)
+	@JoinColumn(name = AccountMappings.ACCOUNT_USER_ID, referencedColumnName = UserMappings.USER_ID, nullable = false)
 	private User accountUser;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = AccountDetails.ACCOUNT_ROLE_ID, referencedColumnName = RoleDetails.ROLE_ID, nullable = false)
+	@JoinColumn(name = AccountMappings.ACCOUNT_ROLE_ID, referencedColumnName = RoleMappings.ROLE_ID, nullable = false)
 	private Role accountRole;
 
 	public Account() {
@@ -103,6 +112,38 @@ public class Account implements Serializable {
 
 	public void setAccountRole(Role accountRole) {
 		this.accountRole = accountRole;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
 	public void copyPropertiesFrom(AccountDTO accountDTO) {

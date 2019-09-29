@@ -1,11 +1,11 @@
-package com.revature.gamesgalore.dao.entitydetails;
+package com.revature.gamesgalore.entitymappings;
 
 /**
  * This class holds the mappings for the User class, to its representation in
  * the database and User class information.
  *
  */
-public class UserDetails {
+public class UserMappings {
 	
 	public static final String TABLE_NAME = "users";
 	public static final String ENTITY_NAME = "user";
@@ -19,6 +19,6 @@ public class UserDetails {
 		return new String[] { USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_ACCOUNT_ID };
 	}
 
-	private UserDetails() {
+	private UserMappings() {
 	}
 }
