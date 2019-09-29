@@ -1,48 +1,33 @@
-package com.revature.gamesgalore.dao;
+package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import org.springframework.beans.BeanUtils;
 
-import com.revature.gamesgalore.entitymappings.AccountMappings;
-import com.revature.gamesgalore.entitymappings.GenreMappings;
+import com.revature.gamesgalore.dao.Account;
 
-@Entity(name = GenreMappings.ENTITY_NAME)
-@Table(name = GenreMappings.TABLE_NAME)
-public class Genre implements Serializable {
+public class GenreDTO implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = GenreMappings.GENRE_ID)
 	private Long genreId;
-	@Column(name = GenreMappings.GENRE_NAME)
 	private String genreName;
-	@ManyToMany(mappedBy = AccountMappings.GENRE_PREFERENCES_FIELD, fetch = FetchType.LAZY)
-	private List<Account> genreAccounts;
+	private List<AccountDTO> genreAccounts;
 
-	public Genre() {
+	public GenreDTO() {
 		super();
 	}
 
-	public Genre(Long genreId, String genreName) {
+	public GenreDTO(Long genreId, String genreName) {
 		super();
 		this.genreId = genreId;
 		this.genreName = genreName;
 	}
 
-	public Genre(Long genreId, String genreName, List<Account> genreAccounts) {
+	public GenreDTO(Long genreId, String genreName, List<AccountDTO> genreAccounts) {
 		super();
 		this.genreId = genreId;
 		this.genreName = genreName;
@@ -51,7 +36,8 @@ public class Genre implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Genre [genreId=" + genreId + ", genreName=" + genreName + ", genreAccounts=" + genreAccounts + "]";
+		return "GenreDTO [genreId=" + genreId + ", genreName=" + genreName + ", genreAccounts=" + genreAccounts
+				+ "]";
 	}
 
 	public Long getGenreId() {
@@ -70,6 +56,18 @@ public class Genre implements Serializable {
 		this.genreName = genreName;
 	}
 
+	public List<AccountDTO> getGenreAccounts() {
+		return genreAccounts;
+	}
+
+	public void setGenreAccounts(List<Account> genreAccounts) {
+		for (Account account : genreAccounts) {
+			AccountDTO accountDTO = new AccountDTO();
+			BeanUtils.copyProperties(account, accountDTO);
+			this.genreAccounts.add(accountDTO);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -86,7 +84,7 @@ public class Genre implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Genre other = (Genre) obj;
+		GenreDTO other = (GenreDTO) obj;
 		if (genreId == null) {
 			if (other.genreId != null)
 				return false;

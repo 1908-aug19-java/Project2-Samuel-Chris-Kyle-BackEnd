@@ -1,9 +1,12 @@
 package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import com.revature.gamesgalore.dao.Genre;
+import com.revature.gamesgalore.dao.Platform;
 import com.revature.gamesgalore.dao.Role;
 import com.revature.gamesgalore.dao.User;
 
@@ -19,6 +22,8 @@ public class AccountDTO implements Serializable {
 	private String confirmPassword;
 	private UserDTO accountUser;
 	private RoleDTO accountRole;
+	private List<GenreDTO> genrePreferences;
+	private List<PlatformDTO> platformPreferences;
 
 	public AccountDTO() {
 		super();
@@ -35,11 +40,26 @@ public class AccountDTO implements Serializable {
 		this.accountRole = accountRole;
 	}
 
+	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
+			UserDTO accountUser, RoleDTO accountRole, List<GenreDTO> genrePreferences,
+			List<PlatformDTO> platformPreferences) {
+		super();
+		this.accountId = accountId;
+		this.accountUsername = accountUsername;
+		this.accountPassword = accountPassword;
+		this.confirmPassword = confirmPassword;
+		this.accountUser = accountUser;
+		this.accountRole = accountRole;
+		this.genrePreferences = genrePreferences;
+		this.platformPreferences = platformPreferences;
+	}
+
 	@Override
 	public String toString() {
 		return "AccountDTO [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
-				+ ", accountRole=" + accountRole + "]";
+				+ ", accountRole=" + accountRole + ", genrePreferences=" + genrePreferences
+				+ ", platformPreferences=" + platformPreferences + "]";
 	}
 
 	public Long getAccountId() {
@@ -92,6 +112,30 @@ public class AccountDTO implements Serializable {
 		RoleDTO accountRoleDTO = new RoleDTO();
 		BeanUtils.copyProperties(accountRole, accountRoleDTO);
 		this.accountRole = accountRoleDTO;
+	}
+
+	public List<GenreDTO> getGenrePreferences() {
+		return genrePreferences;
+	}
+
+	public void setGenrePreferences(List<Genre> genrePreferences) {
+		for (Genre genre : genrePreferences) {
+			GenreDTO genreDTO = new GenreDTO();
+			BeanUtils.copyProperties(genre, genreDTO);
+			this.genrePreferences.add(genreDTO);
+		}
+	}
+
+	public List<PlatformDTO> getPlatformPreferences() {
+		return platformPreferences;
+	}
+
+	public void setPlatformPreferences(List<Platform> platformPreferences) {
+		for (Platform platform : platformPreferences) {
+			PlatformDTO platformDTO = new PlatformDTO();
+			BeanUtils.copyProperties(platform, platformDTO);
+			this.platformPreferences.add(platformDTO);
+		}
 	}
 
 	@Override

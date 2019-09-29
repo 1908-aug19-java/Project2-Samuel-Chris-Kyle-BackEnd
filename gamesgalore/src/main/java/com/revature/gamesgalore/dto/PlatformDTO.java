@@ -1,48 +1,32 @@
-package com.revature.gamesgalore.dao;
+package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import org.springframework.beans.BeanUtils;
 
-import com.revature.gamesgalore.entitymappings.AccountMappings;
-import com.revature.gamesgalore.entitymappings.PlatformMappings;
+import com.revature.gamesgalore.dao.Account;
 
-@Entity(name = PlatformMappings.ENTITY_NAME)
-@Table(name = PlatformMappings.TABLE_NAME)
-public class Platform implements Serializable {
-
+public class PlatformDTO implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = PlatformMappings.PLATFORM_ID)
 	private Long platformId;
-	@Column(name = PlatformMappings.PLATFORM_NAME)
 	private String platformName;
-	@ManyToMany(mappedBy = AccountMappings.PLATFORM_PREFERENCES_FIELD, fetch = FetchType.LAZY)
-	private List<Account> platformAccounts;
+	private List<AccountDTO> platformAccounts;
 
-	public Platform() {
+	public PlatformDTO() {
 		super();
 	}
 
-	public Platform(Long platformId, String platformName) {
+	public PlatformDTO(Long platformId, String platformName) {
 		super();
 		this.platformId = platformId;
 		this.platformName = platformName;
 	}
 
-	public Platform(Long platformId, String platformName, List<Account> platformAccounts) {
+	public PlatformDTO(Long platformId, String platformName, List<AccountDTO> platformAccounts) {
 		super();
 		this.platformId = platformId;
 		this.platformName = platformName;
@@ -51,7 +35,7 @@ public class Platform implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Platform [platformId=" + platformId + ", platformName=" + platformName + ", platformAccounts="
+		return "PlatformDTO [platformId=" + platformId + ", platformName=" + platformName + ", platformAccounts="
 				+ platformAccounts + "]";
 	}
 
@@ -71,12 +55,16 @@ public class Platform implements Serializable {
 		this.platformName = platformName;
 	}
 
-	public List<Account> getPlatformAccounts() {
+	public List<AccountDTO> getPlatformAccounts() {
 		return platformAccounts;
 	}
 
 	public void setPlatformAccounts(List<Account> platformAccounts) {
-		this.platformAccounts = platformAccounts;
+		for (Account account : platformAccounts) {
+			AccountDTO accountDTO = new AccountDTO();
+			BeanUtils.copyProperties(account, accountDTO);
+			this.platformAccounts.add(accountDTO);
+		}
 	}
 
 	@Override
@@ -84,6 +72,7 @@ public class Platform implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((platformId == null) ? 0 : platformId.hashCode());
+		result = prime * result + ((platformName == null) ? 0 : platformName.hashCode());
 		return result;
 	}
 
@@ -95,11 +84,16 @@ public class Platform implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Platform other = (Platform) obj;
+		PlatformDTO other = (PlatformDTO) obj;
 		if (platformId == null) {
 			if (other.platformId != null)
 				return false;
 		} else if (!platformId.equals(other.platformId))
+			return false;
+		if (platformName == null) {
+			if (other.platformName != null)
+				return false;
+		} else if (!platformName.equals(other.platformName))
 			return false;
 		return true;
 	}

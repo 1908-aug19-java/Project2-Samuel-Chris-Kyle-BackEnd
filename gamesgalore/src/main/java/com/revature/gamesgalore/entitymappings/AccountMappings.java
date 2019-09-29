@@ -23,6 +23,9 @@ public class AccountMappings {
 
 	public static final String ACCOUNT_ROLE_FIELD = "accountRole";
 	public static final String ACCOUNT_USER_FIELD = "accountUser";
+	public static final String GENRE_PREFERENCES_FIELD = "genrePreferences";
+	public static final String PLATFORM_PREFERENCES_FIELD = "platformPreferences";
+	
 
 	public static String[] getAccountColumns() {
 		return new String[] { ACCOUNT_ID, ACCOUNT_USERNAME, ACCOUNT_PASSWORD, ENABLED, ACCOUNT_NON_EXPIRED,

@@ -25,4 +25,3 @@ public class GamesgaloreApplication extends SpringBootServletInitializer{
 	}
 
 }
-//"Added genre, platform, and game DAO's and Mappiings, and set dependcies in account"

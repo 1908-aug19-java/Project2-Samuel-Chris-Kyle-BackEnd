@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import org.springframework.beans.BeanUtils;
 
 import com.revature.gamesgalore.dto.AccountDTO;
+import com.revature.gamesgalore.dto.GenreDTO;
+import com.revature.gamesgalore.dto.PlatformDTO;
 import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.dto.UserDTO;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
@@ -62,11 +64,11 @@ public class Account implements Serializable {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = AccountMappings.ACCOUNTS_GENRES, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = GenreMappings.GENRE_ID, referencedColumnName = GenreMappings.GENRE_ID))
-	private List<Genre> genrePreference;
+	private List<Genre> genrePreferences;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = AccountMappings.ACCOUNTS_GAMES, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = PlatformMappings.PLATFORM_ID, referencedColumnName = PlatformMappings.PLATFORM_ID))
-	private List<Platform> platformPreference;
+	private List<Platform> platformPreferences;
 
 	public Account() {
 		super();
@@ -82,15 +84,15 @@ public class Account implements Serializable {
 	}
 
 	public Account(Long accountId, String accountUsername, String accountPassword, User accountUser, Role accountRole,
-			List<Genre> genrePreference, List<Platform> platformPreference) {
+			List<Genre> genrePreference, List<Platform> platformPreferences) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
 		this.accountPassword = accountPassword;
 		this.accountUser = accountUser;
 		this.accountRole = accountRole;
-		this.genrePreference = genrePreference;
-		this.platformPreference = platformPreference;
+		this.genrePreferences = genrePreference;
+		this.platformPreferences = platformPreferences;
 	}
 
 	@Override
@@ -98,8 +100,8 @@ public class Account implements Serializable {
 		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", enabled=" + enabled + ", accountNonExpired=" + accountNonExpired
 				+ ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired
-				+ ", accountUser=" + accountUser + ", accountRole=" + accountRole + ", genrePreference="
-				+ genrePreference + ", platformPreference=" + platformPreference + "]";
+				+ ", accountUser=" + accountUser + ", accountRole=" + accountRole + ", genrePreferences="
+				+ genrePreferences + ", platformPreferences=" + platformPreferences + "]";
 	}
 
 	public Long getAccountId() {
@@ -174,20 +176,20 @@ public class Account implements Serializable {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
-	public List<Genre> getGenrePreference() {
-		return genrePreference;
+	public List<Genre> getGenrePreferences() {
+		return genrePreferences;
 	}
 
-	public void setGenrePreference(List<Genre> genrePreference) {
-		this.genrePreference = genrePreference;
+	public void setGenrePreferences(List<Genre> genrePreferences) {
+		this.genrePreferences = genrePreferences;
 	}
 
-	public List<Platform> getPlatformPreference() {
-		return platformPreference;
+	public List<Platform> getPlatformPreferences() {
+		return platformPreferences;
 	}
 
-	public void setPlatformPreference(List<Platform> platformPreference) {
-		this.platformPreference = platformPreference;
+	public void setPlatformPreferences(List<Platform> platformPreferences) {
+		this.platformPreferences = platformPreferences;
 	}
 
 	public void copyPropertiesFrom(AccountDTO accountDTO) {
@@ -208,6 +210,21 @@ public class Account implements Serializable {
 			BeanUtils.copyProperties(accountRoleDTO, accountRoleCopied);
 			this.setAccountRole(accountRoleCopied);
 		}
+
+		List<GenreDTO> genrePreferencesDTO = accountDTO.getGenrePreferences();
+		for (GenreDTO genreDTO : genrePreferencesDTO) {
+			Genre genre = new Genre();
+			BeanUtils.copyProperties(genreDTO, genre);
+			this.genrePreferences.add(genre);
+		}
+
+		List<PlatformDTO> platformPreferencesDTO = accountDTO.getPlatformPreferences();
+		for (PlatformDTO platformDTO : platformPreferencesDTO) {
+			Platform platform = new Platform();
+			BeanUtils.copyProperties(platformDTO, platform);
+			this.platformPreferences.add(platform);
+		}
+
 	}
 
 	@Override

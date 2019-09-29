@@ -1,7 +1,7 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +33,7 @@ public class Role implements Serializable {
 	private String roleName;
 
 	@OneToMany(mappedBy = AccountMappings.ACCOUNT_ROLE_FIELD)
-	private Collection<Account> roleAccounts;
+	private List<Account> roleAccounts;
 
 	public Role() {
 		super();
@@ -50,7 +50,7 @@ public class Role implements Serializable {
 		this.roleName = name;
 	}
 
-	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String roleName, Collection<Account> roleAccounts) {
+	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String roleName, List<Account> roleAccounts) {
 		super();
 		this.roleId = roleId;
 		this.roleName = roleName;
@@ -83,11 +83,11 @@ public class Role implements Serializable {
 		this.roleName = name;
 	}
 
-	public Collection<Account> getRoleAccounts() {
+	public List<Account> getRoleAccounts() {
 		return roleAccounts;
 	}
 
-	public void setRoleAccounts(Collection<Account> roleAccounts) {
+	public void setRoleAccounts(List<Account> roleAccounts) {
 		this.roleAccounts = roleAccounts;
 	}
 
