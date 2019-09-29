@@ -9,6 +9,7 @@ public class UserMappings {
 	
 	public static final String TABLE_NAME = "users";
 	public static final String ENTITY_NAME = "user";
+	
 	public static final String USER_ID = "user_id";
 	public static final String USER_FIRST_NAME = "user_first_name";
 	public static final String USER_LAST_NAME = "user_last_name";

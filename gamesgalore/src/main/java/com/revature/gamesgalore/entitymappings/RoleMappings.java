@@ -8,6 +8,7 @@ public class RoleMappings {
 
 	public static final String TABLE_NAME = "roles";
 	public static final String ENTITY_NAME = "role";
+	
 	public static final String ROLE_ID = "role_id";
 	public static final String ROLE_NAME = "role_name";
 		

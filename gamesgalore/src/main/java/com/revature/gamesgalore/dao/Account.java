@@ -1,6 +1,7 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,6 +23,8 @@ import com.revature.gamesgalore.dto.AccountDTO;
 import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.dto.UserDTO;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.GenreMappings;
+import com.revature.gamesgalore.entitymappings.PlatformMappings;
 import com.revature.gamesgalore.entitymappings.RoleMappings;
 import com.revature.gamesgalore.entitymappings.UserMappings;
 
@@ -55,6 +60,14 @@ public class Account implements Serializable {
 	@JoinColumn(name = AccountMappings.ACCOUNT_ROLE_ID, referencedColumnName = RoleMappings.ROLE_ID, nullable = false)
 	private Role accountRole;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = AccountMappings.ACCOUNTS_GENRES, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = GenreMappings.GENRE_ID, referencedColumnName = GenreMappings.GENRE_ID))
+	private List<Genre> genrePreference;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = AccountMappings.ACCOUNTS_GAMES, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = PlatformMappings.PLATFORM_ID, referencedColumnName = PlatformMappings.PLATFORM_ID))
+	private List<Platform> platformPreference;
+
 	public Account() {
 		super();
 	}
@@ -68,10 +81,25 @@ public class Account implements Serializable {
 		this.accountRole = accountRole;
 	}
 
+	public Account(Long accountId, String accountUsername, String accountPassword, User accountUser, Role accountRole,
+			List<Genre> genrePreference, List<Platform> platformPreference) {
+		super();
+		this.accountId = accountId;
+		this.accountUsername = accountUsername;
+		this.accountPassword = accountPassword;
+		this.accountUser = accountUser;
+		this.accountRole = accountRole;
+		this.genrePreference = genrePreference;
+		this.platformPreference = platformPreference;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
-				+ accountPassword + ", accountUser=" + accountUser + ", accountRole=" + accountRole + "]";
+				+ accountPassword + ", enabled=" + enabled + ", accountNonExpired=" + accountNonExpired
+				+ ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired
+				+ ", accountUser=" + accountUser + ", accountRole=" + accountRole + ", genrePreference="
+				+ genrePreference + ", platformPreference=" + platformPreference + "]";
 	}
 
 	public Long getAccountId() {
@@ -144,6 +172,22 @@ public class Account implements Serializable {
 
 	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
 		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+	public List<Genre> getGenrePreference() {
+		return genrePreference;
+	}
+
+	public void setGenrePreference(List<Genre> genrePreference) {
+		this.genrePreference = genrePreference;
+	}
+
+	public List<Platform> getPlatformPreference() {
+		return platformPreference;
+	}
+
+	public void setPlatformPreference(List<Platform> platformPreference) {
+		this.platformPreference = platformPreference;
 	}
 
 	public void copyPropertiesFrom(AccountDTO accountDTO) {
