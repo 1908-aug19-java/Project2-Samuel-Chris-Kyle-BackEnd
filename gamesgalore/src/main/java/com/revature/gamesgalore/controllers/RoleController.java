@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import com.revature.gamesgalore.dao.Role;
 import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.service.RoleService;
 
-
+@CrossOrigin
 @RestController
 public class RoleController {
 
