@@ -1,7 +1,8 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +23,6 @@ import org.springframework.beans.BeanUtils;
 import com.revature.gamesgalore.dto.AccountDTO;
 import com.revature.gamesgalore.dto.GenreDTO;
 import com.revature.gamesgalore.dto.PlatformDTO;
-import com.revature.gamesgalore.dto.RoleDTO;
 import com.revature.gamesgalore.dto.UserDTO;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
 import com.revature.gamesgalore.entitymappings.GenreMappings;
@@ -64,11 +64,11 @@ public class Account implements Serializable {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = AccountMappings.ACCOUNTS_GENRES, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = GenreMappings.GENRE_ID, referencedColumnName = GenreMappings.GENRE_ID))
-	private List<Genre> genrePreferences;
+	private Set<Genre> genrePreferences;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = AccountMappings.ACCOUNTS_GAMES, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = PlatformMappings.PLATFORM_ID, referencedColumnName = PlatformMappings.PLATFORM_ID))
-	private List<Platform> platformPreferences;
+	@JoinTable(name = AccountMappings.ACCOUNTS_PLATFORMS, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = PlatformMappings.PLATFORM_ID, referencedColumnName = PlatformMappings.PLATFORM_ID))
+	private Set<Platform> platformPreferences;
 
 	public Account() {
 		super();
@@ -84,7 +84,7 @@ public class Account implements Serializable {
 	}
 
 	public Account(Long accountId, String accountUsername, String accountPassword, User accountUser, Role accountRole,
-			List<Genre> genrePreference, List<Platform> platformPreferences) {
+			Set<Genre> genrePreference, Set<Platform> platformPreferences) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
@@ -176,19 +176,19 @@ public class Account implements Serializable {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
-	public List<Genre> getGenrePreferences() {
+	public Set<Genre> getGenrePreferences() {
 		return genrePreferences;
 	}
 
-	public void setGenrePreferences(List<Genre> genrePreferences) {
+	public void setGenrePreferences(Set<Genre> genrePreferences) {
 		this.genrePreferences = genrePreferences;
 	}
 
-	public List<Platform> getPlatformPreferences() {
+	public Set<Platform> getPlatformPreferences() {
 		return platformPreferences;
 	}
 
-	public void setPlatformPreferences(List<Platform> platformPreferences) {
+	public void setPlatformPreferences(Set<Platform> platformPreferences) {
 		this.platformPreferences = platformPreferences;
 	}
 
@@ -204,27 +204,32 @@ public class Account implements Serializable {
 			this.setAccountUser(accountUserCopied);
 		}
 
-		RoleDTO accountRoleDTO = accountDTO.getAccountRole();
-		if (accountRoleDTO != null) {
-			Role accountRoleCopied = new Role();
-			BeanUtils.copyProperties(accountRoleDTO, accountRoleCopied);
-			this.setAccountRole(accountRoleCopied);
-		}
-
-		List<GenreDTO> genrePreferencesDTO = accountDTO.getGenrePreferences();
+		Set<GenreDTO> genrePreferencesDTO = accountDTO.getGenrePreferences();
+		Set<Genre> genrePreferencesCopied = new HashSet<>();
 		for (GenreDTO genreDTO : genrePreferencesDTO) {
 			Genre genre = new Genre();
 			BeanUtils.copyProperties(genreDTO, genre);
-			this.genrePreferences.add(genre);
+			genrePreferencesCopied.add(genre);
 		}
+		this.setGenrePreferences(genrePreferencesCopied);
 
-		List<PlatformDTO> platformPreferencesDTO = accountDTO.getPlatformPreferences();
+		Set<PlatformDTO> platformPreferencesDTO = accountDTO.getPlatformPreferences();
+		Set<Platform> platformPreferencesCopied = new HashSet<>();
 		for (PlatformDTO platformDTO : platformPreferencesDTO) {
 			Platform platform = new Platform();
 			BeanUtils.copyProperties(platformDTO, platform);
-			this.platformPreferences.add(platform);
+			platformPreferencesCopied.add(platform);
 		}
+		this.setPlatformPreferences(platformPreferencesCopied);
 
+	}
+
+	public void setAccount(Account account) {
+		this.accountId = account.getAccountId();
+		this.accountUsername = account.getAccountUsername();
+		this.accountRole = account.getAccountRole();
+		this.genrePreferences = account.getGenrePreferences();
+		this.platformPreferences = account.getPlatformPreferences();
 	}
 
 	@Override

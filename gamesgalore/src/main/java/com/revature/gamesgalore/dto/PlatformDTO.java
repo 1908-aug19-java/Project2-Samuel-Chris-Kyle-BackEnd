@@ -3,10 +3,6 @@ package com.revature.gamesgalore.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
-import com.revature.gamesgalore.dao.Account;
-
 public class PlatformDTO implements Serializable {
 	/**
 	 * 
@@ -14,7 +10,6 @@ public class PlatformDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long platformId;
 	private String platformName;
-	private List<AccountDTO> platformAccounts;
 
 	public PlatformDTO() {
 		super();
@@ -30,13 +25,11 @@ public class PlatformDTO implements Serializable {
 		super();
 		this.platformId = platformId;
 		this.platformName = platformName;
-		this.platformAccounts = platformAccounts;
 	}
 
 	@Override
 	public String toString() {
-		return "PlatformDTO [platformId=" + platformId + ", platformName=" + platformName + ", platformAccounts="
-				+ platformAccounts + "]";
+		return "PlatformDTO [platformId=" + platformId + ", platformName=" + platformName + "]";
 	}
 
 	public Long getPlatformId() {
@@ -55,24 +48,11 @@ public class PlatformDTO implements Serializable {
 		this.platformName = platformName;
 	}
 
-	public List<AccountDTO> getPlatformAccounts() {
-		return platformAccounts;
-	}
-
-	public void setPlatformAccounts(List<Account> platformAccounts) {
-		for (Account account : platformAccounts) {
-			AccountDTO accountDTO = new AccountDTO();
-			BeanUtils.copyProperties(account, accountDTO);
-			this.platformAccounts.add(accountDTO);
-		}
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((platformId == null) ? 0 : platformId.hashCode());
-		result = prime * result + ((platformName == null) ? 0 : platformName.hashCode());
 		return result;
 	}
 
@@ -88,13 +68,7 @@ public class PlatformDTO implements Serializable {
 		if (platformId == null) {
 			if (other.platformId != null)
 				return false;
-		} else if (!platformId.equals(other.platformId))
-			return false;
-		if (platformName == null) {
-			if (other.platformName != null)
-				return false;
-		} else if (!platformName.equals(other.platformName))
-			return false;
+		} else if (!platformId.equals(other.platformId)){return false;}
 		return true;
 	}
 

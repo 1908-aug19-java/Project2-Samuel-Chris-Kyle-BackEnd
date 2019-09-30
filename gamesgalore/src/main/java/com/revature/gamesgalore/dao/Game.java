@@ -58,6 +58,15 @@ public class Game implements Serializable {
 		this.gameName = gameName;
 	}
 
+	public void setGame(Game game) {
+		if (game.gameId != null) {
+			this.gameId = game.gameId;
+		}
+		if (game.gameName != null) {
+			this.gameName = game.gameName;
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -25,9 +25,12 @@ Ex:
         "userLastName": "last name",
         "userEmail": "email"
     },
-    "accountRole": {
-        "roleName": "Role"
-    }
+    "genrePreferences": [{
+        "genreName": "Horror"
+    }],
+    "platformPreferences": [{
+        "platformName": "PS4"
+    }]
 }]
 ```
 notes: 
@@ -45,10 +48,7 @@ Ex:
 {
     "accountUsername": "username",
     "accountPassword": "password",
-    "confirmPassword": "confirmed password",
-    "accountRole": {
-        "roleName": "Role"
-    }
+    "confirmPassword": "confirmed password"
 }
 ```
 Or

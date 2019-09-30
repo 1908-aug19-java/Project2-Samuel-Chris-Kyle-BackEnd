@@ -3,10 +3,6 @@ package com.revature.gamesgalore.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
-import com.revature.gamesgalore.dao.Account;
-
 public class GenreDTO implements Serializable {
 
 	/**
@@ -15,7 +11,6 @@ public class GenreDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long genreId;
 	private String genreName;
-	private List<AccountDTO> genreAccounts;
 
 	public GenreDTO() {
 		super();
@@ -31,12 +26,11 @@ public class GenreDTO implements Serializable {
 		super();
 		this.genreId = genreId;
 		this.genreName = genreName;
-		this.genreAccounts = genreAccounts;
 	}
 
 	@Override
 	public String toString() {
-		return "GenreDTO [genreId=" + genreId + ", genreName=" + genreName + ", genreAccounts=" + genreAccounts
+		return "GenreDTO [genreId=" + genreId + ", genreName=" + genreName
 				+ "]";
 	}
 
@@ -54,18 +48,6 @@ public class GenreDTO implements Serializable {
 
 	public void setGenreName(String genreName) {
 		this.genreName = genreName;
-	}
-
-	public List<AccountDTO> getGenreAccounts() {
-		return genreAccounts;
-	}
-
-	public void setGenreAccounts(List<Account> genreAccounts) {
-		for (Account account : genreAccounts) {
-			AccountDTO accountDTO = new AccountDTO();
-			BeanUtils.copyProperties(account, accountDTO);
-			this.genreAccounts.add(accountDTO);
-		}
 	}
 
 	@Override

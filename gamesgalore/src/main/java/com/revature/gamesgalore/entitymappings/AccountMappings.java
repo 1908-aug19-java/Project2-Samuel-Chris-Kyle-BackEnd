@@ -9,6 +9,7 @@ public class AccountMappings {
 	public static final String TABLE_NAME = "accounts";
 	public static final String ENTITY_NAME = "account";
 	public static final String ACCOUNTS_GENRES = "accounts_genres";
+	public static final String ACCOUNTS_PLATFORMS = "accounts_platforms";
 	public static final String ACCOUNTS_GAMES = "accounts_games";
 	
 	public static final String ACCOUNT_ID = "account_id";

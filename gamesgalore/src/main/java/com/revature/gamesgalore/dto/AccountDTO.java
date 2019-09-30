@@ -1,13 +1,13 @@
 package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
 import com.revature.gamesgalore.dao.Genre;
 import com.revature.gamesgalore.dao.Platform;
-import com.revature.gamesgalore.dao.Role;
 import com.revature.gamesgalore.dao.User;
 
 public class AccountDTO implements Serializable {
@@ -21,9 +21,8 @@ public class AccountDTO implements Serializable {
 	private String accountPassword;
 	private String confirmPassword;
 	private UserDTO accountUser;
-	private RoleDTO accountRole;
-	private List<GenreDTO> genrePreferences;
-	private List<PlatformDTO> platformPreferences;
+	private Set<GenreDTO> genrePreferences = new HashSet<>();
+	private Set<PlatformDTO> platformPreferences = new HashSet<>();
 
 	public AccountDTO() {
 		super();
@@ -37,19 +36,17 @@ public class AccountDTO implements Serializable {
 		this.accountPassword = accountPassword;
 		this.confirmPassword = confirmPassword;
 		this.accountUser = accountUser;
-		this.accountRole = accountRole;
 	}
 
 	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
-			UserDTO accountUser, RoleDTO accountRole, List<GenreDTO> genrePreferences,
-			List<PlatformDTO> platformPreferences) {
+			UserDTO accountUser, RoleDTO accountRole, Set<GenreDTO> genrePreferences,
+			Set<PlatformDTO> platformPreferences) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
 		this.accountPassword = accountPassword;
 		this.confirmPassword = confirmPassword;
 		this.accountUser = accountUser;
-		this.accountRole = accountRole;
 		this.genrePreferences = genrePreferences;
 		this.platformPreferences = platformPreferences;
 	}
@@ -58,7 +55,7 @@ public class AccountDTO implements Serializable {
 	public String toString() {
 		return "AccountDTO [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
-				+ ", accountRole=" + accountRole + ", genrePreferences=" + genrePreferences
+				+ ", genrePreferences=" + genrePreferences
 				+ ", platformPreferences=" + platformPreferences + "]";
 	}
 
@@ -104,33 +101,27 @@ public class AccountDTO implements Serializable {
 		this.accountUser = accountUserDTO;
 	}
 
-	public RoleDTO getAccountRole() {
-		return accountRole;
-	}
-
-	public void setAccountRole(Role accountRole) {
-		RoleDTO accountRoleDTO = new RoleDTO();
-		BeanUtils.copyProperties(accountRole, accountRoleDTO);
-		this.accountRole = accountRoleDTO;
-	}
-
-	public List<GenreDTO> getGenrePreferences() {
+	public Set<GenreDTO> getGenrePreferences() {
 		return genrePreferences;
 	}
 
-	public void setGenrePreferences(List<Genre> genrePreferences) {
+	public void setGenrePreferences(Set<Genre> genrePreferences) {
 		for (Genre genre : genrePreferences) {
 			GenreDTO genreDTO = new GenreDTO();
 			BeanUtils.copyProperties(genre, genreDTO);
-			this.genrePreferences.add(genreDTO);
+			System.out.println(genre);
+			System.out.println(genreDTO);
+			this.
+			genrePreferences
+			.add(genreDTO);
 		}
 	}
 
-	public List<PlatformDTO> getPlatformPreferences() {
+	public Set<PlatformDTO> getPlatformPreferences() {
 		return platformPreferences;
 	}
 
-	public void setPlatformPreferences(List<Platform> platformPreferences) {
+	public void setPlatformPreferences(Set<Platform> platformPreferences) {
 		for (Platform platform : platformPreferences) {
 			PlatformDTO platformDTO = new PlatformDTO();
 			BeanUtils.copyProperties(platform, platformDTO);

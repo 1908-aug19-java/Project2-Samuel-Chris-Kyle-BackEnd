@@ -23,6 +23,14 @@ public class AccountDetails implements UserDetails {
 		this.account = account;
 	}
 
+	public Long getAccountId() {
+		return account.getAccountId();
+	}
+
+	public Long getAccountUserId() {
+		return account.getAccountUser().getUserId();
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class Role implements Serializable {
 	private String roleName;
 
 	@OneToMany(mappedBy = AccountMappings.ACCOUNT_ROLE_FIELD)
-	private List<Account> roleAccounts;
+	private List<Account> roleAccounts = new ArrayList<>();
 
 	public Role() {
 		super();

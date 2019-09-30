@@ -1,6 +1,7 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ public class Genre implements Serializable {
 	@Column(name = GenreMappings.GENRE_NAME)
 	private String genreName;
 	@ManyToMany(mappedBy = AccountMappings.GENRE_PREFERENCES_FIELD, fetch = FetchType.LAZY)
-	private List<Account> genreAccounts;
+	private List<Account> genreAccounts = new ArrayList<>();
 
 	public Genre() {
 		super();
@@ -51,7 +52,7 @@ public class Genre implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Genre [genreId=" + genreId + ", genreName=" + genreName + ", genreAccounts=" + genreAccounts + "]";
+		return "Genre [genreId=" + genreId + ", genreName=" + genreName + "]";
 	}
 
 	public Long getGenreId() {
@@ -68,6 +69,24 @@ public class Genre implements Serializable {
 
 	public void setGenreName(String genreName) {
 		this.genreName = genreName;
+	}
+
+	public List<Account> getGenreAccounts() {
+		return genreAccounts;
+	}
+
+	public void setGenreAccounts(List<Account> genreAccounts) {
+		this.genreAccounts = genreAccounts;
+	}
+
+	public void setGenre(Genre genre) {
+		if (genre.genreId != null) {
+			this.genreId = genre.genreId;
+		}
+		if (genre.getGenreName() != null) {
+			this.genreName = genre.genreName;
+		}
+
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ public class Platform implements Serializable {
 	@Column(name = PlatformMappings.PLATFORM_NAME)
 	private String platformName;
 	@ManyToMany(mappedBy = AccountMappings.PLATFORM_PREFERENCES_FIELD, fetch = FetchType.LAZY)
-	private List<Account> platformAccounts;
+	private List<Account> platformAccounts = new ArrayList<>();
 
 	public Platform() {
 		super();
@@ -77,6 +78,15 @@ public class Platform implements Serializable {
 
 	public void setPlatformAccounts(List<Account> platformAccounts) {
 		this.platformAccounts = platformAccounts;
+	}
+
+	public void setPlatform(Platform platform) {
+		if(platform.platformId != null) {
+			this.platformId = platform.platformId;
+		}
+		if(platform.platformName != null) {
+			this.platformName = platform.platformName;
+		}
 	}
 
 	@Override
