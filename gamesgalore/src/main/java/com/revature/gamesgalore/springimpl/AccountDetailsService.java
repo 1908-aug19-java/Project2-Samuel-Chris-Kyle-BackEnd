@@ -27,9 +27,10 @@ public class AccountDetailsService implements UserDetailsService {
 	public AccountDetails loadUserByUsername(String accountUsername) {
 		try {
 			String ip = request.getRemoteAddr();
-			Account account = accountRepository.findByAccountUsername(accountUsername).orElseThrow(() -> {
-				throw new UsernameNotFoundException(accountUsername);
-			});
+			Account account = accountRepository.findByAccountUsername(accountUsername)
+					.<UsernameNotFoundException>orElseThrow(() -> {
+						throw new UsernameNotFoundException(accountUsername);
+					});
 			Boolean blocked = loginAttemptService.isBlocked(ip);
 			setLocked(account, blocked);
 			accountDetails.setAccount(account);
