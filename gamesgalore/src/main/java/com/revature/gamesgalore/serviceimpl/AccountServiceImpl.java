@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,8 +12,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -21,14 +20,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.revature.gamesgalore.dao.Account;
+import com.revature.gamesgalore.dao.Genre;
+import com.revature.gamesgalore.dao.Platform;
 import com.revature.gamesgalore.dao.Role;
 import com.revature.gamesgalore.dao.User;
-import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
-import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
-import com.revature.gamesgalore.exceptions.ExceptionManager;
+import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.RoleMappings;
+import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
 import com.revature.gamesgalore.repositories.AccountRepository;
 import com.revature.gamesgalore.security.SecurityHandler;
 import com.revature.gamesgalore.service.AccountService;
+import com.revature.gamesgalore.service.GenreService;
+import com.revature.gamesgalore.service.PlatformService;
 import com.revature.gamesgalore.service.RoleService;
 import com.revature.gamesgalore.service.UserService;
 import com.revature.gamesgalore.util.DetailsUtil;
@@ -37,14 +40,16 @@ import com.revature.gamesgalore.util.DetailsUtil;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-	private static Logger logger = LogManager.getLogger();
-
 	@Autowired
 	AccountRepository accountRepository;
 	@Autowired
 	UserService userService;
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	GenreService genreService;
+	@Autowired
+	PlatformService platformService;
 
 	@Override
 	public List<Account> getAccountByParams(String accountUsername, String accountRoleName) {
@@ -54,14 +59,14 @@ public class AccountServiceImpl implements AccountService {
 			@Override
 			public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicates = new ArrayList<>();
-				Join<Account, Role> accountOnRole = root.join(AccountDetails.ACCOUNT_ROLE_FIELD);
+				Join<Account, Role> accountOnRole = root.join(AccountMappings.ACCOUNT_ROLE_FIELD);
 				if (accountUsername != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(
-							root.get(DetailsUtil.toFieldName(AccountDetails.ACCOUNT_USERNAME)), accountUsername)));
+							root.get(DetailsUtil.toFieldName(AccountMappings.ACCOUNT_USERNAME)), accountUsername)));
 				}
 				if (accountRoleName != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(
-							accountOnRole.get(DetailsUtil.toFieldName(RoleDetails.ROLE_NAME)), accountRoleName)));
+							accountOnRole.get(DetailsUtil.toFieldName(RoleMappings.ROLE_NAME)), accountRoleName)));
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
@@ -72,17 +77,23 @@ public class AccountServiceImpl implements AccountService {
 	public void addAccounts(List<Account> accounts) {
 		try {
 			for (Account account : accounts) {
+				Set<Genre> genres = account.getGenrePreferences();
+				for (Genre genre : genres) {
+					genre.setGenre(genreService.getGenresByParams(genre.getGenreName()).get(0));
+				}
+
+				Set<Platform> platforms = account.getPlatformPreferences();
+				for (Platform platform : platforms) {
+					platform.setPlatform(platformService.getPlatformsByParams(platform.getPlatformName()).get(0));
+				}
+
 				if (!isValidAccountCreate(account)) {
-					throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+					throw ResponseExceptionManager
+							.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
 				} else {
 					account.setAccountPassword(new SecurityHandler().hash(account.getAccountPassword()));
 				}
-				Role accountRole = account.getAccountRole();
-				if (accountRole == null) {
-					throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.BODY_INVALID).get();
-				}
-				verifyRole(account, accountRole);
-
+				account.setAccountRole(roleService.getRolesByParams("USER").get(0));
 				List<User> accountUsers = new ArrayList<>();
 				accountUsers.add(account.getAccountUser());
 				userService.addUsers(accountUsers);
@@ -92,58 +103,40 @@ public class AccountServiceImpl implements AccountService {
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
-			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
-		}
-	}
-
-	private void verifyRole(Account account, Role accountRole) {
-		Role roleRetreived = null;
-		if (accountRole.getRoleId() != null) {
-			roleRetreived = roleService.getRole(accountRole.getRoleId());
-		} else if (accountRole.getRoleName() != null) {
-			roleRetreived = (roleService.getRolesByParams(accountRole.getRoleName())).get(0);
-		} else {
-			throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.BODY_INVALID).get();
-		}
-		if (roleRetreived == null) {
-			throw ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND).get();
-		} else {
-			account.setAccountRole(roleRetreived);
+			throw ResponseExceptionManager
+					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
 	@Override
 	public void updateAccount(Account account, Long accountId) {
 		try {
-			logger.info("in");
-			Account accountRetreived = accountRepository.findById(accountId)
-					.orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
-			logger.info("in2");
+			Account accountRetreived = accountRepository.findById(accountId).orElseThrow(
+					ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
 			if (!isValidAccountUpdate(account, accountRetreived)) {
-				throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+				throw ResponseExceptionManager
+						.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
 			}
-			logger.info("in3");
 			setOverrides(accountRetreived, account);
 			accountRepository.save(accountRetreived);
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
-			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager
+					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
-
+	
 	@Override
 	public Account getAccount(Long accountId) {
 		try {
-			return accountRepository.findById(accountId)
-					.orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+			return accountRepository.findById(accountId).orElseThrow(
+					ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
-			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager
+					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
@@ -151,17 +144,17 @@ public class AccountServiceImpl implements AccountService {
 	public void deleteAccount(Long accountId) {
 		try {
 			if (!accountRepository.findById(accountId).isPresent()) {
-				throw ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND).get();
+				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND).get();
 			}
 			accountRepository.deleteById(accountId);
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
-			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager
+					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
-
+	
 	@Override
 	public boolean isValidAccountCreate(Account account) {
 		return usernameDoesNotExist(account.getAccountUsername()) && isValidUsername(account.getAccountUsername())
@@ -170,7 +163,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public boolean isValidAccountUpdate(Account account, Account accountRetreived) {
-		boolean valid = !accountRetreived.getAccountUsername().equals(account.getAccountUsername())
+		boolean valid = accountRetreived.getAccountUsername().equals(account.getAccountUsername())
 				|| usernameDoesNotExist(account.getAccountUsername());
 		if (account.getAccountUsername() != null) {
 			valid &= isValidUsername(account.getAccountUsername());
@@ -186,12 +179,10 @@ public class AccountServiceImpl implements AccountService {
 		try {
 			Account account = accountRepository.findByAccountUsername(accountUsername)
 					.orElseThrow(NoSuchElementException::new);
-			SecurityHandler securityHandler = new SecurityHandler();
-			if (!securityHandler.hashMatches(accountPassword, account.getAccountPassword())) {
+			if (!new SecurityHandler().hashMatches(accountPassword, account.getAccountPassword())) {
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error(e);
 			return false;
 		}
 		return true;
@@ -226,17 +217,19 @@ public class AccountServiceImpl implements AccountService {
 		if (account.getAccountPassword() != null) {
 			accountRetreived.setAccountPassword(account.getAccountPassword());
 		}
-		if (account.getAccountRole() != null) {
-			Role accountRole = account.getAccountRole();
-			if (accountRole.getRoleId() != null) {
-				Role roleRetreived = roleService.getRole(accountRole.getRoleId());
-				accountRetreived.setAccountRole(roleRetreived);
-			} else if (accountRole.getRoleName() != null) {
-				List<Role> rolesRetreived = roleService.getRolesByParams(accountRole.getRoleName());
-				if (!rolesRetreived.isEmpty()) {
-					accountRetreived.setAccountRole(rolesRetreived.get(0));
-				}
+		Set<Genre> genres = account.getGenrePreferences();
+		if(genres != null && !genres.isEmpty()) {
+			for(Genre genre: genres) {
+				genre.setGenre(genreService.getGenresByParams(genre.getGenreName()).get(0));
 			}
+			accountRetreived.setGenrePreferences(genres);
+		}
+		Set<Platform> platforms = account.getPlatformPreferences();
+		if(platforms != null && !platforms.isEmpty()) {
+			for(Platform platform: platforms) {
+				platform.setPlatform(platformService.getPlatformsByParams(platform.getPlatformName()).get(0));
+			}
+			accountRetreived.setPlatformPreferences(platforms);
 		}
 	}
 }
