@@ -1,7 +1,8 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.revature.gamesgalore.dao.entitydetails.AccountDetails;
-import com.revature.gamesgalore.dao.entitydetails.RoleDetails;
+import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.RoleMappings;
 
-@Entity(name = RoleDetails.ENTITY_NAME)
-@Table(name = RoleDetails.TABLE_NAME)
+@Entity(name = RoleMappings.ENTITY_NAME)
+@Table(name = RoleMappings.TABLE_NAME)
 public class Role implements Serializable {
 
 	/**
@@ -26,14 +27,14 @@ public class Role implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = RoleDetails.ROLE_ID)
+	@Column(name = RoleMappings.ROLE_ID)
 	private Long roleId;
 
-	@Column(name = RoleDetails.ROLE_NAME, nullable = false)
+	@Column(name = RoleMappings.ROLE_NAME, nullable = false)
 	private String roleName;
 
-	@OneToMany(mappedBy = AccountDetails.ACCOUNT_ROLE_FIELD)
-	private Collection<Account> roleAccounts;
+	@OneToMany(mappedBy = AccountMappings.ACCOUNT_ROLE_FIELD)
+	private List<Account> roleAccounts = new ArrayList<>();
 
 	public Role() {
 		super();
@@ -50,7 +51,7 @@ public class Role implements Serializable {
 		this.roleName = name;
 	}
 
-	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String roleName, Collection<Account> roleAccounts) {
+	public Role(Long roleId, @NotBlank(message = "Name is mandatory") String roleName, List<Account> roleAccounts) {
 		super();
 		this.roleId = roleId;
 		this.roleName = roleName;
@@ -83,11 +84,11 @@ public class Role implements Serializable {
 		this.roleName = name;
 	}
 
-	public Collection<Account> getRoleAccounts() {
+	public List<Account> getRoleAccounts() {
 		return roleAccounts;
 	}
 
-	public void setRoleAccounts(Collection<Account> roleAccounts) {
+	public void setRoleAccounts(List<Account> roleAccounts) {
 		this.roleAccounts = roleAccounts;
 	}
 

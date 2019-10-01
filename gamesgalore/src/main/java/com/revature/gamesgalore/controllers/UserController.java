@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import com.revature.gamesgalore.dao.User;
 import com.revature.gamesgalore.dto.UserDTO;
 import com.revature.gamesgalore.service.UserService;
 
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -41,6 +44,7 @@ public class UserController {
 	 *                      user email.
 	 * @return A collection of User POJO's.
 	 */
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value = "/users")
 	public Collection<UserDTO> getUsers(HttpServletResponse response, @RequestParam(required = false) String userFirstName,
 			@RequestParam(required = false) String userLastName, @RequestParam(required = false) String userEmail) {
@@ -62,6 +66,7 @@ public class UserController {
 	 *                 be passed in the url path.
 	 * @return A specific User POJO
 	 */
+	@PreAuthorize("hasAuthority('ADMIN') or #userId == authentication.principal.accountUserId")
 	@GetMapping(value = "/users/{id}")
 	public UserDTO getUser(HttpServletResponse response, @PathVariable("id") Long userId) {
 		response.setStatus(200);
@@ -78,6 +83,7 @@ public class UserController {
 	 * @param userId   The numeric id pertaining to a specific User object. It must
 	 *                 be passed in the url path.
 	 */
+	@PreAuthorize("hasAuthority('ADMIN') or #userId == authentication.principal.accountUserId")
 	@PutMapping(value = "/users/{id}")
 	public void putUser(HttpServletResponse response, @NotNull @RequestBody UserDTO userDTO, @PathVariable("id") Long userId) {
 		User user = new User();
@@ -92,6 +98,7 @@ public class UserController {
 	 * @param userId   The numeric id pertaining to a specific User object. It must
 	 *                 be passed in the url path.
 	 */
+	@PreAuthorize("hasAuthority('ADMIN') or #userId == authentication.principal.accountUserId")
 	@DeleteMapping(value = "/users/{id}")
 	public void deleteUser(HttpServletResponse response, @PathVariable("id") Long userId) {
 		response.setStatus(204);

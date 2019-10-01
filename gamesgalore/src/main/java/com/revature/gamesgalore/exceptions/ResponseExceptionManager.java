@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-public class ExceptionManager {
+public class ResponseExceptionManager {
 
 	/**
 	 * A String representing the message to show when the A HTTP response object has
@@ -28,7 +28,17 @@ public class ExceptionManager {
 	 * its status set to INTERNAL_SERVER_ERROR.
 	 */
 	public static final String UNEXPECTED_ERROR = "An unexpected server error occurred";
+	
+	/**
+	 * 
+	 */
+	public static final String UNAUTHORIZED = "Authentication failed.";
 
+	/**
+	 * @param status
+	 * @param message
+	 * @return
+	 */
 	public static Supplier<ResponseStatusException> getRSE(HttpStatus status, String message) {
 
 		switch (status) {
@@ -49,7 +59,7 @@ public class ExceptionManager {
 
 	}
 
-	private ExceptionManager() {
+	private ResponseExceptionManager() {
 	}
 
 }

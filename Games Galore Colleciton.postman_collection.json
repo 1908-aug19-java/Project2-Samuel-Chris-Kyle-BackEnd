@@ -15,6 +15,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -182,6 +192,16 @@
 				{
 					"name": "Get users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -203,10 +223,20 @@
 				{
 					"name": "Get user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/users/1",
+							"raw": "http://localhost:8080/gamesgalore/users/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -215,7 +245,7 @@
 							"path": [
 								"gamesgalore",
 								"users",
-								"1"
+								"4"
 							]
 						},
 						"description": "GET a specific user, test endpoint /users/{id}"
@@ -402,6 +432,16 @@
 				{
 					"name": "GET accounts",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk4NTE0MjEsImV4cCI6MTU2OTkzNzgyMX0.U1tMgYlMLty8w-kqyxDs68DXMJDZrBeH9uEF3rITsps",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -423,6 +463,16 @@
 				{
 					"name": "Get  account",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -444,6 +494,16 @@
 				{
 					"name": "Post account",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk4NTE0MjEsImV4cCI6MTU2OTkzNzgyMX0.U1tMgYlMLty8w-kqyxDs68DXMJDZrBeH9uEF3rITsps",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -455,7 +515,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[{\r\n        \"accountUsername\": \"newuser\",\r\n        \"accountPassword\": \"Pass123\",\r\n        \"confirmPassword\": null,\r\n        \"accountUser\": {\r\n            \"userFirstName\": \"new\",\r\n            \"userLastName\": \"user\",\r\n            \"userEmail\": \"newuser@outlook.com\"\r\n        },\r\n        \"accountRole\": {\r\n            \"roleName\": \"ADMIN\"\r\n        }\r\n}]",
+							"raw": "[{\r\n        \"accountUsername\": \"newuser\",\r\n        \"accountPassword\": \"Pass123\",\r\n        \"confirmPassword\": null,\r\n        \"accountUser\": {\r\n            \"userFirstName\": \"new\",\r\n            \"userLastName\": \"user\",\r\n            \"userEmail\": \"newuser@outlook.com\"\r\n        },\r\n        \"genrePreferences\": [{\r\n        \"genreName\": \"Horrorx\"\r\n\t    }],\r\n\t    \"platformPreferences\": [{\r\n\t        \"platformName\": \"PS4x\"\r\n\t    }]\r\n}]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -481,6 +541,16 @@
 				{
 					"name": "Update account",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -492,7 +562,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"accountUsername\": \"samueldorilas\",\r\n        \"accountPassword\": \"Pass123123\",\r\n        \"confirmPassword\": null,\r\n        \"accountRole\": {\r\n            \"roleId\": 2\r\n        }\r\n}",
+							"raw": "{\r\n    \"accountUsername\": \"samueldorilas2\",\r\n    \"accountPassword\": \"Pass123123\",\r\n    \"confirmPassword\": null,\r\n    \"accountRole\": {\r\n        \"roleId\": 2\r\n    },\r\n    \"genrePreferences\": [\r\n        {\r\n            \"genreId\": 2,\r\n            \"genreName\": \"Actionx\"\r\n        }\r\n    ],\r\n    \"platformPreferences\": [\r\n        {\r\n            \"platformId\": 2,\r\n            \"platformName\": \"XBOXx\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -518,6 +588,16 @@
 				{
 					"name": "Delete account",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -539,6 +619,16 @@
 				{
 					"name": "Get account by username",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -565,6 +655,16 @@
 				{
 					"name": "Get accounts by rolename",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -591,6 +691,16 @@
 				{
 					"name": "Get accounts by all",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -621,6 +731,645 @@
 			],
 			"description": "Test the /accounts endpoints",
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Games",
+			"item": [
+				{
+					"name": "Get games",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/games/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"games",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/games/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"games",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post games",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"gameName\": \"Kingdom Hearts\"\r\n    },\r\n    {\r\n        \"gameName\": \"Gears of war\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/games/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"games",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"gameName\": \"Kratos the God of War\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/games/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"games",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/games/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"games",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Genres",
+			"item": [
+				{
+					"name": "Get genres",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/genres/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"genres",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get genre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/genres/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"genres",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post genres",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"genreName\": \"Comedy\"\r\n    },\r\n    {\r\n        \"genreName\": \"Drama\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/genres/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"genres",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update genre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"genreName\": \"Sleepy\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/genres/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"genres",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete genre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/genres/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"genres",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Platforms",
+			"item": [
+				{
+					"name": "Get platforms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/platforms/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"platforms",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get platform",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/platforms/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"platforms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post platforms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"platformName\": \"Wiiu\"\r\n    },\r\n    {\r\n        \"platformName\": \"pc\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/platforms/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"platforms",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update platforms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"platformName\": \"PC\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/platforms/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"platforms",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete platforms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/platforms/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"platforms",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/gamesgalore/login?accountPassword=Pass123&accountUsername=kylereimer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gamesgalore",
+						"login"
+					],
+					"query": [
+						{
+							"key": "accountPassword",
+							"value": "Pass123"
+						},
+						{
+							"key": "accountUsername",
+							"value": "kylereimer"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/gamesgalore/login?accountPassword=Pass123&accountUsername=newuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gamesgalore",
+						"login"
+					],
+					"query": [
+						{
+							"key": "accountPassword",
+							"value": "Pass123"
+						},
+						{
+							"key": "accountUsername",
+							"value": "newuser"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

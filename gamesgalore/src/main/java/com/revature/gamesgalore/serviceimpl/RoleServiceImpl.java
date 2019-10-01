@@ -11,7 +11,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.revature.gamesgalore.dao.Role;
-import com.revature.gamesgalore.exceptions.ExceptionManager;
+import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
 import com.revature.gamesgalore.repositories.RoleRepository;
 import com.revature.gamesgalore.service.RoleService;
 
@@ -33,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
 			return roleRepository.findAll();
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
@@ -42,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
 		try {
 			for (Role r : roles) {
 				if (!validateRole(r)) {
-					throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+					throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
 				}
 				roleRepository.save(r);
 			}
@@ -50,36 +50,36 @@ public class RoleServiceImpl implements RoleService {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
 	@Override
 	public Role getRole(Long roleId) {
 		try {
-			return roleRepository.findById(roleId).orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+			return roleRepository.findById(roleId).orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 
 	@Override
 	public void updateRole(Role role, Long roleId) {
 		try {
-			Role roleRetreived = roleRepository.findById(roleId).orElseThrow(ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND));
+			Role roleRetreived = roleRepository.findById(roleId).orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
 			setOverrides(roleRetreived,role);
 			if (!validateRole(roleRetreived)) {
-				throw ExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ExceptionManager.VALIDATION_FAILED).get();
+				throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
 			}
 			roleRepository.save(roleRetreived);
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 	
@@ -87,14 +87,14 @@ public class RoleServiceImpl implements RoleService {
 	public void deleteRole(Long roleId) {
 		try {
 			if(!roleRepository.findById(roleId).isPresent()) {
-				throw ExceptionManager.getRSE(HttpStatus.NOT_FOUND, ExceptionManager.NOT_FOUND).get();
+				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND).get();
 			}
 			roleRepository.deleteById(roleId);
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
 			logger.error(e);
-			throw ExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionManager.UNEXPECTED_ERROR).get();
+			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
 	}
 	
