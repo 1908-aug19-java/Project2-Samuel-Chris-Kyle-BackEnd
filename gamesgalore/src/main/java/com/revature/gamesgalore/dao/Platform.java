@@ -81,10 +81,10 @@ public class Platform implements Serializable {
 	}
 
 	public void setPlatform(Platform platform) {
-		if(platform.platformId != null) {
+		if (platform.platformId != null) {
 			this.platformId = platform.platformId;
 		}
-		if(platform.platformName != null) {
+		if (platform.platformName != null) {
 			this.platformName = platform.platformName;
 		}
 	}
@@ -109,8 +109,9 @@ public class Platform implements Serializable {
 		if (platformId == null) {
 			if (other.platformId != null)
 				return false;
-		} else if (!platformId.equals(other.platformId))
+		} else if (!platformId.equals(other.platformId)) {
 			return false;
+		}
 		return true;
 	}
 

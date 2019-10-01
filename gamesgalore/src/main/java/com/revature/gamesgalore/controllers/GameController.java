@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.gamesgalore.dao.Game;
 import com.revature.gamesgalore.dto.GameDTO;
 import com.revature.gamesgalore.service.GameService;
-import com.revature.gamesgalore.springimpl.AccountDetails;
 @CrossOrigin
 @RestController
 public class GameController {
@@ -62,9 +60,6 @@ public class GameController {
 	@PreAuthorize("hasAuthority('ADMiN')")
 	@PostMapping(value = "/games")
 	public void createGames(HttpServletResponse response, @NotNull @RequestBody List<GameDTO> gameDTOs) {
-		System.out.println(
-				((AccountDetails)(SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getAuthorities()
-);
 		List<Game> games = new ArrayList<>();
 		for (GameDTO gameDTO : gameDTOs) {
 			Game game = new Game();

@@ -109,8 +109,9 @@ public class Genre implements Serializable {
 		if (genreId == null) {
 			if (other.genreId != null)
 				return false;
-		} else if (!genreId.equals(other.genreId))
+		} else if (!genreId.equals(other.genreId)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -97,7 +97,6 @@ public class PlatformController {
 		Platform platform = new Platform();
 		BeanUtils.copyProperties(platformDTO, platform);
 		response.setStatus(200);
-		System.out.println(platform);
 		platformService.updatePlatform(platform, platformId);
 	}
 

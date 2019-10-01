@@ -31,6 +31,5 @@ build/
 .vscode/
 
 ### Custom files to ignore
-src/main/resources/hibernate.cfg.xml
 *.log
-src/main/resources/data.sql
+*.sql

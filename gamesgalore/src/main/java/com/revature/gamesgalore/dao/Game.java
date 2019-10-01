@@ -87,8 +87,9 @@ public class Game implements Serializable {
 		if (gameId == null) {
 			if (other.gameId != null)
 				return false;
-		} else if (!gameId.equals(other.gameId))
+		} else if (!gameId.equals(other.gameId)) {
 			return false;
+		}
 		return true;
 	}
 

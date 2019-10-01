@@ -1,7 +1,6 @@
 package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class PlatformDTO implements Serializable {
 	/**
@@ -16,12 +15,6 @@ public class PlatformDTO implements Serializable {
 	}
 
 	public PlatformDTO(Long platformId, String platformName) {
-		super();
-		this.platformId = platformId;
-		this.platformName = platformName;
-	}
-
-	public PlatformDTO(Long platformId, String platformName, List<AccountDTO> platformAccounts) {
 		super();
 		this.platformId = platformId;
 		this.platformName = platformName;

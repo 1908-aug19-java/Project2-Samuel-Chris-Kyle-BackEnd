@@ -1,7 +1,6 @@
 package com.revature.gamesgalore.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class GenreDTO implements Serializable {
 
@@ -22,16 +21,9 @@ public class GenreDTO implements Serializable {
 		this.genreName = genreName;
 	}
 
-	public GenreDTO(Long genreId, String genreName, List<AccountDTO> genreAccounts) {
-		super();
-		this.genreId = genreId;
-		this.genreName = genreName;
-	}
-
 	@Override
 	public String toString() {
-		return "GenreDTO [genreId=" + genreId + ", genreName=" + genreName
-				+ "]";
+		return "GenreDTO [genreId=" + genreId + ", genreName=" + genreName + "]";
 	}
 
 	public Long getGenreId() {
@@ -70,8 +62,9 @@ public class GenreDTO implements Serializable {
 		if (genreId == null) {
 			if (other.genreId != null)
 				return false;
-		} else if (!genreId.equals(other.genreId))
+		} else if (!genreId.equals(other.genreId)) {
 			return false;
+		}
 		return true;
 	}
 

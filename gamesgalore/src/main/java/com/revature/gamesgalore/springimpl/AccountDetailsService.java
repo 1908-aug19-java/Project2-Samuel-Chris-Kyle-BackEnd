@@ -25,17 +25,15 @@ public class AccountDetailsService implements UserDetailsService {
 
 	@Override
 	public AccountDetails loadUserByUsername(String accountUsername) {
-		try {
-			String ip = request.getRemoteAddr();
-			Account account = accountRepository.findByAccountUsername(accountUsername)
-					.<UsernameNotFoundException>orElseThrow(() -> {
-						throw new UsernameNotFoundException(accountUsername);
-					});
-			Boolean blocked = loginAttemptService.isBlocked(ip);
-			setLocked(account, blocked);
-			accountDetails.setAccount(account);
-		} catch (Exception e) {
-		}
+		String ip = request.getRemoteAddr();
+		Account account = accountRepository.findByAccountUsername(accountUsername)
+				.<UsernameNotFoundException>orElseThrow(() -> {
+					throw new UsernameNotFoundException(accountUsername);
+				});
+		Boolean blocked = loginAttemptService.isBlocked(ip);
+		setLocked(account, blocked);
+		accountDetails.setAccount(account);
+
 		return accountDetails;
 	}
 

@@ -29,7 +29,7 @@ public class AccountDTO implements Serializable {
 	}
 
 	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
-			UserDTO accountUser, RoleDTO accountRole) {
+			UserDTO accountUser) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
@@ -39,8 +39,7 @@ public class AccountDTO implements Serializable {
 	}
 
 	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
-			UserDTO accountUser, RoleDTO accountRole, Set<GenreDTO> genrePreferences,
-			Set<PlatformDTO> platformPreferences) {
+			UserDTO accountUser, Set<GenreDTO> genrePreferences, Set<PlatformDTO> platformPreferences) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
@@ -55,8 +54,7 @@ public class AccountDTO implements Serializable {
 	public String toString() {
 		return "AccountDTO [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
-				+ ", genrePreferences=" + genrePreferences
-				+ ", platformPreferences=" + platformPreferences + "]";
+				+ ", genrePreferences=" + genrePreferences + ", platformPreferences=" + platformPreferences + "]";
 	}
 
 	public Long getAccountId() {
@@ -109,11 +107,7 @@ public class AccountDTO implements Serializable {
 		for (Genre genre : genrePreferences) {
 			GenreDTO genreDTO = new GenreDTO();
 			BeanUtils.copyProperties(genre, genreDTO);
-			System.out.println(genre);
-			System.out.println(genreDTO);
-			this.
-			genrePreferences
-			.add(genreDTO);
+			this.genrePreferences.add(genreDTO);
 		}
 	}
 
