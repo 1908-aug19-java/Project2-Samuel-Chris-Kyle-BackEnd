@@ -2,6 +2,7 @@
 
 # API info
 _**Swagger has been integrated. You can use Swagger for a cleaner outlook on the API. host:Port/gamesgalore/swagger-ui.html#/**_
+
 _**You cannot modify the id(primary key) of any objects directly through the api. This can only be done through the database.**_
 
 All POST requests that require a body take an **array** of the specified object. This makes it so you can post multiple objects at once
@@ -10,7 +11,7 @@ All POST requests that require a body take an **array** of the specified object.
 To login you must make a POST request and pass your accountUsername and accountPassword as parameters. If the request is successful, then you will receieve a JWT in the __*Authorization*__ header. When making any authorized requests to the API endpoints, you must provide the this token in the __*Authorization*__ header preceeded by the word Bearer since represents the Bearer authentication scheme. 
 
 Ex:
-host:Port/gamesgalore/login?accountPassword=password&accountUsername=username
+* host:Port/gamesgalore/login?accountPassword=password&accountUsername=username
 
 ### Header to be sent to authroize requests
 Authorization: Bearer randomtokenpreviouslyreceieved
@@ -80,9 +81,9 @@ You can pass two optional params to get accounts
 accountUsername and/or accountRoleName
 
 Ex:
- host:Port/gamesgalore/accounts?accountUsername=kylereimer
- host:Port/gamesgalore/accounts?accountRoleName=ADMIN
- host:Port/gamesgalore/accounts?accountUsername=kylereimer&accountRoleName=ADMIN
+* host:Port/gamesgalore/accounts?accountUsername=kylereimer
+* host:Port/gamesgalore/accounts?accountRoleName=ADMIN
+* host:Port/gamesgalore/accounts?accountUsername=kylereimer&accountRoleName=ADMIN
 
 ### Note: There is no POST method for a USER. You can create a user when you create an account.
 # Update User
@@ -101,10 +102,10 @@ You can pass three optional params to get users
 userFirstName, userLastName and/or userEmail
 
 Ex:
-host:Port/gamesgalore/users?userFirstName=Christopher
-host:Port/gamesgalore/users?userLastName=Reimer
-host:Port/gamesgalore/users?userEmail=christophercoleman@outlook.com
-host:Port/gamesgalore/users?userFirstName=Samuel&userLastName=Dorilas&userEmail=samueldorilas@outlook.com
+* host:Port/gamesgalore/users?userFirstName=Christopher
+* host:Port/gamesgalore/users?userLastName=Reimer
+* host:Port/gamesgalore/users?userEmail=christophercoleman@outlook.com
+* host:Port/gamesgalore/users?userFirstName=Samuel&userLastName=Dorilas&userEmail=samueldorilas@outlook.com
 
 # Basic PUT and POST
 /roles
@@ -144,10 +145,10 @@ host:Port/gamesgalore/users?userFirstName=Samuel&userLastName=Dorilas&userEmail=
 You can pass one optional parameter to get roles, platforms, genres, and games
 
 Ex:
-host:Port/gamesgalore/roles?roleName=ADMIN
-host:Port/gamesgalore/platforms?platformName=XBOX
-host:Port/gamesgalore/genres?genreName=Horror
-host:Port/gamesgalore/games?gameName=For Honor
+* host:Port/gamesgalore/roles?roleName=ADMIN
+* host:Port/gamesgalore/platforms?platformName=XBOX
+* host:Port/gamesgalore/genres?genreName=Horror
+* host:Port/gamesgalore/games?gameName=For Honor
 
 # Available endpoints
 
