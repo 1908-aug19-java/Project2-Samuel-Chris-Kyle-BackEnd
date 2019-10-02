@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.Account;
 import com.revature.gamesgalore.dto.AccountDTO;
-import com.revature.gamesgalore.service.AccountService;
+import com.revature.gamesgalore.service.MasterService;
 @CrossOrigin
 @RestController
 public class AccountController {
@@ -31,7 +31,7 @@ public class AccountController {
 	 * creation is handled by Spring's container.
 	 */
 	@Autowired
-	AccountService accountService;
+	MasterService<Account> accountService;
 
 	/**
 	 * 
@@ -47,7 +47,7 @@ public class AccountController {
 	public List<AccountDTO> getAccounts(HttpServletResponse response, @RequestParam(required = false) String accountUsername,
 			@RequestParam(required = false) String accountRoleName) {
 		response.setStatus(200);
-		List<Account> accounts = accountService.getAccountByParams(accountUsername, accountRoleName);
+		List<Account> accounts = accountService.getByParams(accountUsername, accountRoleName);
 		List<AccountDTO> accountsDTO =  new ArrayList<>();
 		for(Account account: accounts) {
 			AccountDTO accountDTO = new AccountDTO();
@@ -73,7 +73,7 @@ public class AccountController {
 			accounts.add(account);
 		}
 		response.setStatus(201);
-		accountService.addAccounts(accounts);
+		accountService.add(accounts);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class AccountController {
 	@GetMapping(value = "/accounts/{id}")
 	public AccountDTO getAccount(HttpServletResponse response, @PathVariable("id") Long accountId) {
 		response.setStatus(200);
-		Account account =  accountService.getAccount(accountId);
+		Account account =  accountService.get(accountId);
 		AccountDTO accountDTO = new AccountDTO();
 		BeanUtils.copyProperties(account, accountDTO);
 		accountDTO.setAccountPassword(null);
@@ -107,7 +107,7 @@ public class AccountController {
 		Account account = new Account();
 		account.copyPropertiesFrom(accountDTO);
 		response.setStatus(200);
-		accountService.updateAccount(account, accountId);
+		accountService.update(account, accountId);
 	}
 
 	/**
@@ -120,6 +120,6 @@ public class AccountController {
 	@DeleteMapping(value = "/accounts/{id}")
 	public void deleteAccount(HttpServletResponse response, @PathVariable("id") Long accountId) {
 		response.setStatus(204);
-		accountService.deleteAccount(accountId);
+		accountService.delete(accountId);
 	}
 }

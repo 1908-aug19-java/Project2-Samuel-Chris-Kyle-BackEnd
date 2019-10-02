@@ -10,32 +10,29 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.revature.gamesgalore.dao.User;
 import com.revature.gamesgalore.entitymappings.UserMappings;
-import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
 import com.revature.gamesgalore.repositories.UserRepository;
-import com.revature.gamesgalore.service.UserService;
+import com.revature.gamesgalore.service.AbstractMasterService;
 import com.revature.gamesgalore.util.DetailsUtil;
-import org.springframework.http.HttpStatus;
 
 @Transactional
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractMasterService<User, UserRepository>  {
 
-	private static Logger logger = LogManager.getLogger();
 	@Autowired
 	UserRepository userRepository;
 
 	@Override
-	public List<User> getUsersByParams(String userFirstName, String userLastName, String userEmail) {
-		return userRepository.findAll(new Specification<User>() {
+	public Specification<User> getSpecification(String... args) {
+		String userFirstName = args[0];
+		String userLastName = args[1];
+		String userEmail = args[2];
+		return new Specification<User>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -55,76 +52,16 @@ public class UserServiceImpl implements UserService {
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
-		});
+		};
 	}
 
 	@Override
-	public void addUsers(List<User> users) {
-		try {
-			for (User user : users) {
-				if (!isValidUserCreate(user) || !(user.getUserEmail() != null && emailDoesNotExist(user.getUserEmail()))) {
-					throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
-				}
-				userRepository.save(user);
-			}
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
+	public void setCreatedDependencies(User user) {
+		isValidCreate(user);
 	}
-
+	
 	@Override
-	public User getUser(Long userId) {
-		try {
-			return userRepository.findById(userId).orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
-	}
-
-	@Override
-	public void updateUser(User user, Long userId) {
-		try {
-			User userRetreived = userRepository.findById(userId)
-					.orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
-			logger.info("in2");
-			if (!isValidUserUpdate(user, userRetreived)) {
-				 throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
-			}
-			logger.info("in3");
-			setOverrides(userRetreived, user);
-			userRepository.save(userRetreived);
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
-	}
-
-	@Override
-	public void deleteUser(Long userId) {
-		try {
-			if (!userRepository.findById(userId).isPresent()) {
-			 throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND).get();
-			}
-			logger.info(userId);
-			userRepository.deleteById(userId);
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
-	}
-
-	@Override
-	public boolean isValidUserCreate(User user) {
+	public boolean isValidCreate(User user) {
 		boolean valid = (user.getUserFirstName() != null && isValidName(user.getUserFirstName()));
 		valid &= (user.getUserLastName() != null && isValidName(user.getUserLastName()));
 		valid &= (user.getUserEmail() != null && isValidEmail(user.getUserEmail()));
@@ -133,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isValidUserUpdate(User user, User userRetreived) {
+	public boolean isValidUpdate(User user, User userRetreived) {
 		boolean valid = true;
 		if(user.getUserFirstName() != null) {
 			valid &= isValidName(user.getUserFirstName());
@@ -163,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void setOverrides(User userRetreived, User user) {
+	public void overrideUpdatedFields(User userRetreived, User user) {
 		if (user.getUserFirstName() != null) {
 			userRetreived.setUserFirstName(user.getUserFirstName());
 		}

@@ -16,6 +16,6 @@ public class ExceptionLoggerPointCut {
 
 	@AfterThrowing(pointcut = "within(com.revature.gamesgalore..*)", throwing = "ex")
 	public void logError(JoinPoint jp, Exception ex) {
-		logger.error(jp.getSignature() + " threw an exception: " + ex);
+		logger.error("Method " + jp.getSignature() + " threw an exception: " + ex + ". Originating from class " + jp.getTarget().getClass());
 	}
 }

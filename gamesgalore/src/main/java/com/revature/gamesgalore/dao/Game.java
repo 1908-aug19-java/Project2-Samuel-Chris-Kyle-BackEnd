@@ -1,19 +1,24 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.revature.gamesgalore.entitymappings.GameMappings;
+import com.revature.gamesgalore.entitymappings.WishlistMappings;
 
 @Entity(name = GameMappings.ENTITY_NAME)
 @Table(name = GameMappings.TABLE_NAME)
-public class Game implements Serializable {
+public class Game  implements Serializable {
 
 	/**
 	 * 
@@ -26,6 +31,8 @@ public class Game implements Serializable {
 	private Long gameId;
 	@Column(name = GameMappings.GAME_NAME)
 	private String gameName;
+	@ManyToMany(mappedBy = WishlistMappings.GAMES_FIELD, fetch = FetchType.LAZY)
+	private Set<Wishlist> wishlists = new HashSet<>();
 
 	public Game() {
 		super();
@@ -37,9 +44,16 @@ public class Game implements Serializable {
 		this.gameName = gameName;
 	}
 
+	public Game(Long gameId, String gameName, Set<Wishlist> wishlists) {
+		super();
+		this.gameId = gameId;
+		this.gameName = gameName;
+		this.wishlists = wishlists;
+	}
+
 	@Override
 	public String toString() {
-		return "Game [gameId=" + gameId + ", gameName=" + gameName + "]";
+		return "Game [gameId=" + gameId + ", gameName=" + gameName + ", wishlists=" + wishlists + "]";
 	}
 
 	public Long getGameId() {
@@ -52,6 +66,14 @@ public class Game implements Serializable {
 
 	public String getGameName() {
 		return gameName;
+	}
+
+	public Set<Wishlist> getWishlists() {
+		return wishlists;
+	}
+
+	public void setWishlists(Set<Wishlist> wishlists) {
+		this.wishlists = wishlists;
 	}
 
 	public void setGameName(String gameName) {
