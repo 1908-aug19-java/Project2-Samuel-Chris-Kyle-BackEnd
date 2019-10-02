@@ -25,13 +25,6 @@ public class PlatformServiceImpl extends AbstractMasterService<Platform, Platfor
 
 	@Autowired
 	PlatformRepository platformRepository;
-	
-	@Override
-	public void overrideUpdatedFields(Platform platformRetreived, Platform platform) {
-		if (platform.getPlatformName() != null) {
-			platformRetreived.setPlatformName(platform.getPlatformName());
-		}
-	}
 
 	@Override
 	public Specification<Platform> getSpecification(String... args) {
@@ -52,18 +45,27 @@ public class PlatformServiceImpl extends AbstractMasterService<Platform, Platfor
 	}
 
 	@Override
-	public void setCreatedDependencies(Platform platform) {
-		isValidCreate(platform);
+	public void overrideUpdatedFields(Platform platformRetreived, Platform platform) {
+		if (platform.getPlatformName() != null) {
+			platformRetreived.setPlatformName(platform.getPlatformName());
+		}
+	}
+
+	@Override
+	public void manageCreatedDependencies(Platform platform) {
+		// Platform has no control over dependencies so this method will not be
+		// implemented.
 	}
 
 	@Override
 	public boolean isValidCreate(Platform platform) {
-		return true;
+		return isValidName(platform.getPlatformName());
 	}
 
 	@Override
 	public boolean isValidUpdate(Platform platform, Platform platformRetreived) {
-		return true;
+		return platformRetreived.getPlatformName().equals(platform.getPlatformName())
+				|| isValidName(platform.getPlatformName());
 	}
 
 }

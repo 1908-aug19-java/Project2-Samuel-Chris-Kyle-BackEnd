@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,11 +25,13 @@ import com.revature.gamesgalore.dto.AccountDTO;
 import com.revature.gamesgalore.dto.GenreDTO;
 import com.revature.gamesgalore.dto.PlatformDTO;
 import com.revature.gamesgalore.dto.UserDTO;
+import com.revature.gamesgalore.dto.WishlistDTO;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
 import com.revature.gamesgalore.entitymappings.GenreMappings;
 import com.revature.gamesgalore.entitymappings.PlatformMappings;
 import com.revature.gamesgalore.entitymappings.RoleMappings;
 import com.revature.gamesgalore.entitymappings.UserMappings;
+import com.revature.gamesgalore.entitymappings.WishlistMappings;
 
 @Entity(name = AccountMappings.ENTITY_NAME)
 @Table(name = AccountMappings.TABLE_NAME)
@@ -54,6 +57,8 @@ public class Account implements Serializable {
 	private boolean accountNonLocked = true;
 	@Column(name = AccountMappings.CREDENTIALS_NON_EXPIRED)
 	private boolean credentialsNonExpired = true;
+	@Column(name = AccountMappings.ACCOUNT_IMAGEURL)
+	private String accountImageUrl;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = AccountMappings.ACCOUNT_USER_ID, referencedColumnName = UserMappings.USER_ID, nullable = false)
@@ -69,6 +74,9 @@ public class Account implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = AccountMappings.ACCOUNTS_PLATFORMS, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = PlatformMappings.PLATFORM_ID, referencedColumnName = PlatformMappings.PLATFORM_ID))
 	private Set<Platform> platformPreferences;
+	
+	@OneToMany(mappedBy = WishlistMappings.WISHLIST_ACCOUNT_FIELD)
+	private Set<Wishlist> accountWishlist = new HashSet<>();
 
 	public Account() {
 		super();
@@ -192,6 +200,22 @@ public class Account implements Serializable {
 		this.platformPreferences = platformPreferences;
 	}
 
+	public String getAccountImageUrl() {
+		return accountImageUrl;
+	}
+
+	public void setAccountImageUrl(String accountImageUrl) {
+		this.accountImageUrl = accountImageUrl;
+	}
+
+	public Set<Wishlist> getAccountWishlist() {
+		return accountWishlist;
+	}
+
+	public void setAccountWishlist(Set<Wishlist> accountWishlist) {
+		this.accountWishlist = accountWishlist;
+	}
+
 	public void copyPropertiesFrom(AccountDTO accountDTO) {
 		this.setAccountId(accountDTO.getAccountId());
 		this.setAccountUsername(accountDTO.getAccountUsername());
@@ -204,6 +228,15 @@ public class Account implements Serializable {
 			this.setAccountUser(accountUserCopied);
 		}
 
+		Set<WishlistDTO> wishlistDTOs = accountDTO.getAccountWishlist();
+		Set<Wishlist> wishlistsCopied = new HashSet<>();
+		for (WishlistDTO wishlistDTO : wishlistDTOs) {
+			Wishlist wishlist = new Wishlist();
+			BeanUtils.copyProperties(wishlistDTO, wishlist);
+			wishlistsCopied.add(wishlist);
+		}
+		this.setAccountWishlist(wishlistsCopied);
+		
 		Set<GenreDTO> genrePreferencesDTO = accountDTO.getGenrePreferences();
 		Set<Genre> genrePreferencesCopied = new HashSet<>();
 		for (GenreDTO genreDTO : genrePreferencesDTO) {

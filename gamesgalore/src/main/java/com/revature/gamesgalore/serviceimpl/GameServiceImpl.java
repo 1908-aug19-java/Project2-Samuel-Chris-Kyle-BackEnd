@@ -27,13 +27,6 @@ public class GameServiceImpl extends AbstractMasterService<Game, GameRepository>
 	GameRepository gameRepository;
 
 	@Override
-	public void overrideUpdatedFields(Game gameRetreived, Game game) {
-		if (game.getGameName() != null) {
-			gameRetreived.setGameName(game.getGameName());
-		}
-	}
-
-	@Override
 	public Specification<Game> getSpecification(String... args) {
 		String gameName = args[0];
 		return new Specification<Game>() {
@@ -52,18 +45,25 @@ public class GameServiceImpl extends AbstractMasterService<Game, GameRepository>
 	}
 
 	@Override
-	public void setCreatedDependencies(Game game) {
-		isValidCreate(game);
+	public void overrideUpdatedFields(Game gameRetreived, Game game) {
+		if (game.getGameName() != null) {
+			gameRetreived.setGameName(game.getGameName());
+		}
+	}
+
+	@Override
+	public void manageCreatedDependencies(Game game) {
+		// Game has no control over dependencies so this method will not be implemented.
 	}
 
 	@Override
 	public boolean isValidCreate(Game game) {
-		return true;
+		return isValidName(game.getGameName());
 	}
 
 	@Override
-	public boolean isValidUpdate(Game dao, Game daoRetreived) {
-		return true;
+	public boolean isValidUpdate(Game game, Game gameRetreived) {
+		return gameRetreived.getGameName().equals(game.getGameName()) || isValidName(game.getGameName());
 	}
 
 }

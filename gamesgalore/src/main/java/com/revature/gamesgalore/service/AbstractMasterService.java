@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
 
+@Service
 public abstract class AbstractMasterService<D, R extends JpaSpecificationExecutor<D> & CrudRepository<D, Long>> implements MasterService<D> {
-// CrudRepository<DAO, ID>, JpaSpecificationExecutor<DAO>
+
 	@Autowired
 	R masterRepository;
 	
@@ -28,7 +30,7 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 					throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED)
 							.get();
 				} 
-				setCreatedDependencies(dao);
+				manageCreatedDependencies(dao);
 				masterRepository.save(dao);
 			}
 		} catch (ResponseStatusException rse) {
@@ -85,5 +87,10 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 			throw ResponseExceptionManager
 					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
 		}
+	}
+	
+	@Override
+	public boolean isValidName(String name) {
+		return name != null && name.matches("[A-Za-z-']{2,20}");
 	}
 }

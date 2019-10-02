@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +56,6 @@ public class GameController {
 	 * @param gameDTOs A array of objects containing a POJO representation of Game
 	 *                 objects.
 	 */
-	@PreAuthorize("hasAuthority('ADMiN')")
 	@PostMapping(value = "/games")
 	public void createGames(HttpServletResponse response, @NotNull @RequestBody List<GameDTO> gameDTOs) {
 		List<Game> games = new ArrayList<>();

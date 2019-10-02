@@ -51,8 +51,7 @@ public class AccountController {
 		List<AccountDTO> accountsDTO =  new ArrayList<>();
 		for(Account account: accounts) {
 			AccountDTO accountDTO = new AccountDTO();
-			BeanUtils.copyProperties(account, accountDTO);
-			accountDTO.setAccountPassword(null);
+			BeanUtils.copyProperties(account, accountDTO, "accountPassword");
 			accountsDTO.add(accountDTO);
 		}
 		return accountsDTO;
@@ -89,8 +88,7 @@ public class AccountController {
 		response.setStatus(200);
 		Account account =  accountService.get(accountId);
 		AccountDTO accountDTO = new AccountDTO();
-		BeanUtils.copyProperties(account, accountDTO);
-		accountDTO.setAccountPassword(null);
+		BeanUtils.copyProperties(account, accountDTO, "accountPassword");
 		return accountDTO;
 	}
 

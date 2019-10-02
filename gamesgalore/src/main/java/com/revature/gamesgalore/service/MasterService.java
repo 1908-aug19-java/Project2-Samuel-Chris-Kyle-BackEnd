@@ -56,7 +56,7 @@ public interface MasterService<D> {
 	/**
 	 * @param dao A DAO object that will have its dependencies managed upon creation
 	 */
-	void setCreatedDependencies(D dao);
+	void manageCreatedDependencies(D dao);
 	
 	/**
 	 * @param dao A DAO object to be validated upon creation
@@ -70,4 +70,10 @@ public interface MasterService<D> {
 	 * @return condition denoting if validations passed
 	 */
 	boolean isValidUpdate(D dao, D daoRetreived);
+	
+	/**
+	 * @param name Any String to check against a regular expression for validity
+	 * @return boolean that denotes whether parameter passed matched regular expression
+	 */
+	boolean isValidName(String name);
 }

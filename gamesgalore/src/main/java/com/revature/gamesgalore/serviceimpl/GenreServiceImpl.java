@@ -27,13 +27,6 @@ public class GenreServiceImpl extends AbstractMasterService<Genre, GenreReposito
 	GenreRepository genreRepository;
 
 	@Override
-	public void overrideUpdatedFields(Genre genreRetreived, Genre genre) {
-		if (genre.getGenreName() != null) {
-			genreRetreived.setGenreName(genre.getGenreName());
-		}
-	}
-
-	@Override
 	public Specification<Genre> getSpecification(String... args) {
 		String genreName = args[0];
 		return new Specification<Genre>() {
@@ -52,18 +45,26 @@ public class GenreServiceImpl extends AbstractMasterService<Genre, GenreReposito
 	}
 
 	@Override
-	public void setCreatedDependencies(Genre genre) {
-		isValidCreate(genre);
+	public void overrideUpdatedFields(Genre genreRetreived, Genre genre) {
+		if (genre.getGenreName() != null) {
+			genreRetreived.setGenreName(genre.getGenreName());
+		}
+	}
+
+	@Override
+	public void manageCreatedDependencies(Genre genre) {
+		// Genre has no control over dependencies so this method will not be
+		// implemented.
 	}
 
 	@Override
 	public boolean isValidCreate(Genre genre) {
-		return true;
+		return isValidName(genre.getGenreName());
 	}
 
 	@Override
 	public boolean isValidUpdate(Genre genre, Genre genreRetreived) {
-		return true;
+		return genreRetreived.getGenreName().equals(genre.getGenreName()) || isValidName(genre.getGenreName());
 	}
 
 }

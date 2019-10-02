@@ -71,15 +71,6 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 	}
 
 	@Override
-	public void setCreatedDependencies(Account account) {
-		setAccountLists(account);
-		account.setAccountRole(roleService.getByParams("USER").get(0));
-		List<User> accountUsers = new ArrayList<>();
-		accountUsers.add(account.getAccountUser());
-		userService.add(accountUsers);
-	}
-
-	@Override
 	public void overrideUpdatedFields(Account accountRetreived, Account account) {
 		if (account.getAccountUsername() != null) {
 			accountRetreived.setAccountUsername(account.getAccountUsername());
@@ -88,7 +79,7 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 			accountRetreived.setAccountPassword(account.getAccountPassword());
 		}
 
-		setAccountLists(account);
+		setDependencies(account);
 
 		Set<Genre> genres = account.getGenrePreferences();
 		if (genres != null && !genres.isEmpty()) {
@@ -100,28 +91,13 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		}
 	}
 
-	private void setAccountLists(Account account) {
-		Set<Genre> genres = account.getGenrePreferences();
-		for (Genre genre : genres) {
-			List<Genre> retrievedGenres = genreService.getByParams(genre.getGenreName());
-			if (!retrievedGenres.isEmpty()) {
-				genre.setGenre(retrievedGenres.get(0));
-			} else {
-				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, "The genre dependency does not exist")
-						.get();
-			}
-		}
-
-		Set<Platform> platforms = account.getPlatformPreferences();
-		for (Platform platform : platforms) {
-			List<Platform> retrievedPlatforms = platformService.getByParams(platform.getPlatformName());
-			if (!retrievedPlatforms.isEmpty()) {
-				platform.setPlatform(retrievedPlatforms.get(0));
-			} else {
-				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, "The platform dependency does not exist")
-						.get();
-			}
-		}
+	@Override
+	public void manageCreatedDependencies(Account account) {
+		setDependencies(account);
+		account.setAccountRole(roleService.getByParams("USER").get(0));
+		List<User> accountUsers = new ArrayList<>();
+		accountUsers.add(account.getAccountUser());
+		userService.add(accountUsers);
 	}
 
 	@Override
@@ -148,18 +124,29 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		return valid;
 	}
 
-//	private boolean areValidCredentials(String accountUsername, String accountPassword) {
-//		try {
-//			Account account = accountRepository.findByAccountUsername(accountUsername)
-//					.orElseThrow(NoSuchElementException::new);
-//			if (!new SecurityHandler().hashMatches(accountPassword, account.getAccountPassword())) {
-//				return false;
-//			}
-//		} catch (Exception e) {
-//			return false;
-//		}
-//		return true;
-//	}
+	private void setDependencies(Account account) {
+		Set<Genre> genres = account.getGenrePreferences();
+		for (Genre genre : genres) {
+			List<Genre> retrievedGenres = genreService.getByParams(genre.getGenreName());
+			if (!retrievedGenres.isEmpty()) {
+				genre.setGenre(retrievedGenres.get(0));
+			} else {
+				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, "The genre dependency does not exist")
+						.get();
+			}
+		}
+
+		Set<Platform> platforms = account.getPlatformPreferences();
+		for (Platform platform : platforms) {
+			List<Platform> retrievedPlatforms = platformService.getByParams(platform.getPlatformName());
+			if (!retrievedPlatforms.isEmpty()) {
+				platform.setPlatform(retrievedPlatforms.get(0));
+			} else {
+				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, "The platform dependency does not exist")
+						.get();
+			}
+		}
+	}
 
 	private boolean isValidUsername(String username) {
 		String regex = "^[a-z0-9_-]{3,20}$";
@@ -175,9 +162,5 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		String regex = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])\\w{6,}";
 		return password.matches(regex);
 	}
-
-//	private boolean isSamePassword(String password, String confirmPassword) {
-//		return password.equals(confirmPassword);
-//	}
 
 }

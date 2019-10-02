@@ -1,4 +1,5 @@
 package com.revature.gamesgalore.serviceimpl;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +22,9 @@ import com.revature.gamesgalore.util.DetailsUtil;
 @Transactional
 @Service
 public class RoleServiceImpl extends AbstractMasterService<Role, RoleRepository> {
-	
+
 	@Autowired
 	RoleRepository roleRepository;
-	
-	@Override
-	public void overrideUpdatedFields(Role roleRetreived, Role role) {
-		if(role.getRoleName() != null) {roleRetreived.setRoleName(role.getRoleName());}
-	}
 
 	@Override
 	public Specification<Role> getSpecification(String... args) {
@@ -49,18 +45,25 @@ public class RoleServiceImpl extends AbstractMasterService<Role, RoleRepository>
 	}
 
 	@Override
-	public void setCreatedDependencies(Role role) {
-		//Empty
+	public void overrideUpdatedFields(Role roleRetreived, Role role) {
+		if (role.getRoleName() != null) {
+			roleRetreived.setRoleName(role.getRoleName());
+		}
+	}
+
+	@Override
+	public void manageCreatedDependencies(Role role) {
+		// Role has no control over dependencies so this method will not be implemented.
 	}
 
 	@Override
 	public boolean isValidCreate(Role role) {
-		return role.getRoleName() != null && !role.getRoleName().trim().isEmpty();
+		return isValidName(role.getRoleName());
 	}
 
 	@Override
 	public boolean isValidUpdate(Role role, Role roleRetreived) {
-		return role.getRoleName() != null && !role.getRoleName().trim().isEmpty();
+		return roleRetreived.getRoleName().equals(role.getRoleName()) || isValidName(role.getRoleName());
 	}
 
 }

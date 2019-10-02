@@ -3,11 +3,15 @@ package com.revature.gamesgalore.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.BeanUtils;
+
+import com.revature.gamesgalore.dao.Game;
+
 public class WishlistDTO {
 
 	private Long wishlistId;
 	private String wishlistName;
-	private Set<GameDTO> games = new HashSet<>();
+	private Set<GameDTO> wishlistGames = new HashSet<>();
 
 	public WishlistDTO() {
 		super();
@@ -21,7 +25,8 @@ public class WishlistDTO {
 
 	@Override
 	public String toString() {
-		return "WishlistDTO [wishlistId=" + wishlistId + ", wishlistName=" + wishlistName + ", games=" + games + "]";
+		return "WishlistDTO [wishlistId=" + wishlistId + ", wishlistName=" + wishlistName + ", wishlistGames=" + wishlistGames
+				+  "]";
 	}
 
 	public Long getWishlistId() {
@@ -40,21 +45,35 @@ public class WishlistDTO {
 		this.wishlistName = wishlistName;
 	}
 
-	public Set<GameDTO> getGames() {
-		return games;
+	public Set<GameDTO> getWishlistGames() {
+		return wishlistGames;
 	}
 
-	public void setGames(Set<GameDTO> games) {
-		this.games = games;
+	public void setWishlistGames(Set<Game> games) {
+		for (Game game : games) {
+			GameDTO gameDTO = new GameDTO();
+			BeanUtils.copyProperties(game, gameDTO);
+			this.wishlistGames.add(gameDTO);
+		}
 	}
 
+//	public AccountDTO getWishlistAccount() {
+//		return wishlistAccount;
+//	}
+//
+//	public void setWishlistAccount(Account wishlistAccount) {
+//		if (wishlistAccount != null) {
+//			AccountDTO wishlistAccountDTO = new AccountDTO();
+//			BeanUtils.copyProperties(wishlistAccount, wishlistAccountDTO);
+//			this.wishlistAccount = wishlistAccountDTO;
+//		}
+//	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((games == null) ? 0 : games.hashCode());
-		result = prime * result + ((wishlistId == null) ? 0 : wishlistId.hashCode());
-		result = prime * result + ((wishlistName == null) ? 0 : wishlistName.hashCode());
+		result = prime * result + ((wishlistGames == null) ? 0 : wishlistGames.hashCode());
 		return result;
 	}
 
@@ -67,21 +86,13 @@ public class WishlistDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		WishlistDTO other = (WishlistDTO) obj;
-		if (games == null) {
-			if (other.games != null)
+		if (wishlistGames == null) {
+			if (other.wishlistGames != null) {
 				return false;
-		} else if (!games.equals(other.games))
+			}
+		} else if (!wishlistGames.equals(other.wishlistGames)) {
 			return false;
-		if (wishlistId == null) {
-			if (other.wishlistId != null)
-				return false;
-		} else if (!wishlistId.equals(other.wishlistId))
-			return false;
-		if (wishlistName == null) {
-			if (other.wishlistName != null)
-				return false;
-		} else if (!wishlistName.equals(other.wishlistName))
-			return false;
+		}
 		return true;
 	}
 

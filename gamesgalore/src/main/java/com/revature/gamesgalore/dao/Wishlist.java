@@ -13,14 +13,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revature.gamesgalore.dto.GameDTO;
+import com.revature.gamesgalore.dto.WishlistDTO;
+import com.revature.gamesgalore.entitymappings.AccountMappings;
 import com.revature.gamesgalore.entitymappings.GameMappings;
 import com.revature.gamesgalore.entitymappings.WishlistMappings;
 
 @Entity(name = WishlistMappings.ENTITY_NAME)
 @Table(name = WishlistMappings.TABLE_NAME)
-public class Wishlist implements Serializable{
+public class Wishlist implements Serializable {
 
 	/**
 	 * 
@@ -33,9 +40,14 @@ public class Wishlist implements Serializable{
 	@Column(name = WishlistMappings.WISHLIST_NAME)
 	private String wishlistName;
 
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = WishlistMappings.WISHLIST_ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID, nullable = false)
+	private Account wishlistAccount;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = WishlistMappings.WISHLISTS_GAMES, joinColumns = @JoinColumn(name = WishlistMappings.WISHLIST_ID, referencedColumnName = WishlistMappings.WISHLIST_ID), inverseJoinColumns = @JoinColumn(name = GameMappings.GAME_ID, referencedColumnName = GameMappings.GAME_ID))
-	private Set<Game> games = new HashSet<>();
+	private Set<Game> wishlistGames = new HashSet<>();
 
 	public Wishlist() {
 		super();
@@ -49,7 +61,8 @@ public class Wishlist implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Wishlist [wishlistId=" + wishlistId + ", wishlistName=" + wishlistName + ", games=" + games + "]";
+		return "Wishlist [wishlistId=" + wishlistId + ", wishlistName=" + wishlistName + ", wishlistGames="
+				+ (wishlistGames != null ? wishlistGames : "Empty") + "]";
 	}
 
 	public Long getWishlistId() {
@@ -68,21 +81,49 @@ public class Wishlist implements Serializable{
 		this.wishlistName = wishlistName;
 	}
 
-	public Set<Game> getGames() {
-		return games;
+	public Account getWishlistAccount() {
+		return wishlistAccount;
 	}
 
-	public void setGames(Set<Game> games) {
-		this.games = games;
+	public void setWishlistAccount(Account wishlistAccount) {
+		this.wishlistAccount = wishlistAccount;
+	}
+
+	public Set<Game> getWishlistGames() {
+		return wishlistGames;
+	}
+
+	public void setWishlistGames(Set<Game> wishlistGames) {
+		this.wishlistGames = wishlistGames;
+	}
+
+	public void copyPropertiesFrom(WishlistDTO wishlistDTO) {
+		this.setWishlistId(wishlistDTO.getWishlistId());
+		this.setWishlistName(wishlistDTO.getWishlistName());
+
+//		AccountDTO accountDTO = wishlistDTO.getWishlistAccount();
+//		if (accountDTO != null) {
+//			Account accountCopied = new Account();
+//			BeanUtils.copyProperties(accountDTO, accountCopied);
+//			this.setWishlistAccount(accountCopied);
+//		}
+
+		Set<GameDTO> gameDTOs = wishlistDTO.getWishlistGames();
+		Set<Game> gamesCopied = new HashSet<>();
+		for (GameDTO gameDTO : gameDTOs) {
+			Game game = new Game();
+			BeanUtils.copyProperties(gameDTO, game);
+			gamesCopied.add(game);
+		}
+		this.setWishlistGames(gamesCopied);
+
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((games == null) ? 0 : games.hashCode());
 		result = prime * result + ((wishlistId == null) ? 0 : wishlistId.hashCode());
-		result = prime * result + ((wishlistName == null) ? 0 : wishlistName.hashCode());
 		return result;
 	}
 
@@ -95,22 +136,11 @@ public class Wishlist implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Wishlist other = (Wishlist) obj;
-		if (games == null) {
-			if (other.games != null)
-				return false;
-		} else if (!games.equals(other.games))
-			return false;
 		if (wishlistId == null) {
-			if (other.wishlistId != null)
-				return false;
-		} else if (!wishlistId.equals(other.wishlistId)) {
-			return false;
-		}
-		if (wishlistName == null) {
-			if (other.wishlistName != null) {
+			if (other.wishlistId != null) {
 				return false;
 			}
-		} else if (!wishlistName.equals(other.wishlistName)) {
+		} else if (!wishlistId.equals(other.wishlistId)) {
 			return false;
 		}
 		return true;

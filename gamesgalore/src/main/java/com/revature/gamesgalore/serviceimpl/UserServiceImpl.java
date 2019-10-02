@@ -22,7 +22,7 @@ import com.revature.gamesgalore.util.DetailsUtil;
 
 @Transactional
 @Service
-public class UserServiceImpl extends AbstractMasterService<User, UserRepository>  {
+public class UserServiceImpl extends AbstractMasterService<User, UserRepository> {
 
 	@Autowired
 	UserRepository userRepository;
@@ -56,50 +56,6 @@ public class UserServiceImpl extends AbstractMasterService<User, UserRepository>
 	}
 
 	@Override
-	public void setCreatedDependencies(User user) {
-		isValidCreate(user);
-	}
-	
-	@Override
-	public boolean isValidCreate(User user) {
-		boolean valid = (user.getUserFirstName() != null && isValidName(user.getUserFirstName()));
-		valid &= (user.getUserLastName() != null && isValidName(user.getUserLastName()));
-		valid &= (user.getUserEmail() != null && isValidEmail(user.getUserEmail()));
-		valid &= emailDoesNotExist(user.getUserEmail());
-		return valid;
-	}
-
-	@Override
-	public boolean isValidUpdate(User user, User userRetreived) {
-		boolean valid = true;
-		if(user.getUserFirstName() != null) {
-			valid &= isValidName(user.getUserFirstName());
-		}
-		if(user.getUserLastName() != null) {
-			valid &= isValidName(user.getUserLastName());
-		}
-		if(user.getUserEmail() != null) {
-			valid &= !user.getUserEmail().equals(userRetreived.getUserEmail()) ? emailDoesNotExist(user.getUserEmail()):Boolean.TRUE;
-			valid &=  isValidEmail(user.getUserEmail());
-		}
-		return valid;
-	}
-
-	private boolean isValidName(String name) {
-		return name.matches("[A-Za-z-']{2,20}");
-	}
-
-	private boolean isValidEmail(String email) {
-		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-		return email.matches(regex);
-	}
-
-	private boolean emailDoesNotExist(String email) {
-		Optional<User> user = userRepository.findByUserEmail(email);
-		return !user.isPresent();
-	}
-
-	@Override
 	public void overrideUpdatedFields(User userRetreived, User user) {
 		if (user.getUserFirstName() != null) {
 			userRetreived.setUserFirstName(user.getUserFirstName());
@@ -113,5 +69,46 @@ public class UserServiceImpl extends AbstractMasterService<User, UserRepository>
 		if (user.getUserAccount() != null) {
 			userRetreived.setUserAccount(user.getUserAccount());
 		}
+	}
+
+	@Override
+	public void manageCreatedDependencies(User user) {
+		isValidCreate(user);
+	}
+
+	@Override
+	public boolean isValidCreate(User user) {
+		boolean valid = (user.getUserFirstName() != null && isValidName(user.getUserFirstName()));
+		valid &= (user.getUserLastName() != null && isValidName(user.getUserLastName()));
+		valid &= (user.getUserEmail() != null && isValidEmail(user.getUserEmail()));
+		valid &= emailDoesNotExist(user.getUserEmail());
+		return valid;
+	}
+
+	@Override
+	public boolean isValidUpdate(User user, User userRetreived) {
+		boolean valid = true;
+		if (user.getUserFirstName() != null) {
+			valid &= isValidName(user.getUserFirstName());
+		}
+		if (user.getUserLastName() != null) {
+			valid &= isValidName(user.getUserLastName());
+		}
+		if (user.getUserEmail() != null) {
+			valid &= !user.getUserEmail().equals(userRetreived.getUserEmail()) ? emailDoesNotExist(user.getUserEmail())
+					: Boolean.TRUE;
+			valid &= isValidEmail(user.getUserEmail());
+		}
+		return valid;
+	}
+
+	private boolean isValidEmail(String email) {
+		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+		return email.matches(regex);
+	}
+
+	private boolean emailDoesNotExist(String email) {
+		Optional<User> user = userRepository.findByUserEmail(email);
+		return !user.isPresent();
 	}
 }
