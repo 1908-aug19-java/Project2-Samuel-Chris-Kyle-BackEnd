@@ -57,11 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers(WHITELIST).permitAll()
 				.antMatchers(HttpMethod.GET, "/games/**", "/platforms/**", "/genres/**").permitAll()
-				.antMatchers("/roles/**", "/games/**", "/platforms/**", "/genres/**", "/keys/**").hasAnyAuthority("ADMIN")
+				.antMatchers("/roles/**", "/games/**", "/platforms/**", "/genres/**").hasAnyAuthority("ADMIN")
 				.anyRequest().authenticated().and().apply(new JwtConfigurer(securityHandler));
 	}
 
 	private static final String[] WHITELIST = {
+		"/keys/**",
 			"/accounts/**", 
 			"/users/**",
 			"/wishlists/**",
