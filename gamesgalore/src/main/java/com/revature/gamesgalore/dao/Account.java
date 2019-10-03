@@ -25,7 +25,6 @@ import com.revature.gamesgalore.dto.AccountDTO;
 import com.revature.gamesgalore.dto.GenreDTO;
 import com.revature.gamesgalore.dto.PlatformDTO;
 import com.revature.gamesgalore.dto.UserDTO;
-import com.revature.gamesgalore.dto.WishlistDTO;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
 import com.revature.gamesgalore.entitymappings.GenreMappings;
 import com.revature.gamesgalore.entitymappings.PlatformMappings;
@@ -227,15 +226,6 @@ public class Account implements Serializable {
 			BeanUtils.copyProperties(accountUserDTO, accountUserCopied);
 			this.setAccountUser(accountUserCopied);
 		}
-
-		Set<WishlistDTO> wishlistDTOs = accountDTO.getAccountWishlist();
-		Set<Wishlist> wishlistsCopied = new HashSet<>();
-		for (WishlistDTO wishlistDTO : wishlistDTOs) {
-			Wishlist wishlist = new Wishlist();
-			BeanUtils.copyProperties(wishlistDTO, wishlist);
-			wishlistsCopied.add(wishlist);
-		}
-		this.setAccountWishlist(wishlistsCopied);
 		
 		Set<GenreDTO> genrePreferencesDTO = accountDTO.getGenrePreferences();
 		Set<Genre> genrePreferencesCopied = new HashSet<>();

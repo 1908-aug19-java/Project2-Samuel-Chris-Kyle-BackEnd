@@ -1,8 +1,8 @@
 package com.revature.gamesgalore.dao;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class Game implements Serializable {
 	@Column(name = GameMappings.GAME_NAME)
 	private String gameName;
 	@ManyToMany(mappedBy = WishlistMappings.WISHLIST_GAMES_FIELD, fetch = FetchType.LAZY)
-	private Set<Wishlist> gameWishlists = new HashSet<>();
+	private List<Wishlist> gameWishlists = new ArrayList<>();
 
 	public Game() {
 		super();
@@ -44,7 +44,7 @@ public class Game implements Serializable {
 		this.gameName = gameName;
 	}
 
-	public Game(Long gameId, String gameName, Set<Wishlist> wishlists) {
+	public Game(Long gameId, String gameName, List<Wishlist> wishlists) {
 		super();
 		this.gameId = gameId;
 		this.gameName = gameName;
@@ -53,7 +53,7 @@ public class Game implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Game [gameId=" + gameId + ", gameName=" + gameName + ", wishlists=" + (gameWishlists != null ? gameWishlists : "Empty") + "]";
+		return "Game [gameId=" + gameId + ", gameName=" + gameName + "]";
 	}
 
 	public Long getGameId() {
@@ -72,11 +72,11 @@ public class Game implements Serializable {
 		this.gameName = gameName;
 	}
 
-	public Set<Wishlist> getGameWishlists() {
+	public List<Wishlist> getGameWishlists() {
 		return gameWishlists;
 	}
 
-	public void setGameWishlists(Set<Wishlist> gameWishlists) {
+	public void setGameWishlists(List<Wishlist> gameWishlists) {
 		this.gameWishlists = gameWishlists;
 	}
 

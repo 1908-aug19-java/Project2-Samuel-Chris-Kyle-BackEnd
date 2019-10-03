@@ -78,7 +78,9 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		if (account.getAccountPassword() != null) {
 			accountRetreived.setAccountPassword(account.getAccountPassword());
 		}
-
+		if (account.getAccountImageUrl() != null) {
+			accountRetreived.setAccountImageUrl(account.getAccountImageUrl());
+		}
 		setDependencies(account);
 
 		Set<Genre> genres = account.getGenrePreferences();
@@ -124,6 +126,11 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		return valid;
 	}
 
+	@Override
+	public void manageDeletingDependencies(Account account) {
+		// Dependency deletion not necessary since this is the owning side
+	}
+
 	private void setDependencies(Account account) {
 		Set<Genre> genres = account.getGenrePreferences();
 		for (Genre genre : genres) {
@@ -148,17 +155,17 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		}
 	}
 
-	private boolean isValidUsername(String username) {
+	public boolean isValidUsername(String username) {
 		String regex = "^[a-z0-9_-]{3,20}$";
 		return username.matches(regex);
 	}
 
-	private boolean usernameDoesNotExist(String accountUsername) {
+	public boolean usernameDoesNotExist(String accountUsername) {
 		Optional<Account> account = accountRepository.findByAccountUsername(accountUsername);
 		return !account.isPresent();
 	}
 
-	private boolean isValidPassword(String password) {
+	public boolean isValidPassword(String password) {
 		String regex = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])\\w{6,}";
 		return password.matches(regex);
 	}

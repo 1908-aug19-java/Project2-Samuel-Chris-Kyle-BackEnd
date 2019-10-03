@@ -1,6 +1,7 @@
 package com.revature.gamesgalore.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -76,11 +77,13 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 	@Override
 	public void delete(Long daoId) {
 		try {
-			if (!masterRepository.findById(daoId).isPresent()) {
+			Optional<D> optionalD = null;
+			if (!(optionalD = masterRepository.findById(daoId)).isPresent()) {
 				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND).get();
 			}
-			masterRepository.deleteById(daoId
-					);
+			D dao = optionalD.get();
+			manageDeletingDependencies(dao);
+			masterRepository.deleteById(daoId);
 		} catch (ResponseStatusException rse) {
 			throw rse;
 		} catch (Exception e) {
@@ -91,6 +94,6 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 	
 	@Override
 	public boolean isValidName(String name) {
-		return name != null && name.matches("[A-Za-z-']{2,20}");
+		return name != null && name.matches("[A-Za-z-' ]{2,30}");
 	}
 }
