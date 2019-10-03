@@ -8,7 +8,7 @@ public class GenreMappings {
 	public static final String GENRE_ID = "genre_id";
 	public static final String GENRE_NAME = "genre_name";
 	
-	public static String[] getAccountColumns() {
+	public static String[] getGenreColumns() {
 		return new String[] { GENRE_ID, GENRE_NAME};
 	}
 

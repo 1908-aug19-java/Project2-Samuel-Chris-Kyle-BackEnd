@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.Game;
 import com.revature.gamesgalore.dto.GameDTO;
-import com.revature.gamesgalore.service.GameService;
+import com.revature.gamesgalore.service.MasterService;
 @CrossOrigin
 @RestController
 public class GameController {
@@ -31,7 +30,7 @@ public class GameController {
 	 * creation is handled by Spring's container.
 	 */
 	@Autowired
-	GameService gameService;
+	MasterService<Game> gameService;
 	 
 	/**
 	 * @param response The HTTP response from the GET operation.
@@ -41,7 +40,7 @@ public class GameController {
 	@GetMapping(value = "/games")
 	public List<GameDTO> getGames(HttpServletResponse response, @RequestParam(required = false) String gameName) {
 		response.setStatus(200);
-		List<Game> games = gameService.getGamesByParams(gameName);
+		List<Game> games = gameService.getByParams(gameName);
 		List<GameDTO> gameDTOs = new ArrayList<>();
 		for (Game game : games) {
 			GameDTO gameDTO = new GameDTO();
@@ -57,7 +56,6 @@ public class GameController {
 	 * @param gameDTOs A array of objects containing a POJO representation of Game
 	 *                 objects.
 	 */
-	@PreAuthorize("hasAuthority('ADMiN')")
 	@PostMapping(value = "/games")
 	public void createGames(HttpServletResponse response, @NotNull @RequestBody List<GameDTO> gameDTOs) {
 		List<Game> games = new ArrayList<>();
@@ -67,7 +65,7 @@ public class GameController {
 			games.add(game);
 		}
 		response.setStatus(201);
-		gameService.addGames(games);
+		gameService.add(games);
 	}
 
 	/**
@@ -80,7 +78,7 @@ public class GameController {
 	@GetMapping(value = "/games/{id}")
 	public GameDTO getGame(HttpServletResponse response, @PathVariable("id") Long gameId) {
 		response.setStatus(200);
-		Game game = gameService.getGame(gameId);
+		Game game = gameService.get(gameId);
 		GameDTO gameDTO = new GameDTO();
 		BeanUtils.copyProperties(game, gameDTO);
 		return gameDTO;
@@ -99,7 +97,7 @@ public class GameController {
 		Game game = new Game();
 		BeanUtils.copyProperties(gameDTO, game);
 		response.setStatus(200);
-		gameService.updateGame(game, gameId);
+		gameService.update(game, gameId);
 	}
 
 	/**
@@ -111,6 +109,6 @@ public class GameController {
 	@DeleteMapping(value = "/games/{id}")
 	public void deleteGame(HttpServletResponse response, @PathVariable("id") Long gameId) {
 		response.setStatus(204);
-		gameService.deleteGame(gameId);
+		gameService.delete(gameId);
 	}
 }

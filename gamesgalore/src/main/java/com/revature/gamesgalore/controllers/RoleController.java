@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.Role;
 import com.revature.gamesgalore.dto.RoleDTO;
-import com.revature.gamesgalore.service.RoleService;
+import com.revature.gamesgalore.service.MasterService;
 
 @CrossOrigin
 @RestController
@@ -31,7 +31,7 @@ public class RoleController {
 	 * An object used to handle the business logic for all Role objects. It's creation is handled by Spring's container.
 	 */
 	@Autowired
-	RoleService roleService;
+	MasterService<Role> roleService;
 
 	/**
 	 * 
@@ -42,7 +42,7 @@ public class RoleController {
 	@GetMapping(value = "/roles")
 	public Collection<RoleDTO> getRoles(HttpServletResponse response, @RequestParam(required = false) String roleName) {
 		response.setStatus(200);
-		Collection<Role> roles = roleService.getRolesByParams(roleName);
+		Collection<Role> roles = roleService.getByParams(roleName);
 		Collection<RoleDTO> rolesDTO = new ArrayList<>();
 		for(Role role: roles) {
 			RoleDTO roleDTO = new RoleDTO();
@@ -67,7 +67,7 @@ public class RoleController {
 			roles.add(role);
 		}
 		response.setStatus(201);
-		roleService.addRoles(roles);
+		roleService.add(roles);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class RoleController {
 	@GetMapping(value = "/roles/{id}")
 	public RoleDTO getRole(HttpServletResponse response, @PathVariable("id") Long roleId) {
 		response.setStatus(200);
-		Role role = roleService.getRole(roleId);
+		Role role = roleService.get(roleId);
 		RoleDTO roleDTO = new RoleDTO();
 		BeanUtils.copyProperties(role, roleDTO);
 		return roleDTO;
@@ -96,7 +96,7 @@ public class RoleController {
 		Role role = new Role();
 		BeanUtils.copyProperties(roleDTO, role);
 		response.setStatus(200);
-		roleService.updateRole(role, roleId);
+		roleService.update(role, roleId);
 	}
 
 	/**
@@ -107,6 +107,6 @@ public class RoleController {
 	@DeleteMapping(value = "/roles/{id}")
 	public void deleteRole(HttpServletResponse response, @PathVariable("id") Long roleId) {
 		response.setStatus(204);
-		roleService.deleteRole(roleId);
+		roleService.delete(roleId);
 	}
 }

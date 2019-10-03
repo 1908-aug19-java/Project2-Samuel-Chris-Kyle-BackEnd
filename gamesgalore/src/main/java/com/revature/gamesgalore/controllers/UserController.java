@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.User;
 import com.revature.gamesgalore.dto.UserDTO;
-import com.revature.gamesgalore.service.UserService;
+import com.revature.gamesgalore.service.MasterService;
 
 @CrossOrigin
 @RestController
@@ -31,7 +31,7 @@ public class UserController {
 	 * creation is handled by Spring's container.
 	 */
 	@Autowired
-	UserService userService;
+	MasterService<User> userService;
 
 	/**
 	 * 
@@ -49,7 +49,7 @@ public class UserController {
 	public Collection<UserDTO> getUsers(HttpServletResponse response, @RequestParam(required = false) String userFirstName,
 			@RequestParam(required = false) String userLastName, @RequestParam(required = false) String userEmail) {
 		response.setStatus(200);
-		Collection<User> users = userService.getUsersByParams(userFirstName, userLastName, userEmail);
+		Collection<User> users = userService.getByParams(userFirstName, userLastName, userEmail);
 		Collection<UserDTO> usersDTO =  new ArrayList<>();
 		for(User user: users) {
 			UserDTO userDTO = new UserDTO();
@@ -70,7 +70,7 @@ public class UserController {
 	@GetMapping(value = "/users/{id}")
 	public UserDTO getUser(HttpServletResponse response, @PathVariable("id") Long userId) {
 		response.setStatus(200);
-		User user =  userService.getUser(userId);
+		User user =  userService.get(userId);
 		UserDTO userDTO = new UserDTO();
 		BeanUtils.copyProperties(user, userDTO);
 		return userDTO;
@@ -89,7 +89,7 @@ public class UserController {
 		User user = new User();
 		BeanUtils.copyProperties(userDTO, user);
 		response.setStatus(200);
-		userService.updateUser(user, userId);
+		userService.update(user, userId);
 	}
 
 	/**
@@ -102,6 +102,6 @@ public class UserController {
 	@DeleteMapping(value = "/users/{id}")
 	public void deleteUser(HttpServletResponse response, @PathVariable("id") Long userId) {
 		response.setStatus(204);
-		userService.deleteUser(userId);
+		userService.delete(userId);
 	}
 }

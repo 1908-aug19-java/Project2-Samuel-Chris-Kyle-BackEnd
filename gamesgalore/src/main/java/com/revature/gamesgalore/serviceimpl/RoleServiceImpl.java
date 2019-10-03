@@ -1,111 +1,69 @@
 package com.revature.gamesgalore.serviceimpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
 import com.revature.gamesgalore.dao.Role;
-import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
+import com.revature.gamesgalore.entitymappings.RoleMappings;
 import com.revature.gamesgalore.repositories.RoleRepository;
-import com.revature.gamesgalore.service.RoleService;
+import com.revature.gamesgalore.service.AbstractMasterService;
+import com.revature.gamesgalore.util.DetailsUtil;
 
 @Transactional
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends AbstractMasterService<Role, RoleRepository> {
 
-	private static Logger logger = LogManager.getLogger();
-	
 	@Autowired
 	RoleRepository roleRepository;
 
 	@Override
-	public List<Role> getRolesByParams(String roleName) {
-		try {
-			if (roleName != null) {
-				return roleRepository.findByRoleName(roleName);
-			}
-			return roleRepository.findAll();
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
-	}
+	public Specification<Role> getSpecification(String... args) {
+		String roleName = args[0];
+		return new Specification<Role>() {
+			private static final long serialVersionUID = 1L;
 
-	@Override
-	public void addRoles(List<Role> roles) {
-		try {
-			for (Role r : roles) {
-				if (!validateRole(r)) {
-					throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
+			@Override
+			public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (roleName != null) {
+					predicates.add(criteriaBuilder.and(criteriaBuilder
+							.equal(root.get(DetailsUtil.toFieldName(RoleMappings.ROLE_NAME)), roleName)));
 				}
-				roleRepository.save(r);
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
+		};
+	}
+
+	@Override
+	public void overrideUpdatedFields(Role roleRetreived, Role role) {
+		if (role.getRoleName() != null) {
+			roleRetreived.setRoleName(role.getRoleName());
 		}
 	}
 
 	@Override
-	public Role getRole(Long roleId) {
-		try {
-			return roleRepository.findById(roleId).orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
+	public void manageCreatedDependencies(Role role) {
+		// Role has no control over dependencies so this method will not be implemented.
 	}
 
 	@Override
-	public void updateRole(Role role, Long roleId) {
-		try {
-			Role roleRetreived = roleRepository.findById(roleId).orElseThrow(ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
-			setOverrides(roleRetreived,role);
-			if (!validateRole(roleRetreived)) {
-				throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
-			}
-			roleRepository.save(roleRetreived);
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
+	public boolean isValidCreate(Role role) {
+		return isValidName(role.getRoleName());
 	}
-	
+
 	@Override
-	public void deleteRole(Long roleId) {
-		try {
-			if(!roleRepository.findById(roleId).isPresent()) {
-				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND).get();
-			}
-			roleRepository.deleteById(roleId);
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			logger.error(e);
-			throw ResponseExceptionManager.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
-		}
-	}
-	
-	@Override
-	public boolean validateRole(Role role) {
-		return role.getRoleName() != null && !role.getRoleName().isEmpty();
-	}
-	
-	@Override
-	public void setOverrides(Role roleRetreived, Role role) {
-		if(role.getRoleName() != null) {roleRetreived.setRoleName(role.getRoleName());}
+	public boolean isValidUpdate(Role role, Role roleRetreived) {
+		return roleRetreived.getRoleName().equals(role.getRoleName()) || isValidName(role.getRoleName());
 	}
 
 }

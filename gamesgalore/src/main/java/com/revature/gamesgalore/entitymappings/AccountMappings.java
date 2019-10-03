@@ -19,6 +19,7 @@ public class AccountMappings {
 	public static final String ACCOUNT_NON_EXPIRED = "account_non_expired";
 	public static final String ACCOUNT_NON_LOCKED = "account_non_locked";
 	public static final String CREDENTIALS_NON_EXPIRED = "credentials_non_expired";
+	public static final String ACCOUNT_IMAGEURL = "account_imageurl";
 	public static final String ACCOUNT_USER_ID = "account_user_id";
 	public static final String ACCOUNT_ROLE_ID = "account_role_id";
 
