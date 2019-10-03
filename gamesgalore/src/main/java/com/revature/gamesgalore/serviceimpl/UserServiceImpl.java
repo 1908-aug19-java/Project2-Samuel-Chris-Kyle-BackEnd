@@ -111,4 +111,14 @@ public class UserServiceImpl extends AbstractMasterService<User, UserRepository>
 		Optional<User> user = userRepository.findByUserEmail(email);
 		return !user.isPresent();
 	}
+	
+	@Override
+	public boolean isValidName(String name) {
+		return name != null && name.matches("[A-Za-z-']{2,20}");
+	}
+	
+	@Override
+	public void manageDeletingDependencies(User user) {
+		// Dependency deletion not necessary since this has a one to one with account and cascades
+	}
 }

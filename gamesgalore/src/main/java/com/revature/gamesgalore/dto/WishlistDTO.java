@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
+import com.revature.gamesgalore.dao.Account;
 import com.revature.gamesgalore.dao.Game;
 
 public class WishlistDTO {
@@ -12,6 +13,7 @@ public class WishlistDTO {
 	private Long wishlistId;
 	private String wishlistName;
 	private Set<GameDTO> wishlistGames = new HashSet<>();
+	private AccountDTO wishlistAccount;
 
 	public WishlistDTO() {
 		super();
@@ -50,6 +52,7 @@ public class WishlistDTO {
 	}
 
 	public void setWishlistGames(Set<Game> games) {
+		System.out.println("ggaammmes");
 		for (Game game : games) {
 			GameDTO gameDTO = new GameDTO();
 			BeanUtils.copyProperties(game, gameDTO);
@@ -57,17 +60,21 @@ public class WishlistDTO {
 		}
 	}
 
-//	public AccountDTO getWishlistAccount() {
-//		return wishlistAccount;
-//	}
-//
-//	public void setWishlistAccount(Account wishlistAccount) {
-//		if (wishlistAccount != null) {
-//			AccountDTO wishlistAccountDTO = new AccountDTO();
-//			BeanUtils.copyProperties(wishlistAccount, wishlistAccountDTO);
-//			this.wishlistAccount = wishlistAccountDTO;
-//		}
-//	}
+	public AccountDTO getWishlistAccount() {
+		return wishlistAccount;
+	}
+
+	public void setWishlistAccount(Account wishlistAccount) {
+		System.out.println("wishlist1");
+		if (wishlistAccount != null) {
+			AccountDTO wishlistAccountDTO = new AccountDTO();
+			System.out.println("wishlist12");
+			BeanUtils.copyProperties(wishlistAccount, wishlistAccountDTO, "accountPassword");
+			System.out.println("wishlist13");
+			this.wishlistAccount = wishlistAccountDTO;
+		}
+		System.out.println("wishlist14");
+	}
 	
 	@Override
 	public int hashCode() {

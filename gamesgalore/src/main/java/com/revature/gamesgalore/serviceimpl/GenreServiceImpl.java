@@ -2,6 +2,7 @@ package com.revature.gamesgalore.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,10 +14,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.gamesgalore.dao.Account;
 import com.revature.gamesgalore.dao.Genre;
 import com.revature.gamesgalore.entitymappings.GenreMappings;
 import com.revature.gamesgalore.repositories.GenreRepository;
 import com.revature.gamesgalore.service.AbstractMasterService;
+import com.revature.gamesgalore.service.MasterService;
 import com.revature.gamesgalore.util.DetailsUtil;
 
 @Transactional
@@ -25,6 +28,9 @@ public class GenreServiceImpl extends AbstractMasterService<Genre, GenreReposito
 
 	@Autowired
 	GenreRepository genreRepository;
+	
+	@Autowired
+	MasterService<Account> accountService;
 
 	@Override
 	public Specification<Genre> getSpecification(String... args) {
@@ -65,6 +71,19 @@ public class GenreServiceImpl extends AbstractMasterService<Genre, GenreReposito
 	@Override
 	public boolean isValidUpdate(Genre genre, Genre genreRetreived) {
 		return genreRetreived.getGenreName().equals(genre.getGenreName()) || isValidName(genre.getGenreName());
+	}
+	
+	@Override
+	public void manageDeletingDependencies(Genre genreReteived) {
+		List<Account> accounts = accountService.getByParams("", "");
+		for(Account account: accounts) {
+			Set<Genre> genres = account.getGenrePreferences();
+			for(Genre genre: genres) {
+				if(genre.getGenreName().equals(genreReteived.getGenreName())) {
+					genres.remove(genre);
+				}
+			}
+		}
 	}
 
 }

@@ -21,35 +21,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.Account;
 import com.revature.gamesgalore.dto.AccountDTO;
+import com.revature.gamesgalore.security.SecurityHandler;
 import com.revature.gamesgalore.service.MasterService;
+
 @CrossOrigin
 @RestController
 public class AccountController {
-	
+
 	/**
 	 * An object used to handle the business logic for all Account objects. It's
 	 * creation is handled by Spring's container.
 	 */
 	@Autowired
 	MasterService<Account> accountService;
+	@Autowired
+	SecurityHandler securityHandler;
 
 	/**
 	 * 
-	 * @param response      The HTTP response from the GET operation.
+	 * @param response        The HTTP response from the GET operation.
 	 * @param accountUsername An optional query parameter for filtering results by
-	 *                      account user name.
-	 * @param accountRoleName  An optional query parameter for filtering results by
-	 *                      account role name.
+	 *                        account user name.
+	 * @param accountRoleName An optional query parameter for filtering results by
+	 *                        account role name.
 	 * @return A collection of Account POJO's.
 	 */
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value = "/accounts")
-	public List<AccountDTO> getAccounts(HttpServletResponse response, @RequestParam(required = false) String accountUsername,
+	public List<AccountDTO> getAccounts(HttpServletResponse response,
+			@RequestParam(required = false) String accountUsername,
 			@RequestParam(required = false) String accountRoleName) {
 		response.setStatus(200);
 		List<Account> accounts = accountService.getByParams(accountUsername, accountRoleName);
-		List<AccountDTO> accountsDTO =  new ArrayList<>();
-		for(Account account: accounts) {
+		List<AccountDTO> accountsDTO = new ArrayList<>();
+		for (Account account : accounts) {
 			AccountDTO accountDTO = new AccountDTO();
 			BeanUtils.copyProperties(account, accountDTO, "accountPassword");
 			accountsDTO.add(accountDTO);
@@ -59,34 +64,36 @@ public class AccountController {
 
 	/**
 	 * 
-	 * @param response The HTTP response from the POST operation.
-	 * @param accountsDTO A array of objects containing a POJO representation of Accounts
-	 *                 objects.
+	 * @param response    The HTTP response from the POST operation.
+	 * @param accountsDTO A array of objects containing a POJO representation of
+	 *                    Accounts objects.
 	 */
 	@PostMapping(value = "/accounts")
-	public void createAccounts(HttpServletResponse response, @NotNull @RequestBody List<AccountDTO> accountsDTO) {
+	public void createAccounts(HttpServletResponse response, @RequestBody AccountDTO accountDTO) {
 		List<Account> accounts = new ArrayList<>();
-		for (AccountDTO accountDTO : accountsDTO) {
-			Account account = new Account();
-			account.copyPropertiesFrom(accountDTO);
-			accounts.add(account);
-		}
+		Account account = new Account();
+		account.copyPropertiesFrom(accountDTO);
+		accounts.add(account);
 		response.setStatus(201);
 		accountService.add(accounts);
+		List<String> roles = new ArrayList<>();
+		roles.add(account.getAccountRole().getRoleName());
+		String jwt = securityHandler.createJWT(account.getAccountUsername(), roles);
+		response.setHeader("Authorization", jwt);
 	}
 
 	/**
 	 * 
-	 * @param response The HTTP response from the GET operation.
-	 * @param accountId   The numeric id pertaining to a specific Account object. It must
-	 *                 be passed in the url path.
+	 * @param response  The HTTP response from the GET operation.
+	 * @param accountId The numeric id pertaining to a specific Account object. It
+	 *                  must be passed in the url path.
 	 * @return A specific Account POJO
 	 */
 	@PreAuthorize("hasAuthority('ADMIN') or #accountId == authentication.principal.accountId")
 	@GetMapping(value = "/accounts/{id}")
 	public AccountDTO getAccount(HttpServletResponse response, @PathVariable("id") Long accountId) {
 		response.setStatus(200);
-		Account account =  accountService.get(accountId);
+		Account account = accountService.get(accountId);
 		AccountDTO accountDTO = new AccountDTO();
 		BeanUtils.copyProperties(account, accountDTO, "accountPassword");
 		return accountDTO;
@@ -94,14 +101,15 @@ public class AccountController {
 
 	/**
 	 * 
-	 * @param response The HTTP response from the PUT operation.
-	 * @param accountDTO     A POJO object representing a Account object.
-	 * @param accountId   The numeric id pertaining to a specific Account object. It must
-	 *                 be passed in the url path.
+	 * @param response   The HTTP response from the PUT operation.
+	 * @param accountDTO A POJO object representing a Account object.
+	 * @param accountId  The numeric id pertaining to a specific Account object. It
+	 *                   must be passed in the url path.
 	 */
 	@PreAuthorize("hasAuthority('ADMIN') or #accountId == authentication.principal.accountId")
 	@PutMapping(value = "/accounts/{id}")
-	public void putAccount(HttpServletResponse response, @NotNull @RequestBody AccountDTO accountDTO, @PathVariable("id") Long accountId) {
+	public void putAccount(HttpServletResponse response, @NotNull @RequestBody AccountDTO accountDTO,
+			@PathVariable("id") Long accountId) {
 		Account account = new Account();
 		account.copyPropertiesFrom(accountDTO);
 		response.setStatus(200);
@@ -110,9 +118,9 @@ public class AccountController {
 
 	/**
 	 * 
-	 * @param response The HTTP response from the DELETE operation.
-	 * @param accountId   The numeric id pertaining to a specific Account object. It must
-	 *                 be passed in the url path.
+	 * @param response  The HTTP response from the DELETE operation.
+	 * @param accountId The numeric id pertaining to a specific Account object. It
+	 *                  must be passed in the url path.
 	 */
 	@PreAuthorize("hasAuthority('ADMIN') or #accountId == authentication.principal.accountId")
 	@DeleteMapping(value = "/accounts/{id}")

@@ -57,6 +57,11 @@ public class RoleServiceImpl extends AbstractMasterService<Role, RoleRepository>
 	}
 
 	@Override
+	public void manageDeletingDependencies(Role role) {
+		// Dependency deletion not necessary since a new role will need to be assigned to each owning account explicitly before deleting one.
+	}
+	
+	@Override
 	public boolean isValidCreate(Role role) {
 		return isValidName(role.getRoleName());
 	}
