@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.Platform;
 import com.revature.gamesgalore.dto.PlatformDTO;
-import com.revature.gamesgalore.service.PlatformService;
+import com.revature.gamesgalore.service.MasterService;
 
 @CrossOrigin
 @RestController
@@ -31,7 +31,7 @@ public class PlatformController {
 	 * creation is handled by Spring's container.
 	 */
 	@Autowired
-	PlatformService platformService;
+	MasterService<Platform> platformService;
 
 	/**
 	 * @param response The HTTP response from the GET operation.
@@ -41,7 +41,7 @@ public class PlatformController {
 	@GetMapping(value = "/platforms")
 	public List<PlatformDTO> getPlatforms(HttpServletResponse response, @RequestParam(required = false) String platformName) {
 		response.setStatus(200);
-		List<Platform> platforms = platformService.getPlatformsByParams(platformName);
+		List<Platform> platforms = platformService.getByParams(platformName);
 		List<PlatformDTO> platformsDTO = new ArrayList<>();
 		for (Platform platform: platforms) {
 			PlatformDTO platformDTO = new PlatformDTO();
@@ -66,7 +66,7 @@ public class PlatformController {
 			platforms.add(platform);
 		}
 		response.setStatus(201);
-		platformService.addPlatforms(platforms);
+		platformService.add(platforms);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class PlatformController {
 	@GetMapping(value = "/platforms/{id}")
 	public PlatformDTO getPlatform(HttpServletResponse response, @PathVariable("id") Long platformId) {
 		response.setStatus(200);
-		Platform platform =  platformService.getPlatform(platformId);
+		Platform platform =  platformService.get(platformId);
 		PlatformDTO platformDTO = new PlatformDTO();
 		BeanUtils.copyProperties(platform, platformDTO);
 		return platformDTO;
@@ -97,7 +97,7 @@ public class PlatformController {
 		Platform platform = new Platform();
 		BeanUtils.copyProperties(platformDTO, platform);
 		response.setStatus(200);
-		platformService.updatePlatform(platform, platformId);
+		platformService.update(platform, platformId);
 	}
 
 	/**
@@ -109,6 +109,6 @@ public class PlatformController {
 	@DeleteMapping(value = "/platforms/{id}")
 	public void deletePlatform(HttpServletResponse response, @PathVariable("id") Long platformId) {
 		response.setStatus(204);
-		platformService.deletePlatform(platformId);
+		platformService.delete(platformId);
 	}
 }

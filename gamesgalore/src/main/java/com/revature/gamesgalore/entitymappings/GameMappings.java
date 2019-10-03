@@ -8,7 +8,7 @@ public class GameMappings {
 	public static final String GAME_ID = "game_id";
 	public static final String GAME_NAME = "game_name";
 	
-	public static String[] getAccountColumns() {
+	public static String[] getGameColumns() {
 		return new String[] { GAME_ID, GAME_NAME};
 	}
 

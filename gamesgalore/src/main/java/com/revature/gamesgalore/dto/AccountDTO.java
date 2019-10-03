@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import com.revature.gamesgalore.dao.Genre;
 import com.revature.gamesgalore.dao.Platform;
 import com.revature.gamesgalore.dao.User;
+import com.revature.gamesgalore.dao.Wishlist;
 
 public class AccountDTO implements Serializable {
 
@@ -21,8 +22,10 @@ public class AccountDTO implements Serializable {
 	private String accountPassword;
 	private String confirmPassword;
 	private UserDTO accountUser;
+	private String accountImageUrl;
 	private Set<GenreDTO> genrePreferences = new HashSet<>();
 	private Set<PlatformDTO> platformPreferences = new HashSet<>();
+	private Set<WishlistDTO> accountWishlist = new HashSet<>();
 
 	public AccountDTO() {
 		super();
@@ -39,15 +42,18 @@ public class AccountDTO implements Serializable {
 	}
 
 	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
-			UserDTO accountUser, Set<GenreDTO> genrePreferences, Set<PlatformDTO> platformPreferences) {
+			UserDTO accountUser, String accountImageUrl, Set<GenreDTO> genrePreferences,
+			Set<PlatformDTO> platformPreferences, Set<WishlistDTO> accountWishlist) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
 		this.accountPassword = accountPassword;
 		this.confirmPassword = confirmPassword;
 		this.accountUser = accountUser;
+		this.accountImageUrl = accountImageUrl;
 		this.genrePreferences = genrePreferences;
 		this.platformPreferences = platformPreferences;
+		this.accountWishlist = accountWishlist;
 	}
 
 	@Override
@@ -120,6 +126,26 @@ public class AccountDTO implements Serializable {
 			PlatformDTO platformDTO = new PlatformDTO();
 			BeanUtils.copyProperties(platform, platformDTO);
 			this.platformPreferences.add(platformDTO);
+		}
+	}
+
+	public String getAccountImageUrl() {
+		return accountImageUrl;
+	}
+
+	public void setAccountImageUrl(String accountImageUrl) {
+		this.accountImageUrl = accountImageUrl;
+	}
+
+	public Set<WishlistDTO> getAccountWishlist() {
+		return accountWishlist;
+	}
+
+	public void setAccountWishlist(Set<Wishlist> accountWishlist) {
+		for (Wishlist wishlist : accountWishlist) {
+			WishlistDTO wishlistDTO = new WishlistDTO();
+			BeanUtils.copyProperties(wishlist, wishlistDTO);
+			this.accountWishlist.add(wishlistDTO);
 		}
 	}
 

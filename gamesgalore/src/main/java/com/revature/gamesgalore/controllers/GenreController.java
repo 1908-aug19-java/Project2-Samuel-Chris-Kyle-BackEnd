@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gamesgalore.dao.Genre;
 import com.revature.gamesgalore.dto.GenreDTO;
-import com.revature.gamesgalore.service.GenreService;
+import com.revature.gamesgalore.service.MasterService;
 
 @CrossOrigin
 @RestController
@@ -31,7 +31,7 @@ public class GenreController {
 	 * creation is handled by Spring's container.
 	 */
 	@Autowired
-	GenreService genreService;
+	MasterService<Genre> genreService;
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class GenreController {
 	@GetMapping(value = "/genres")
 	public List<GenreDTO> getGenres(HttpServletResponse response, @RequestParam(required = false) String genreName) {
 		response.setStatus(200);
-		List<Genre> genres = genreService.getGenresByParams(genreName);
+		List<Genre> genres = genreService.getByParams(genreName);
 		List<GenreDTO> genreDTOs = new ArrayList<>();
 		for (Genre genre : genres) {
 			GenreDTO genreDTO = new GenreDTO();
@@ -70,7 +70,7 @@ public class GenreController {
 			genres.add(genre);
 		}
 		response.setStatus(201);
-		genreService.addGenres(genres);
+		genreService.add(genres);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class GenreController {
 	@GetMapping(value = "/genres/{id}")
 	public GenreDTO getGenre(HttpServletResponse response, @PathVariable("id") Long genreId) {
 		response.setStatus(200);
-		Genre genre = genreService.getGenre(genreId);
+		Genre genre = genreService.get(genreId);
 		GenreDTO genreDTO = new GenreDTO();
 		BeanUtils.copyProperties(genre, genreDTO);
 		return genreDTO;
@@ -102,7 +102,7 @@ public class GenreController {
 		Genre genre = new Genre();
 		BeanUtils.copyProperties(genreDTO, genre);
 		response.setStatus(200);
-		genreService.updateGenre(genre, genreId);
+		genreService.update(genre, genreId);
 	}
 
 	/**
@@ -114,6 +114,6 @@ public class GenreController {
 	@DeleteMapping(value = "/genres/{id}")
 	public void deleteGenre(HttpServletResponse response, @PathVariable("id") Long genreId) {
 		response.setStatus(204);
-		genreService.deleteGenre(genreId);
+		genreService.delete(genreId);
 	}
 }
