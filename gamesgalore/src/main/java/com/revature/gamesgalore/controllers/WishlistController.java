@@ -60,9 +60,8 @@ public class WishlistController {
 	 * @param wishlistDTOs A array of objects containing a POJO representation of
 	 *                     Wishlist objects.
 	 */
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping(value = "/wishlists")
-	public void createGames(HttpServletResponse response, @NotNull @RequestBody List<WishlistDTO> wishlistDTOs) {
+	public void createWishlists(HttpServletResponse response, @RequestBody List<WishlistDTO> wishlistDTOs) {
 		List<Wishlist> wishlists = new ArrayList<>();
 		for (WishlistDTO wishlistDTO : wishlistDTOs) {
 			Wishlist wishlist = new Wishlist();
@@ -78,7 +77,7 @@ public class WishlistController {
 	 * @param response   The HTTP response from the GET operation.
 	 * @param wishlistId The numeric id pertaining to a specific Wishlist object. It
 	 *                   must be passed in the url path.
-	 * @return A specific Game POJO
+	 * @return A specific Wishlist POJO
 	 */
 	@GetMapping(value = "/wishlists/{id}")
 	public WishlistDTO getGame(HttpServletResponse response, @PathVariable("id") Long wishlistId) {

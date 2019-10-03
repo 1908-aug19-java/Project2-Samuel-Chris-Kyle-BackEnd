@@ -41,6 +41,7 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 
 			@Override
 			public Predicate toPredicate(Root<Wishlist> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				//.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 				List<Predicate> predicates = new ArrayList<>();
 				Join<Wishlist, Account> wishlistOnAccount = root.join(WishlistMappings.WISHLIST_ACCOUNT_FIELD);
 				if (wishlistName != null) {
@@ -90,13 +91,19 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 
 	@Override
 	public boolean isValidCreate(Wishlist wishlist) {
-		return isValidName(wishlist.getWishlistName());
+		return true;//isValidName(wishlist.getWishlistName());
 	}
 
 	@Override
 	public boolean isValidUpdate(Wishlist wishlist, Wishlist wishlistRetreived) {
-		return wishlistRetreived.getWishlistName().equals(wishlist.getWishlistName())
-				|| isValidName(wishlist.getWishlistName());
+		return true;
+//				wishlistRetreived.getWishlistName().equals(wishlist.getWishlistName())
+//				|| isValidName(wishlist.getWishlistName());
 	}
 
+	@Override
+	public void manageDeletingDependencies(Wishlist wishlist) {
+		// Dependency deletion not necessary since this is the owning side
+	}
+	
 }

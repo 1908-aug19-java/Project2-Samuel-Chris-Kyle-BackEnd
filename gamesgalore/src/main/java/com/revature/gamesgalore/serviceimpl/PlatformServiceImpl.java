@@ -2,6 +2,7 @@ package com.revature.gamesgalore.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,10 +14,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.gamesgalore.dao.Account;
 import com.revature.gamesgalore.dao.Platform;
 import com.revature.gamesgalore.entitymappings.PlatformMappings;
 import com.revature.gamesgalore.repositories.PlatformRepository;
 import com.revature.gamesgalore.service.AbstractMasterService;
+import com.revature.gamesgalore.service.MasterService;
 import com.revature.gamesgalore.util.DetailsUtil;
 
 @Transactional
@@ -25,6 +28,8 @@ public class PlatformServiceImpl extends AbstractMasterService<Platform, Platfor
 
 	@Autowired
 	PlatformRepository platformRepository;
+	@Autowired
+	MasterService<Account> accountService;
 
 	@Override
 	public Specification<Platform> getSpecification(String... args) {
@@ -57,6 +62,19 @@ public class PlatformServiceImpl extends AbstractMasterService<Platform, Platfor
 		// implemented.
 	}
 
+	@Override
+	public void manageDeletingDependencies(Platform platformRetreived) {
+		List<Account> accounts = accountService.getByParams("", "");
+		for(Account account: accounts) {
+			Set<Platform> platforms = account.getPlatformPreferences();
+			for(Platform platform : platforms) {
+				if(platform.getPlatformName().equals(platformRetreived.getPlatformName())) {
+					platforms.remove(platform);
+				}
+			}
+		}
+	}
+	
 	@Override
 	public boolean isValidCreate(Platform platform) {
 		return isValidName(platform.getPlatformName());

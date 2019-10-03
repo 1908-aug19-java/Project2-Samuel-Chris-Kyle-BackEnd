@@ -2,6 +2,7 @@ package com.revature.gamesgalore.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.gamesgalore.dao.Game;
+import com.revature.gamesgalore.dao.Wishlist;
 import com.revature.gamesgalore.entitymappings.GameMappings;
 import com.revature.gamesgalore.repositories.GameRepository;
 import com.revature.gamesgalore.service.AbstractMasterService;
+import com.revature.gamesgalore.service.MasterService;
 import com.revature.gamesgalore.util.DetailsUtil;
 
 @Transactional
@@ -25,6 +28,9 @@ public class GameServiceImpl extends AbstractMasterService<Game, GameRepository>
 
 	@Autowired
 	GameRepository gameRepository;
+	
+	@Autowired
+	MasterService<Wishlist> wishlistService;
 
 	@Override
 	public Specification<Game> getSpecification(String... args) {
@@ -63,7 +69,21 @@ public class GameServiceImpl extends AbstractMasterService<Game, GameRepository>
 
 	@Override
 	public boolean isValidUpdate(Game game, Game gameRetreived) {
+		System.out.println(isValidName(game.getGameName()));
 		return gameRetreived.getGameName().equals(game.getGameName()) || isValidName(game.getGameName());
+	}
+	
+	@Override
+	public void manageDeletingDependencies(Game gameRetreived) {
+		List<Wishlist> wishlists = wishlistService.getByParams(null, null, gameRetreived.getGameName());
+		for(Wishlist wishlist: wishlists) {
+			Set<Game> games = wishlist.getWishlistGames();
+			for(Game game: games) {
+				if(game.getGameName().equals(gameRetreived.getGameName())) {
+					games.remove(game);
+				}
+			}
+		}
 	}
 
 }

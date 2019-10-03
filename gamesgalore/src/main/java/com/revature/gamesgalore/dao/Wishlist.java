@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 import org.springframework.beans.BeanUtils;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revature.gamesgalore.dto.AccountDTO;
 import com.revature.gamesgalore.dto.GameDTO;
 import com.revature.gamesgalore.dto.WishlistDTO;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
@@ -40,8 +40,7 @@ public class Wishlist implements Serializable {
 	@Column(name = WishlistMappings.WISHLIST_NAME)
 	private String wishlistName;
 
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = WishlistMappings.WISHLIST_ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID, nullable = false)
 	private Account wishlistAccount;
 
@@ -101,12 +100,12 @@ public class Wishlist implements Serializable {
 		this.setWishlistId(wishlistDTO.getWishlistId());
 		this.setWishlistName(wishlistDTO.getWishlistName());
 
-//		AccountDTO accountDTO = wishlistDTO.getWishlistAccount();
-//		if (accountDTO != null) {
-//			Account accountCopied = new Account();
-//			BeanUtils.copyProperties(accountDTO, accountCopied);
-//			this.setWishlistAccount(accountCopied);
-//		}
+		AccountDTO accountDTO = wishlistDTO.getWishlistAccount();
+		if (accountDTO != null) {
+			Account accountCopied = new Account();
+			BeanUtils.copyProperties(accountDTO, accountCopied);
+			this.setWishlistAccount(accountCopied);
+		}
 
 		Set<GameDTO> gameDTOs = wishlistDTO.getWishlistGames();
 		Set<Game> gamesCopied = new HashSet<>();
