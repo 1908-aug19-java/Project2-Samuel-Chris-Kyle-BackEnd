@@ -103,19 +103,14 @@ public class Account implements Serializable {
 		this.platformPreferences = platformPreferences;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
-//				+ accountPassword + ", enabled=" + enabled + ", accountNonExpired=" + accountNonExpired
-//				+ ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired
-//				+ ", accountUser=" + accountUser + ", accountRole=" + accountRole + ", genrePreferences="
-//				+ (genrePreferences != null ? genrePreferences : "Empty") + ", platformPreferences=" + (platformPreferences != null ? platformPreferences : "Empty") + "]";
-//	}
+
 
 	@Override
 	public String toString() {
+
 		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", accountImageUrl=" + accountImageUrl + "]";
+
 	}
 
 	public Long getAccountId() {
@@ -227,6 +222,7 @@ public class Account implements Serializable {
 		this.setAccountUsername(accountDTO.getAccountUsername());
 		this.setAccountPassword(accountDTO.getAccountPassword());
 		this.setAccountImageUrl(accountDTO.getAccountImageUrl());
+
 		UserDTO accountUserDTO = accountDTO.getAccountUser();
 		if (accountUserDTO != null) {
 			User accountUserCopied = new User();

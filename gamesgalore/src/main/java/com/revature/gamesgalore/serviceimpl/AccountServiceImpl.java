@@ -81,7 +81,9 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		if (account.getAccountPassword() != null) {
 			accountRetreived.setAccountPassword(account.getAccountPassword());
 		}
+		System.out.println("in override updated fields");
 		if (account.getAccountImageUrl() != null) {
+			System.out.println("Account Image Url: " + account.getAccountImageUrl());
 			accountRetreived.setAccountImageUrl(account.getAccountImageUrl());
 		}
 		setDependencies(account);
@@ -107,6 +109,8 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 
 	@Override
 	public boolean isValidCreate(Account account) {
+		System.out.println("Account: ");
+		System.out.println(account);
 		boolean valid = usernameDoesNotExist(account.getAccountUsername())
 				&& isValidUsername(account.getAccountUsername()) && isValidPassword(account.getAccountPassword());
 		if (valid) {

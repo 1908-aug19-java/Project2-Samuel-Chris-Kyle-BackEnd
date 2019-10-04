@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.revature.gamesgalore.dao.Key;
 import com.revature.gamesgalore.dto.KeyDTO;
 import com.revature.gamesgalore.service.MasterService;
 
+@CrossOrigin
 @RestController
 public class KeyController {
 

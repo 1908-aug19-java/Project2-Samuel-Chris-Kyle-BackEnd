@@ -110,9 +110,10 @@ public class AccountController {
 	@PutMapping(value = "/accounts/{id}")
 	public void putAccount(HttpServletResponse response, @NotNull @RequestBody AccountDTO accountDTO,
 			@PathVariable("id") Long accountId) {
+		
 		Account account = new Account();
 		account.copyPropertiesFrom(accountDTO);
-		System.out.println("In update");
+
 		System.out.println(account);
 		response.setStatus(200);
 		accountService.update(account, accountId);

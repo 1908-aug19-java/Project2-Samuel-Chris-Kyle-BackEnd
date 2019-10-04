@@ -42,6 +42,8 @@ public class LoginServiceImpl implements LoginService {
 			List<String> roles = new ArrayList<>();
 			roles.add(account.getAccountRole().getRoleName());
 			String jwt = securityHandler.createJWT(accountUsername, roles);
+			response.addHeader("Access-Control-Expose-Headers", "Authorization");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
 			response.setHeader("Authorization", jwt);
 		} catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
