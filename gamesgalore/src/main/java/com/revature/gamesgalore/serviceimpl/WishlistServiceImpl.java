@@ -77,7 +77,7 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 		if (wishlistAccount != null) {
 			wishlistRetreived.setWishlistAccount(wishlistAccount);
 		}
-
+		wishlistRetreived.setWishlistGames(wishlist.getWishlistGames());
 	}
 
 	@Override

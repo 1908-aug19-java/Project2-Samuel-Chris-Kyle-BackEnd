@@ -26,7 +26,6 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = GameMappings.GAME_ID)
 	private Long gameId;
 	@Column(name = GameMappings.GAME_NAME)
