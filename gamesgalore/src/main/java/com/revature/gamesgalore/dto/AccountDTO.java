@@ -55,7 +55,7 @@ public class AccountDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AccountDTO [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
+		return "AccountDTO [" +"accountImageUrl "+accountImageUrl+", accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
 				+ ", genrePreferences=" + genrePreferences + ", platformPreferences=" + platformPreferences + "]";
 	}
