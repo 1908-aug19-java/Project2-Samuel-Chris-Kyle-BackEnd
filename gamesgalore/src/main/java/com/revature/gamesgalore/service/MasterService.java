@@ -59,7 +59,7 @@ public interface MasterService<D> {
 	void manageCreatedDependencies(D dao);
 	
 	/**
-	 * @param dao A DAO object retreieved from the database that will have its dependencies managed upon deletion
+	 * @param daoRetreived A DAO object retreieved from the database that will have its dependencies managed upon deletion
 	 */
 	void manageDeletingDependencies(D daoRetreived);
 	

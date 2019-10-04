@@ -14,14 +14,13 @@ public class GameServiceImplTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		//gameServiceImpl = new GameServiceImpl();
 		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
-	public void test() {
+	public void validCreateTrue() {
 		Game game = new Game();
-		game.setGameName("ppo");
+		game.setGameName("myGame");
 		gameServiceImpl.isValidCreate(game);
 	}
 

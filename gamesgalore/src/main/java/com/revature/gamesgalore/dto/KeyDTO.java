@@ -77,8 +77,7 @@ public class KeyDTO {
 		if (keyId == null) {
 			if (other.keyId != null)
 				return false;
-		} else if (!keyId.equals(other.keyId))
-			return false;
+		} else if (!keyId.equals(other.keyId)){return false;}
 		return true;
 	}
 

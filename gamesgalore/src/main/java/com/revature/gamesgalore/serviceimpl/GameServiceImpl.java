@@ -69,7 +69,6 @@ public class GameServiceImpl extends AbstractMasterService<Game, GameRepository>
 
 	@Override
 	public boolean isValidUpdate(Game game, Game gameRetreived) {
-		System.out.println(isValidName(game.getGameName()));
 		return gameRetreived.getGameName().equals(game.getGameName()) || isValidName(game.getGameName());
 	}
 	

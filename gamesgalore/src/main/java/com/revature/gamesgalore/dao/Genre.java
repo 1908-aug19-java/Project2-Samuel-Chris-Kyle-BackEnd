@@ -10,10 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.GameMappings;
 import com.revature.gamesgalore.entitymappings.GenreMappings;
 
 @Entity(name = GenreMappings.ENTITY_NAME)
@@ -32,6 +35,10 @@ public class Genre implements Serializable {
 	private String genreName;
 	@ManyToMany(mappedBy = AccountMappings.GENRE_PREFERENCES_FIELD, fetch = FetchType.LAZY)
 	private Set<Account> genreAccounts = new HashSet<>();
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "genre_game_id", referencedColumnName = GameMappings.GAME_ID)
+	private Game genreGame;
 
 	public Genre() {
 		super();

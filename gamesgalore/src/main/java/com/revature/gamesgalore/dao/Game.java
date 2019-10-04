@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -26,11 +24,11 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = GameMappings.GAME_ID)
 	private Long gameId;
 	@Column(name = GameMappings.GAME_NAME)
 	private String gameName;
+	
 	@ManyToMany(mappedBy = WishlistMappings.WISHLIST_GAMES_FIELD, fetch = FetchType.LAZY)
 	private List<Wishlist> gameWishlists = new ArrayList<>();
 
