@@ -104,7 +104,7 @@ public class Account implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
+		return "Account [ accountImageUrl=" +accountImageUrl + ", accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", enabled=" + enabled + ", accountNonExpired=" + accountNonExpired
 				+ ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired
 				+ ", accountUser=" + accountUser + ", accountRole=" + accountRole + ", genrePreferences="
