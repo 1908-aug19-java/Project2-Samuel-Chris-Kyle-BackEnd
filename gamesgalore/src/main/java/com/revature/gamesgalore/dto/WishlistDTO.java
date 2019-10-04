@@ -27,8 +27,8 @@ public class WishlistDTO {
 
 	@Override
 	public String toString() {
-		return "WishlistDTO [wishlistId=" + wishlistId + ", wishlistName=" + wishlistName + ", wishlistGames=" + wishlistGames
-				+  "]";
+		return "WishlistDTO [wishlistId=" + wishlistId + ", wishlistName=" + wishlistName + ", wishlistGames="
+				+ wishlistGames + "]";
 	}
 
 	public Long getWishlistId() {
@@ -52,12 +52,16 @@ public class WishlistDTO {
 	}
 
 	public void setWishlistGames(Set<Game> games) {
-		System.out.println("ggaammmes");
-		for (Game game : games) {
-			GameDTO gameDTO = new GameDTO();
-			BeanUtils.copyProperties(game, gameDTO);
-			this.wishlistGames.add(gameDTO);
+		System.out.println("SetWishltGames");
+		System.out.println(games);
+		if (games != null) {
+			for (Game game : games) {
+				GameDTO gameDTO = new GameDTO();
+				BeanUtils.copyProperties(game, gameDTO);
+				this.wishlistGames.add(gameDTO);
+			}
 		}
+
 	}
 
 	public AccountDTO getWishlistAccount() {
@@ -65,17 +69,18 @@ public class WishlistDTO {
 	}
 
 	public void setWishlistAccount(Account wishlistAccount) {
-		System.out.println("wishlist1");
+		System.out.println("Imm in");
+		System.out.println(wishlistAccount);
 		if (wishlistAccount != null) {
 			AccountDTO wishlistAccountDTO = new AccountDTO();
-			System.out.println("wishlist12");
 			BeanUtils.copyProperties(wishlistAccount, wishlistAccountDTO, "accountPassword");
-			System.out.println("wishlist13");
 			this.wishlistAccount = wishlistAccountDTO;
 		}
-		System.out.println("wishlist14");
+		System.out.println(wishlistAccount);
+		System.out.println(this.wishlistAccount);
+		System.out.println("okay");
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

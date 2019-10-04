@@ -10,10 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.revature.gamesgalore.entitymappings.AccountMappings;
+import com.revature.gamesgalore.entitymappings.GameMappings;
 import com.revature.gamesgalore.entitymappings.PlatformMappings;
 
 @Entity(name = PlatformMappings.ENTITY_NAME)
@@ -32,6 +35,10 @@ public class Platform implements Serializable {
 	private String platformName;
 	@ManyToMany(mappedBy = AccountMappings.PLATFORM_PREFERENCES_FIELD, fetch = FetchType.LAZY)
 	private Set<Account> platformAccounts = new HashSet<>();
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "platform_game_id", referencedColumnName = GameMappings.GAME_ID)
+	private Game platformGame;
 
 	public Platform() {
 		super();
@@ -53,7 +60,7 @@ public class Platform implements Serializable {
 	@Override
 	public String toString() {
 		return "Platform [platformId=" + platformId + ", platformName=" + platformName + ", platformAccounts="
-				+ platformAccounts + "]";
+				+ (platformAccounts != null ? platformAccounts : "Empty") + "]";
 	}
 
 	public Long getPlatformId() {
@@ -87,6 +94,14 @@ public class Platform implements Serializable {
 		if (platform.platformName != null) {
 			this.platformName = platform.platformName;
 		}
+	}
+
+	public Game getPlatformGame() {
+		return platformGame;
+	}
+
+	public void setPlatformGame(Game platformGame) {
+		this.platformGame = platformGame;
 	}
 
 	@Override

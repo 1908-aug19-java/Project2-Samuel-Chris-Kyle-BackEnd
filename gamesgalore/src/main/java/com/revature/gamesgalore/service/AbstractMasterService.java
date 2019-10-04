@@ -8,38 +8,42 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
 
 @Service
-public abstract class AbstractMasterService<D, R extends JpaSpecificationExecutor<D> & CrudRepository<D, Long>> implements MasterService<D> {
+public abstract class AbstractMasterService<D, R extends JpaSpecificationExecutor<D> & CrudRepository<D, Long>>
+		implements MasterService<D> {
 
 	@Autowired
 	R masterRepository;
-	
+
 	@Override
 	public List<D> getByParams(String... args) {
+		System.out.println("dsdjsdsjdjhkj");
 		return masterRepository.findAll(getSpecification(args));
 	}
 
 	@Override
 	public void add(List<D> daos) {
+
 		try {
 			for (D dao : daos) {
+				System.out.println("DAOOAOAOOAOA");
+				System.out.println(dao);
 				if (!isValidCreate(dao)) {
-					throw ResponseExceptionManager.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED)
-							.get();
-				} 
+					throw ResponseExceptionManager
+							.getRSE(HttpStatus.BAD_REQUEST, ResponseExceptionManager.VALIDATION_FAILED).get();
+				}
+				System.out.println("ddddddddddaaaaaaaaaaaaaooooooooooooo1");
 				manageCreatedDependencies(dao);
+				System.out.println("ddddddddddaaaaaaaaaaaaaooooooooooooo2");
 				masterRepository.save(dao);
 			}
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			throw ResponseExceptionManager
-					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
+		}catch (Exception e) {
+			throw e;
 		}
+
 	}
 
 	@Override
@@ -53,11 +57,8 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 			}
 			overrideUpdatedFields(daoRetreived, dao);
 			masterRepository.save(daoRetreived);
-		} catch (ResponseStatusException rse) {
-			throw rse;
 		} catch (Exception e) {
-			throw ResponseExceptionManager
-					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
+			throw e;
 		}
 	}
 
@@ -66,11 +67,8 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 		try {
 			return masterRepository.findById(daoId).orElseThrow(
 					ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, ResponseExceptionManager.NOT_FOUND));
-		} catch (ResponseStatusException rse) {
-			throw rse;
-		} catch (Exception e) {
-			throw ResponseExceptionManager
-					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
+		}catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -84,14 +82,11 @@ public abstract class AbstractMasterService<D, R extends JpaSpecificationExecuto
 			D dao = optionalD.get();
 			manageDeletingDependencies(dao);
 			masterRepository.deleteById(daoId);
-		} catch (ResponseStatusException rse) {
-			throw rse;
 		} catch (Exception e) {
-			throw ResponseExceptionManager
-					.getRSE(HttpStatus.INTERNAL_SERVER_ERROR, ResponseExceptionManager.UNEXPECTED_ERROR).get();
+			throw e;
 		}
 	}
-	
+
 	@Override
 	public boolean isValidName(String name) {
 		return name != null && name.matches("[A-Za-z-' ]{2,30}");

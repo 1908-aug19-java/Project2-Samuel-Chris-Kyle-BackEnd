@@ -108,14 +108,15 @@ public class Wishlist implements Serializable {
 		}
 
 		Set<GameDTO> gameDTOs = wishlistDTO.getWishlistGames();
-		Set<Game> gamesCopied = new HashSet<>();
-		for (GameDTO gameDTO : gameDTOs) {
-			Game game = new Game();
-			BeanUtils.copyProperties(gameDTO, game);
-			gamesCopied.add(game);
+		if (gameDTOs != null) {
+			Set<Game> gamesCopied = new HashSet<>();
+			for (GameDTO gameDTO : gameDTOs) {
+				Game game = new Game();
+				BeanUtils.copyProperties(gameDTO, game);
+				gamesCopied.add(game);
+			}
+			this.setWishlistGames(gamesCopied);
 		}
-		this.setWishlistGames(gamesCopied);
-
 	}
 
 	@Override

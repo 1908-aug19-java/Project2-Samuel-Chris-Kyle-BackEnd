@@ -57,7 +57,7 @@ public class AccountDTO implements Serializable {
 	public String toString() {
 		return "AccountDTO [" +"accountImageUrl "+accountImageUrl+", accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
-				+ ", genrePreferences=" + genrePreferences + ", platformPreferences=" + platformPreferences + "]";
+				+ ", genrePreferences=" + (genrePreferences != null ? genrePreferences : "Empty") + ", platformPreferences=" + (platformPreferences != null ? platformPreferences : "Empty") + "]";
 	}
 
 	public Long getAccountId() {

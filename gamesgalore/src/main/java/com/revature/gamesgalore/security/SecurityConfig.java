@@ -62,7 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private static final String[] WHITELIST = {
+
 		"/keys/**",
+
 			"/accounts/**", 
 			"/users/**",
 			"/wishlists/**",

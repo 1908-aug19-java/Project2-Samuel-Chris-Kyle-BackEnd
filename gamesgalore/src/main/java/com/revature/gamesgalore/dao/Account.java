@@ -62,6 +62,7 @@ public class Account implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = AccountMappings.ACCOUNT_USER_ID, referencedColumnName = UserMappings.USER_ID, nullable = false)
 	private User accountUser;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = AccountMappings.ACCOUNT_ROLE_ID, referencedColumnName = RoleMappings.ROLE_ID, nullable = false)
 	private Role accountRole;
@@ -73,7 +74,7 @@ public class Account implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = AccountMappings.ACCOUNTS_PLATFORMS, joinColumns = @JoinColumn(name = AccountMappings.ACCOUNT_ID, referencedColumnName = AccountMappings.ACCOUNT_ID), inverseJoinColumns = @JoinColumn(name = PlatformMappings.PLATFORM_ID, referencedColumnName = PlatformMappings.PLATFORM_ID))
 	private Set<Platform> platformPreferences;
-	
+
 	@OneToMany(mappedBy = WishlistMappings.WISHLIST_ACCOUNT_FIELD)
 	private Set<Wishlist> accountWishlist = new HashSet<>();
 
@@ -102,13 +103,14 @@ public class Account implements Serializable {
 		this.platformPreferences = platformPreferences;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Account [ accountImageUrl=" +accountImageUrl + ", accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
-				+ accountPassword + ", enabled=" + enabled + ", accountNonExpired=" + accountNonExpired
-				+ ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired
-				+ ", accountUser=" + accountUser + ", accountRole=" + accountRole + ", genrePreferences="
-				+ genrePreferences + ", platformPreferences=" + platformPreferences + "]";
+
+		return "Account [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
+				+ accountPassword + ", accountImageUrl=" + accountImageUrl + "]";
+
 	}
 
 	public Long getAccountId() {
@@ -220,31 +222,35 @@ public class Account implements Serializable {
 		this.setAccountUsername(accountDTO.getAccountUsername());
 		this.setAccountPassword(accountDTO.getAccountPassword());
 		this.setAccountImageUrl(accountDTO.getAccountImageUrl());
-		
+
 		UserDTO accountUserDTO = accountDTO.getAccountUser();
 		if (accountUserDTO != null) {
 			User accountUserCopied = new User();
 			BeanUtils.copyProperties(accountUserDTO, accountUserCopied);
 			this.setAccountUser(accountUserCopied);
 		}
-		
+
 		Set<GenreDTO> genrePreferencesDTO = accountDTO.getGenrePreferences();
-		Set<Genre> genrePreferencesCopied = new HashSet<>();
-		for (GenreDTO genreDTO : genrePreferencesDTO) {
-			Genre genre = new Genre();
-			BeanUtils.copyProperties(genreDTO, genre);
-			genrePreferencesCopied.add(genre);
+		if (genrePreferencesDTO != null) {
+			Set<Genre> genrePreferencesCopied = new HashSet<>();
+			for (GenreDTO genreDTO : genrePreferencesDTO) {
+				Genre genre = new Genre();
+				BeanUtils.copyProperties(genreDTO, genre);
+				genrePreferencesCopied.add(genre);
+			}
+			this.setGenrePreferences(genrePreferencesCopied);
 		}
-		this.setGenrePreferences(genrePreferencesCopied);
 
 		Set<PlatformDTO> platformPreferencesDTO = accountDTO.getPlatformPreferences();
-		Set<Platform> platformPreferencesCopied = new HashSet<>();
-		for (PlatformDTO platformDTO : platformPreferencesDTO) {
-			Platform platform = new Platform();
-			BeanUtils.copyProperties(platformDTO, platform);
-			platformPreferencesCopied.add(platform);
+		if (platformPreferencesDTO != null) {
+			Set<Platform> platformPreferencesCopied = new HashSet<>();
+			for (PlatformDTO platformDTO : platformPreferencesDTO) {
+				Platform platform = new Platform();
+				BeanUtils.copyProperties(platformDTO, platform);
+				platformPreferencesCopied.add(platform);
+			}
+			this.setPlatformPreferences(platformPreferencesCopied);
 		}
-		this.setPlatformPreferences(platformPreferencesCopied);
 
 	}
 
