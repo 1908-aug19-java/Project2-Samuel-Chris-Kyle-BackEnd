@@ -21,6 +21,7 @@ import com.revature.gamesgalore.dao.Key;
 import com.revature.gamesgalore.dto.KeyDTO;
 import com.revature.gamesgalore.service.MasterService;
 
+@CrossOrigin
 @RestController
 public class KeyController {
 
