@@ -78,7 +78,9 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		if (account.getAccountPassword() != null) {
 			accountRetreived.setAccountPassword(account.getAccountPassword());
 		}
+		System.out.println("in override updated fields");
 		if (account.getAccountImageUrl() != null) {
+			System.out.println("Account Image Url: " + account.getAccountImageUrl());
 			accountRetreived.setAccountImageUrl(account.getAccountImageUrl());
 		}
 		setDependencies(account);
