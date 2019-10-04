@@ -45,11 +45,14 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 	MasterService<Genre> genreService;
 	@Autowired
 	MasterService<Platform> platformService;
-
+	
 	@Override
 	public Specification<Account> getSpecification(String... args) {
 		String accountUsername = args[0];
 		String accountRoleName = args[1];
+		System.out.println("null mememem");
+		System.out.println(accountRoleName);
+		System.out.println(accountUsername);
 		return new Specification<Account>() {
 			private static final long serialVersionUID = 1L;
 
@@ -120,9 +123,12 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		if (account.getAccountUsername() != null) {
 			valid &= isValidUsername(account.getAccountUsername());
 		}
-		if (account.getAccountPassword() != null) {
+		if(account.getAccountPassword() != null && accountRetreived.getAccountPassword().equals(account.getAccountPassword())) {
+			return true;
+		}else if (account.getAccountPassword() != null) {
 			valid &= isValidPassword(account.getAccountPassword());
 		}
+
 		return valid;
 	}
 
@@ -156,7 +162,7 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 	}
 
 	public boolean isValidUsername(String username) {
-		String regex = "^[a-z0-9_-]{3,20}$";
+		String regex = "^[a-zA-Z0-9_-]{3,20}$";
 		return username.matches(regex);
 	}
 

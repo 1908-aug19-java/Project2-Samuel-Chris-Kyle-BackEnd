@@ -61,11 +61,16 @@ public class WishlistController {
 	 *                     Wishlist objects.
 	 */
 	@PostMapping(value = "/wishlists")
-	public void createWishlists(HttpServletResponse response, @RequestBody List<WishlistDTO> wishlistDTOs) {
+	public void createWishlists(HttpServletResponse response, @RequestBody WishlistDTO wishlistDTO1) {
+		System.out.println("jhsjshdjhsjdhd");
+		//System.out.println(wishlistDTOs);
+		List<WishlistDTO> wishlistDTOs = new ArrayList<WishlistDTO>();
+		wishlistDTOs.add(wishlistDTO1);
 		List<Wishlist> wishlists = new ArrayList<>();
 		for (WishlistDTO wishlistDTO : wishlistDTOs) {
 			Wishlist wishlist = new Wishlist();
-			BeanUtils.copyProperties(wishlistDTO, wishlist);
+			wishlist.copyPropertiesFrom(wishlistDTO);
+
 			wishlists.add(wishlist);
 		}
 		response.setStatus(201);
@@ -100,7 +105,7 @@ public class WishlistController {
 	public void putGame(HttpServletResponse response, @NotNull @RequestBody WishlistDTO wishlistDTO,
 			@PathVariable("id") Long wishlistId) {
 		Wishlist wishlist = new Wishlist();
-		BeanUtils.copyProperties(wishlistDTO, wishlist);
+		wishlist.copyPropertiesFrom(wishlistDTO);
 		response.setStatus(200);
 		wishlistService.update(wishlist, wishlistId);
 	}

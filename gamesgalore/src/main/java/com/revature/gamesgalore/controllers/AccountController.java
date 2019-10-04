@@ -112,6 +112,8 @@ public class AccountController {
 			@PathVariable("id") Long accountId) {
 		Account account = new Account();
 		account.copyPropertiesFrom(accountDTO);
+		System.out.println("In update");
+		System.out.println(account);
 		response.setStatus(200);
 		accountService.update(account, accountId);
 	}

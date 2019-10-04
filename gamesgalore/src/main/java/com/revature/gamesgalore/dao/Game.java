@@ -31,6 +31,7 @@ public class Game implements Serializable {
 	private Long gameId;
 	@Column(name = GameMappings.GAME_NAME)
 	private String gameName;
+	
 	@ManyToMany(mappedBy = WishlistMappings.WISHLIST_GAMES_FIELD, fetch = FetchType.LAZY)
 	private List<Wishlist> gameWishlists = new ArrayList<>();
 
