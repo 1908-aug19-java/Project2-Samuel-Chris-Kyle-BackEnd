@@ -219,7 +219,8 @@ public class Account implements Serializable {
 		this.setAccountId(accountDTO.getAccountId());
 		this.setAccountUsername(accountDTO.getAccountUsername());
 		this.setAccountPassword(accountDTO.getAccountPassword());
-
+		this.setAccountImageUrl(accountDTO.getAccountImageUrl());
+		
 		UserDTO accountUserDTO = accountDTO.getAccountUser();
 		if (accountUserDTO != null) {
 			User accountUserCopied = new User();
