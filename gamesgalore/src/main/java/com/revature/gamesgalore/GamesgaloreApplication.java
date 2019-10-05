@@ -9,11 +9,10 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @ServletComponentScan
-@PropertySource("file:"+ GamesgaloreApplication.PROPETIES_FILE)
+@PropertySource("file:"+ GamesgaloreApplication.PROPERTIES_FILE)
 public class GamesgaloreApplication extends SpringBootServletInitializer{
 
-//	public static final String PROPETIES_FILE = "C:\\Users\\Samuel\\properties\\application.properties";
-	public static final String PROPETIES_FILE = "/usr/tmp/application.properties";
+	public static final String PROPERTIES_FILE = "C:\\Users\\Samuel\\properties\\application.properties";
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(GamesgaloreApplication.class);

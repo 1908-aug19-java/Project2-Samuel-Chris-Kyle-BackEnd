@@ -1,11 +1,11 @@
 # Project2-Samuel-Chris-Kyle-BackEnd
 
 # API info
-_**Swagger has been integrated. You can use Swagger for a cleaner outlook on the API. host:Port/gamesgalore/swagger-ui.html#/**_
+_**Swagger has been integrated. You can use Swagger for a cleaner outlook on the API. host:Port/gamesgalore/swagger-ui.html#/**_ <br/>
 
 _**You cannot modify the id(primary key) of any objects directly through the api. This can only be done through the database.**_
 
-All POST requests that require a body take an **array** of the specified object. This makes it so you can post multiple objects at once
+**All POST requests that require a body take an _array_ of the specified object. This makes it so you can post multiple objects at once**
 
 # Login
 To login you must make a POST request and pass your accountUsername and accountPassword as parameters. If the request is successful, then you will receieve a JWT in the __*Authorization*__ header. When making any authorized requests to the API endpoints, you must provide the this token in the __*Authorization*__ header preceeded by the word Bearer since represents the Bearer authentication scheme. 
@@ -27,22 +27,22 @@ _**confirmed password currently does nothing. It is in place in case we want ser
 
 Ex:
 ```javascript
-[{
-    "accountUsername": "username",
-    "accountPassword": "password",
-    "confirmPassword": "confirmed password",
+{
+    "accountUsername": "newuser",
+    "accountPassword": "Pass123",
+    "confirmPassword": null,
     "accountUser": {
-        "userFirstName": "first name",
-        "userLastName": "last name",
-        "userEmail": "email"
+        "userFirstName": "new",
+        "userLastName": "user",
+        "userEmail": "newuser@outlook.com"
     },
     "genrePreferences": [{
-        "genreName": "Horror"
+    "genreName": "Shooter"
     }],
     "platformPreferences": [{
         "platformName": "PS4"
     }]
-}]
+}
 ```
 notes: 
 _**You cannot create a user directly since we are enforcing creating an account with a user simultaneously.
@@ -61,19 +61,21 @@ Ex:
     "accountRole": {
         "roleId": 2
     },
+    "accountImageUrl": "https://gamesgaloreimages.s3.amazonaws.com/jsa-s3/Gears.jpg",
     "genrePreferences": [
         {
             "genreId": 2,
-            "genreName": "Actionx"
+            "genreName": "Strategy"
         }
     ],
     "platformPreferences": [
         {
             "platformId": 2,
-            "platformName": "XBOXx"
+            "platformName": "XboxOne"
         }
     ]
 }
+
 
 ```
 # GET Accounts
@@ -107,11 +109,43 @@ Ex:
 * host:Port/gamesgalore/users?userEmail=christophercoleman@outlook.com
 * host:Port/gamesgalore/users?userFirstName=Samuel&userLastName=Dorilas&userEmail=samueldorilas@outlook.com
 
+# Create Wishlist
+
+Ex:
+```javascript
+{
+    "wishlistName": "My Second wishlist user 2",
+    "wishlistGames": [],
+    "wishlistAccount": {"accountUsername": "kylereimer"}
+}
+```
+
+# Update WishList
+
+Ex:
+```javascript
+{
+	"wishlistName": "My Second wishlist user 2",
+    "wishlistGames": [
+        {
+        	"gameId": 1
+        },
+        {
+        	"gameId": 2
+        }
+    ],
+    "wishlistAccount": {
+    	"accountUsername": "kylereimer"
+	}
+}
+```
+
 # Basic PUT and POST
 /roles
 ```javascript
 [
    {
+       "roleId": 1,
        "roleName": "USER"
    }
 ]
@@ -120,6 +154,7 @@ Ex:
 ```javascript
 [
     {
+        "platformId":1,
         "platformName": "Wiiu"
     }
 ]
@@ -128,6 +163,7 @@ Ex:
 ```javascript
 [
     {
+        "genreId": 1,
         "genreName": "Comedy"
     }
 ]
@@ -136,6 +172,7 @@ Ex:
 ```javascript
 [
     {
+        "gameId": 1,
         "gameName": "Prototype"
     }
 ]
@@ -149,6 +186,7 @@ Ex:
 * host:Port/gamesgalore/platforms?platformName=XBOX
 * host:Port/gamesgalore/genres?genreName=Horror
 * host:Port/gamesgalore/games?gameName=For Honor
+* host:Port/gamesgalore/wishlists?wishlistName=My first wishlist
 
 # Available endpoints
 
@@ -179,6 +217,10 @@ Ex:
 * /genres GET, POST
 * /genres PUT, DELETE
 
+### Wishlists
+* /wishlists GET, POST
+* /wishlists PUT, DELETE
+
 # Security
 When you first create an account, it will be granted the authority "USER". To get "ADMIN" privileges, the authority must be changed explicitly from the database. There may be future implementation that allows "ADMIN" to change a user role through an API request.
 
@@ -189,6 +231,11 @@ GET, POST, PUT, DELETE - AUTHORITY('ADMIN')
 ### USER 
 * /accounts, /users <br/>
 GET, PUT, DELETE - AUTHORITY('USER') if the account belongs to the requestor 
+
+### Wishlist
+* /wishlists <br/>
+GET  AUTHORITY(Not Required)
+PUT, DELETE - AUTHORITY('USER') if the wishlist belongs to the requestor 
 
 ### No authority required
 * /login, /accounts <br/>

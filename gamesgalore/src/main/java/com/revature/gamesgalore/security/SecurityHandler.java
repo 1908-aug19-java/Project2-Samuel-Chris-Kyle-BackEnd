@@ -37,7 +37,7 @@ public class SecurityHandler {
 	private String secretKey;
 
 	public SecurityHandler() {
-		try (InputStream input = new FileInputStream(GamesgaloreApplication.PROPETIES_FILE)) {
+		try (InputStream input = new FileInputStream(GamesgaloreApplication.PROPERTIES_FILE)) {
 			Properties prop = new Properties();
 			prop.load(input);
 			secretKey = prop.getProperty("security.jwt.token.secret-key");

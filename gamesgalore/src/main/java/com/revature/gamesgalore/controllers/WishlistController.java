@@ -35,8 +35,9 @@ public class WishlistController {
 	MasterService<Wishlist> wishlistService;
 
 	/**
-	 * @param response     The HTTP response from the GET operation.
-	 * @param wishlistName The Wishlist name to filter search
+	 * @param response        The HTTP response from the GET operation.
+	 * @param wishlistName    The Wishlist name to filter search
+	 * @param accountUsername The account username to filter the search
 	 * @return A collection of Wishlist POJO's.
 	 */
 	@GetMapping(value = "/wishlists")
@@ -56,18 +57,16 @@ public class WishlistController {
 
 	/**
 	 * 
-	 * @param response     The HTTP response from the POST operation.
-	 * @param wishlistDTOs A array of objects containing a POJO representation of
-	 *                     Wishlist objects.
+	 * @param response    The HTTP response from the POST operation.
+	 * @param wishlistDTO A array of objects containing a POJO representation of
+	 *                    Wishlist objects.
 	 */
 	@PostMapping(value = "/wishlists")
-	public void createWishlists(HttpServletResponse response, @RequestBody List<WishlistDTO> wishlistDTOs) {
+	public void createWishlists(HttpServletResponse response, @RequestBody WishlistDTO wishlistDTO) {
 		List<Wishlist> wishlists = new ArrayList<>();
-		for (WishlistDTO wishlistDTO : wishlistDTOs) {
-			Wishlist wishlist = new Wishlist();
-			BeanUtils.copyProperties(wishlistDTO, wishlist);
-			wishlists.add(wishlist);
-		}
+		Wishlist wishlist = new Wishlist();
+		wishlist.copyPropertiesFrom(wishlistDTO);
+		wishlists.add(wishlist);
 		response.setStatus(201);
 		wishlistService.add(wishlists);
 	}
@@ -100,7 +99,7 @@ public class WishlistController {
 	public void putGame(HttpServletResponse response, @NotNull @RequestBody WishlistDTO wishlistDTO,
 			@PathVariable("id") Long wishlistId) {
 		Wishlist wishlist = new Wishlist();
-		BeanUtils.copyProperties(wishlistDTO, wishlist);
+		wishlist.copyPropertiesFrom(wishlistDTO);
 		response.setStatus(200);
 		wishlistService.update(wishlist, wishlistId);
 	}

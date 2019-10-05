@@ -20,7 +20,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAyMjk0OTcsImV4cCI6MTU3MDMxNTg5N30.YV5gLflMwvZp3Z3BdYfZ_vO3zJ89qQ9xVSAduTExE_o",
 									"type": "string"
 								}
 							]
@@ -50,6 +50,16 @@
 				{
 					"name": "Get role",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -72,6 +82,16 @@
 				{
 					"name": "Post role",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -83,7 +103,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[{\n    \"roleName\": \"USER\"\n}]"
+							"raw": "[{\n    \"roleName\": \"TEST\"\n}]"
 						},
 						"url": {
 							"raw": "http://localhost:8080/gamesgalore/roles",
@@ -104,6 +124,16 @@
 				{
 					"name": "Update role",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -115,7 +145,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"roleName\": \"USERS\"\n}"
+							"raw": "{\n    \"roleName\": \"SUPERUSER\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/gamesgalore/roles/3",
@@ -137,10 +167,20 @@
 				{
 					"name": "Delete role",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/roles/3",
+							"raw": "http://localhost:8080/gamesgalore/roles/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -149,7 +189,7 @@
 							"path": [
 								"gamesgalore",
 								"roles",
-								"3"
+								"1"
 							]
 						},
 						"description": "Deletes a role, tetsing endpoint /roles/{id}"
@@ -159,6 +199,16 @@
 				{
 					"name": "Get by roleName",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -197,7 +247,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -228,7 +278,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -255,6 +305,16 @@
 				{
 					"name": "Update user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -266,10 +326,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"userId\": 1,\n        \"userFirstName\": \"SamuelEdited\",\n        \"userLastName\": \"DorilasEdited\",\n        \"userEmail\": \"s@catalyte.io\"\n}\n"
+							"raw": "{\n        \"userFirstName\": \"SamuelEdited\",\n        \"userLastName\": \"DorilasEdited\",\n        \"userEmail\": \"s@catalyte.io\"\n}\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/users/1",
+							"raw": "http://localhost:8080/gamesgalore/users/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -278,7 +338,7 @@
 							"path": [
 								"gamesgalore",
 								"users",
-								"1"
+								"4"
 							]
 						},
 						"description": "PUT new data into a user, testing endpoint /users/{id}"
@@ -310,6 +370,16 @@
 				{
 					"name": "Get by userFirstName",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk5ODg3MjMsImV4cCI6MTU3MDA3NTEyM30.wB-7UsHgJaVp6wnx3oNgQZ4LU3fChBy_JDDWe6y4h7U",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -437,7 +507,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk4NTE0MjEsImV4cCI6MTU2OTkzNzgyMX0.U1tMgYlMLty8w-kqyxDs68DXMJDZrBeH9uEF3rITsps",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -468,7 +538,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -499,7 +569,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk4NTE0MjEsImV4cCI6MTU2OTkzNzgyMX0.U1tMgYlMLty8w-kqyxDs68DXMJDZrBeH9uEF3rITsps",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -515,7 +585,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[{\r\n        \"accountUsername\": \"newuser\",\r\n        \"accountPassword\": \"Pass123\",\r\n        \"confirmPassword\": null,\r\n        \"accountUser\": {\r\n            \"userFirstName\": \"new\",\r\n            \"userLastName\": \"user\",\r\n            \"userEmail\": \"newuser@outlook.com\"\r\n        },\r\n        \"genrePreferences\": [{\r\n        \"genreName\": \"Horrorx\"\r\n\t    }],\r\n\t    \"platformPreferences\": [{\r\n\t        \"platformName\": \"PS4x\"\r\n\t    }]\r\n}]",
+							"raw": "{\r\n        \"accountUsername\": \"newuser\",\r\n        \"accountPassword\": \"Pass123\",\r\n        \"confirmPassword\": null,\r\n        \"accountUser\": {\r\n            \"userFirstName\": \"new\",\r\n            \"userLastName\": \"user\",\r\n            \"userEmail\": \"newuser@outlook.com\"\r\n        },\r\n        \"genrePreferences\": [{\r\n        \"genreName\": \"Shooter\"\r\n\t    }],\r\n\t    \"platformPreferences\": [{\r\n\t        \"platformName\": \"PS4\"\r\n\t    }]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -546,7 +616,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -562,7 +632,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"accountUsername\": \"samueldorilas2\",\r\n    \"accountPassword\": \"Pass123123\",\r\n    \"confirmPassword\": null,\r\n    \"accountRole\": {\r\n        \"roleId\": 2\r\n    },\r\n    \"genrePreferences\": [\r\n        {\r\n            \"genreId\": 2,\r\n            \"genreName\": \"Actionx\"\r\n        }\r\n    ],\r\n    \"platformPreferences\": [\r\n        {\r\n            \"platformId\": 2,\r\n            \"platformName\": \"XBOXx\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"accountUsername\": \"samueldorilas2\",\r\n    \"accountPassword\": \"Pass123123\",\r\n    \"confirmPassword\": null,\r\n    \"accountRole\": {\r\n        \"roleId\": 2\r\n    },\r\n     \"accountImageUrl\": \"https://gamesgaloreimages.s3.amazonaws.com/jsa-s3/Gears.jpg\",\r\n    \"genrePreferences\": [\r\n        {\r\n            \"genreId\": 2,\r\n            \"genreName\": \"Strategy\"\r\n        }\r\n    ],\r\n    \"platformPreferences\": [\r\n        {\r\n            \"platformId\": 2,\r\n            \"platformName\": \"XboxOne\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -593,7 +663,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -743,7 +813,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -767,6 +837,30 @@
 					"response": []
 				},
 				{
+					"name": "prod Get games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ec2-54-80-50-16.compute-1.amazonaws.com:8081/gamesgalore/games/",
+							"protocol": "http",
+							"host": [
+								"ec2-54-80-50-16",
+								"compute-1",
+								"amazonaws",
+								"com"
+							],
+							"port": "8081",
+							"path": [
+								"gamesgalore",
+								"games",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get game",
 					"request": {
 						"auth": {
@@ -774,7 +868,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -805,7 +899,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTU2OTg1MjU5NywiZXhwIjoxNTY5OTM4OTk3fQ.uO5WY6YrqmWYMS2xmxlh5WNBhZe8VBqJh1ONB-ULd1s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -821,7 +915,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"gameName\": \"Kingdom Hearts\"\r\n    },\r\n    {\r\n        \"gameName\": \"Gears of war\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n    \t\"gameId\": 1,\r\n        \"gameName\": \"Kingdom Hearts\"\r\n    },\r\n    {\r\n    \t\"gameId\": 2,\r\n        \"gameName\": \"Gears of war\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -852,7 +946,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -899,7 +993,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTczMzQsImV4cCI6MTU3MDIwMzczNH0.L6bKl2Xfnz2W69ts2BQ4mMtSZVyHLJNJSE5oycRQbRc",
 									"type": "string"
 								}
 							]
@@ -936,7 +1030,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -998,7 +1092,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1045,7 +1139,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1069,7 +1163,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/genres/4",
+							"raw": "http://localhost:8080/gamesgalore/genres/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1078,7 +1172,7 @@
 							"path": [
 								"gamesgalore",
 								"genres",
-								"4"
+								"2"
 							]
 						}
 					},
@@ -1092,7 +1186,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1100,7 +1194,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/genres/4",
+							"raw": "http://localhost:8080/gamesgalore/genres/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1109,7 +1203,7 @@
 							"path": [
 								"gamesgalore",
 								"genres",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -1129,7 +1223,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1191,7 +1285,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1238,7 +1332,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1262,7 +1356,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/platforms/4",
+							"raw": "http://localhost:8080/gamesgalore/platforms/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1271,7 +1365,7 @@
 							"path": [
 								"gamesgalore",
 								"platforms",
-								"4"
+								"2"
 							]
 						}
 					},
@@ -1285,7 +1379,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1Njk3NDY0MTEsImV4cCI6MTU2OTgzMjgxMX0.Pef6gMSPRGDdjucwwvJrZyY2Shbe2-DpcKzYIKIAe2E",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
 									"type": "string"
 								}
 							]
@@ -1293,7 +1387,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/gamesgalore/platforms/4",
+							"raw": "http://localhost:8080/gamesgalore/platforms/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1302,7 +1396,215 @@
 							"path": [
 								"gamesgalore",
 								"platforms",
-								"4"
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Wishlists",
+			"item": [
+				{
+					"name": "Get wishlists",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAyMjk0OTcsImV4cCI6MTU3MDMxNTg5N30.YV5gLflMwvZp3Z3BdYfZ_vO3zJ89qQ9xVSAduTExE_o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/wishlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"wishlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/wishlists/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"wishlists",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post wishlist",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"wishlistName\": \"My Second wishlist user 2\",\n        \"wishlistGames\": [],\n        \"wishlistAccount\": {\n        \"accountUsername\": \"kylereimer\"\n\n    \t}\n    }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/wishlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"wishlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"wishlistName\": \"My Second wishlist user 2\",\n    \"wishlistGames\": [\n        {\n        \t\"gameId\": 1\n        },\n        {\n        \t\"gameId\": 2\n        }\n    ],\n    \"wishlistAccount\": {\n    \t\"accountUsername\": \"kylereimer\"\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/wishlists/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"wishlists",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAyMjk0OTcsImV4cCI6MTU3MDMxNTg5N30.YV5gLflMwvZp3Z3BdYfZ_vO3zJ89qQ9xVSAduTExE_o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/wishlists/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"wishlists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Keys",
+			"item": [
+				{
+					"name": "Get keys",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJ1c2VybmFtZSI6Imt5bGVyZWltZXIiLCJpYXQiOjE1NzAxMTMzMTAsImV4cCI6MTU3MDE5OTcxMH0.9pcAHb5UjAkdA976o5z1vl0ApQ1H9M7JqRneFFXyW5Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gamesgalore/keys/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gamesgalore",
+								"keys",
+								""
 							]
 						}
 					},

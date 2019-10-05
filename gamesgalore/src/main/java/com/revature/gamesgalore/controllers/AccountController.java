@@ -65,7 +65,7 @@ public class AccountController {
 	/**
 	 * 
 	 * @param response    The HTTP response from the POST operation.
-	 * @param accountsDTO A array of objects containing a POJO representation of
+	 * @param accountDTO A array of objects containing a POJO representation of
 	 *                    Accounts objects.
 	 */
 	@PostMapping(value = "/accounts")

@@ -33,3 +33,4 @@ build/
 ### Custom files to ignore
 *.log
 *.sql
+**/doc

@@ -41,7 +41,7 @@ public class AccountDTO implements Serializable {
 
 	public AccountDTO(Long accountId, String accountUsername, String accountPassword, String confirmPassword,
 			UserDTO accountUser, String accountImageUrl, Set<GenreDTO> genrePreferences,
-			Set<PlatformDTO> platformPreferences, Set<WishlistDTO> accountWishlist) {
+			Set<PlatformDTO> platformPreferences) {
 		super();
 		this.accountId = accountId;
 		this.accountUsername = accountUsername;
@@ -55,9 +55,9 @@ public class AccountDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AccountDTO [accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
+		return "AccountDTO [" +"accountImageUrl "+accountImageUrl+", accountId=" + accountId + ", accountUsername=" + accountUsername + ", accountPassword="
 				+ accountPassword + ", confirmPassword=" + confirmPassword + ", accountUser=" + accountUser
-				+ ", genrePreferences=" + genrePreferences + ", platformPreferences=" + platformPreferences + "]";
+				+ ", genrePreferences=" + (genrePreferences != null ? genrePreferences : "Empty") + ", platformPreferences=" + (platformPreferences != null ? platformPreferences : "Empty") + "]";
 	}
 
 	public Long getAccountId() {

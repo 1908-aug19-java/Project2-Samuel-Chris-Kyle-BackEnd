@@ -120,9 +120,13 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 		if (account.getAccountUsername() != null) {
 			valid &= isValidUsername(account.getAccountUsername());
 		}
-		if (account.getAccountPassword() != null) {
+		if (account.getAccountPassword() != null
+				&& accountRetreived.getAccountPassword().equals(account.getAccountPassword())) {
+			return true;
+		} else if (account.getAccountPassword() != null) {
 			valid &= isValidPassword(account.getAccountPassword());
 		}
+
 		return valid;
 	}
 
@@ -156,7 +160,7 @@ public class AccountServiceImpl extends AbstractMasterService<Account, AccountRe
 	}
 
 	public boolean isValidUsername(String username) {
-		String regex = "^[a-z0-9_-]{3,20}$";
+		String regex = "^[a-zA-Z0-9_-]{3,20}$";
 		return username.matches(regex);
 	}
 

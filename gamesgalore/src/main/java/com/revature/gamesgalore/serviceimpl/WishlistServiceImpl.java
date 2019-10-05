@@ -2,6 +2,7 @@ package com.revature.gamesgalore.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.gamesgalore.dao.Account;
+import com.revature.gamesgalore.dao.Game;
 import com.revature.gamesgalore.dao.Wishlist;
 import com.revature.gamesgalore.entitymappings.AccountMappings;
 import com.revature.gamesgalore.entitymappings.WishlistMappings;
 import com.revature.gamesgalore.exceptions.ResponseExceptionManager;
+import com.revature.gamesgalore.repositories.GameRepository;
 import com.revature.gamesgalore.repositories.WIshlistRepository;
 import com.revature.gamesgalore.service.AbstractMasterService;
 import com.revature.gamesgalore.service.MasterService;
@@ -31,6 +34,10 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 
 	@Autowired
 	MasterService<Account> accountService;
+	@Autowired
+	MasterService<Game> gameService;
+	@Autowired
+	GameRepository gameRepository;
 
 	@Override
 	public Specification<Wishlist> getSpecification(String... args) {
@@ -41,14 +48,13 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 
 			@Override
 			public Predicate toPredicate(Root<Wishlist> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				//.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 				List<Predicate> predicates = new ArrayList<>();
 				Join<Wishlist, Account> wishlistOnAccount = root.join(WishlistMappings.WISHLIST_ACCOUNT_FIELD);
-				if (wishlistName != null) {
+				if (wishlistName != null && !"".equals(wishlistName)) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder
 							.equal(root.get(DetailsUtil.toFieldName(WishlistMappings.WISHLIST_NAME)), wishlistName)));
 				}
-				if (accountUsername != null) {
+				if (accountUsername != null && !"".equals(accountUsername)) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(
 							wishlistOnAccount.get(DetailsUtil.toFieldName(AccountMappings.ACCOUNT_USERNAME)),
 							accountUsername)));
@@ -65,12 +71,11 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 		}
 
 		setDependencies(wishlist);
-
 		Account wishlistAccount = wishlist.getWishlistAccount();
 		if (wishlistAccount != null) {
 			wishlistRetreived.setWishlistAccount(wishlistAccount);
 		}
-
+		wishlistRetreived.setWishlistGames(wishlist.getWishlistGames());
 	}
 
 	@Override
@@ -80,30 +85,43 @@ public class WishlistServiceImpl extends AbstractMasterService<Wishlist, WIshlis
 
 	private void setDependencies(Wishlist wishlist) {
 		Account wishlistAccount = wishlist.getWishlistAccount();
-		List<Account> accountsRetreived = accountService.getByParams(wishlistAccount.getAccountUsername());
-		if (!accountsRetreived.isEmpty()) {
-			wishlist.setWishlistAccount(accountsRetreived.get(0));
-		} else {
-			throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, "The account dependency does not exist").get();
+		if (wishlistAccount != null) {
+			List<Account> accountsRetreived = accountService.getByParams(wishlistAccount.getAccountUsername(), null);
+			if (!accountsRetreived.isEmpty()) {
+				wishlistAccount = accountsRetreived.get(0);
+				wishlist.setWishlistAccount(wishlistAccount);
+				accountService.update(wishlistAccount, wishlistAccount.getAccountId());
+			} else {
+				throw ResponseExceptionManager.getRSE(HttpStatus.NOT_FOUND, "The account dependency does not exist")
+						.get();
+			}
+
+		}
+
+		Set<Game> games = wishlist.getWishlistGames();
+		for (Game game : games) {
+			List<Game> gamesRetrieved = gameService.getByParams(game.getGameName());
+			for (Game g : gamesRetrieved) {
+				gameService.update(g, g.getGameId());
+			}
 		}
 
 	}
 
 	@Override
 	public boolean isValidCreate(Wishlist wishlist) {
-		return true;//isValidName(wishlist.getWishlistName());
+		return isValidName(wishlist.getWishlistName());
 	}
 
 	@Override
 	public boolean isValidUpdate(Wishlist wishlist, Wishlist wishlistRetreived) {
-		return true;
-//				wishlistRetreived.getWishlistName().equals(wishlist.getWishlistName())
-//				|| isValidName(wishlist.getWishlistName());
+		return wishlistRetreived.getWishlistName().equals(wishlist.getWishlistName())
+				|| isValidName(wishlist.getWishlistName());
 	}
 
 	@Override
 	public void manageDeletingDependencies(Wishlist wishlist) {
 		// Dependency deletion not necessary since this is the owning side
 	}
-	
+
 }

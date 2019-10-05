@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.revature.gamesgalore.dao.Key;
 import com.revature.gamesgalore.dto.KeyDTO;
 import com.revature.gamesgalore.service.MasterService;
 
+@CrossOrigin
 @RestController
 public class KeyController {
 
@@ -56,7 +58,7 @@ public class KeyController {
 	/**
 	 * 
 	 * @param response  The HTTP response from the POST operation.
-	 * @param genreDTOs A array of objects containing a POJO representation of Key
+	 * @param keyDTOs A array of objects containing a POJO representation of Key
 	 *                  objects.
 	 */
 	@PostMapping(value = "/keys")
@@ -74,12 +76,12 @@ public class KeyController {
 	/**
 	 * 
 	 * @param response The HTTP response from the GET operation.
-	 * @param genreId  The numeric id pertaining to a specific Account object. It
+	 * @param keyId  The numeric id pertaining to a specific Account object. It
 	 *                 must be passed in the url path.
 	 * @return A specific Key POJO
 	 */
 	@GetMapping(value = "/keys/{id}")
-	public KeyDTO getGenre(HttpServletResponse response, @PathVariable("id") Long keyId) {
+	public KeyDTO getKeys(HttpServletResponse response, @PathVariable("id") Long keyId) {
 		response.setStatus(200);
 		Key key = keyService.get(keyId);
 		KeyDTO keyDTO = new KeyDTO();
@@ -90,12 +92,12 @@ public class KeyController {
 	/**
 	 * 
 	 * @param response The HTTP response from the PUT operation.
-	 * @param genreDTO A POJO object representing a Key object.
-	 * @param genreId  The numeric id pertaining to a specific Key object. It must
+	 * @param keyDTO A POJO object representing a Key object.
+	 * @param keyId  The numeric id pertaining to a specific Key object. It must
 	 *                 be passed in the url path.
 	 */
 	@PutMapping(value = "/keys/{id}")
-	public void putGenre(HttpServletResponse response, @NotNull @RequestBody KeyDTO keyDTO,
+	public void putKey(HttpServletResponse response, @NotNull @RequestBody KeyDTO keyDTO,
 			@PathVariable("id") Long keyId) {
 		Key key = new Key();
 		BeanUtils.copyProperties(keyDTO, key);
@@ -106,11 +108,11 @@ public class KeyController {
 	/**
 	 * 
 	 * @param response The HTTP response from the DELETE operation.
-	 * @param genreId  The numeric id pertaining to a specific Account object. It
+	 * @param keyId  The numeric id pertaining to a specific Account object. It
 	 *                 must be passed in the url path.
 	 */
 	@DeleteMapping(value = "/keys/{id}")
-	public void deleteGenre(HttpServletResponse response, @PathVariable("id") Long keyId) {
+	public void deleteKey(HttpServletResponse response, @PathVariable("id") Long keyId) {
 		response.setStatus(204);
 		keyService.delete(keyId);
 	}

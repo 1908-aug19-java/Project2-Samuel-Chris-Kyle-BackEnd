@@ -24,17 +24,17 @@ public class MasterServiceTest {
 	    }
 
 	    @Test
-	    public final void testMyMethod_True() {
+	    public final void isValidName_True() {
 	        assertTrue(masterService.isValidName("Samuel"));
 	    }
 	    
 	    @Test
-	    public final void testMyMethod_False() {
+	    public final void isValidName_False() {
 	        assertFalse(masterService.isValidName(""));
 	    }
 	    
 	    @Test
-	    public final void testMyMethod_FalseNull() {
+	    public final void isValidName_FalseNull() {
 	        assertFalse(masterService.isValidName(null));
 	    }
 
